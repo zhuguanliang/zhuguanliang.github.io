@@ -20,31 +20,50 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="iOS developer">
-<meta property="og:type" content="website">
-<meta property="og:title" content="我不是诸葛亮">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="学习Object-C时的练手项目 1、新建OC项目，导入图片 2、添加TabBar代码 1234567891011121314151617181920212223242526272829303132333435    self.window &#x3D; [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];        UITabBa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新闻App（1）">
+<meta property="og:url" content="http://example.com/2018/05/12/%E6%96%B0%E9%97%BBApp%EF%BC%881%EF%BC%89/index.html">
 <meta property="og:site_name" content="我不是诸葛亮">
-<meta property="og:description" content="iOS developer">
+<meta property="og:description" content="学习Object-C时的练手项目 1、新建OC项目，导入图片 2、添加TabBar代码 1234567891011121314151617181920212223242526272829303132333435    self.window &#x3D; [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];        UITabBa">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232023221.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232614201.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/Jan-10-2021%2001-32-43.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232720050.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/image-20210110011234873.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/Jan-10-2021%2001-32-43.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512234510982.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512234718404.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512234736597.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512234845197.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512234854462.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/Jan-10-2021%2001-50-33.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210110020518246.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/image-20210110020538062.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512235308105.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/image-20210110023939833.png">
+<meta property="article:published_time" content="2018-05-12T14:51:49.000Z">
+<meta property="article:modified_time" content="2021-05-12T15:57:17.292Z">
 <meta property="article:author" content="zhuguanliang">
 <meta property="article:tag" content="Swift Object-C">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232023221.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2018/05/12/%E6%96%B0%E9%97%BBApp%EF%BC%881%EF%BC%89/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>我不是诸葛亮</title>
+  <title>新闻App（1） | 我不是诸葛亮</title>
   
 
 
@@ -178,84 +197,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/12/%E9%A1%B9%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/12/%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">项目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-12 17:56:20" itemprop="dateCreated datePublished" datetime="2020-04-12T17:56:20+08:00">2020-04-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-12 22:35:15" itemprop="dateModified" datetime="2021-05-12T22:35:15+08:00">2021-05-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="1、导入图片，设置启动图片，App图标"><a href="#1、导入图片，设置启动图片，App图标" class="headerlink" title="1、导入图片，设置启动图片，App图标"></a>1、<strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="1-1导入启动图片，项目图标，并给项目做好文档管理"><a href="#1-1导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="1.1导入启动图片，项目图标，并给项目做好文档管理"></a>1.1导入启动图片，项目图标，并给项目做好文档管理</h4><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222204617627.png" alt="image-20201222204617627" style="zoom: 25%;">
-
-<h4 id="1-2设置启动图片"><a href="#1-2设置启动图片" class="headerlink" title="1.2设置启动图片"></a>1.2设置启动图片</h4><p>1.把info.plist删掉</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222182722922.png" alt="image-20201222182722922"></p>
-<p>2.这里选择空白</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222182950625.png" alt="image-20201222182950625" style="zoom: 25%;">
-
-<p>3.搜索填好</p>
-<h2 id="2-视图控制器的设置"><a href="#2-视图控制器的设置" class="headerlink" title="2.视图控制器的设置"></a>2.视图控制器的设置</h2><h4 id="2-1在项目里设置，设置默认启动控制器为main，添加别的视图控制器"><a href="#2-1在项目里设置，设置默认启动控制器为main，添加别的视图控制器" class="headerlink" title="2.1在项目里设置，设置默认启动控制器为main，添加别的视图控制器"></a>2.1在项目里设置，设置默认启动控制器为main，添加别的视图控制器</h4><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222172014596.png" alt="image-20201222172014596" style="zoom:25%;">
-
-<p>添加UITab Bar Controller视图控制器，然后分别选择两个视图控制器，分别为其添加Navigation Controller（导航控制器）。</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222172533053.png" alt="image-20201222172533053" style="zoom:25%;">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -271,10 +216,9 @@
       <meta itemprop="name" content="我不是诸葛亮">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/05/12/%E6%96%B0%E9%97%BBApp%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">新闻App（1）</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          新闻App（1）
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -304,7 +248,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>学习Object-C时的练手项目</p>
+        <p>学习Object-C时的练手项目</p>
 <h3 id="1、新建OC项目，导入图片"><a href="#1、新建OC项目，导入图片" class="headerlink" title="1、新建OC项目，导入图片"></a>1、新建OC项目，导入图片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232023221.png" alt="image-20210512232023221"></p>
 <h3 id="2、添加TabBar代码"><a href="#2、添加TabBar代码" class="headerlink" title="2、添加TabBar代码"></a>2、添加TabBar代码</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512232614201.png" alt="image-20210512232614201"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];</span><br><span class="line">    </span><br><span class="line">    UITabBarController *tabbarConttroller = [[UITabBarController alloc] init];</span><br><span class="line">    </span><br><span class="line">    UIViewController *controller1 = [[UIViewController alloc] init];</span><br><span class="line">    controller1.view.backgroundColor = [UIColor redColor];</span><br><span class="line">    controller1.tabBarItem.title = @&quot;新闻&quot;;</span><br><span class="line">    controller1.tabBarItem.image = [UIImage imageNamed:@&quot;icon.bundle/page@2x.png&quot;];</span><br><span class="line">    controller1.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;icon.bundle/page_selected@2x.png&quot;];</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    UIViewController *controller2 = [[UIViewController alloc] init];</span><br><span class="line">    controller2.view.backgroundColor = [UIColor yellowColor];</span><br><span class="line">    controller2.tabBarItem.title = @&quot;视频&quot;;</span><br><span class="line">    controller2.tabBarItem.image = [UIImage imageNamed:@&quot;icon.bundle/video@2x.png&quot;];</span><br><span class="line">    controller2.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;icon.bundle/video_selected@2x.png&quot;];</span><br><span class="line">    </span><br><span class="line">    UIViewController *controller3 = [[UIViewController alloc] init];</span><br><span class="line">    controller3.view.backgroundColor = [UIColor greenColor];</span><br><span class="line">    controller3.tabBarItem.title = @&quot;推荐&quot;;</span><br><span class="line">    controller3.tabBarItem.image = [UIImage imageNamed:@&quot;icon.bundle/like@2x.png&quot;];</span><br><span class="line">    controller3.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;icon.bundle/like_selected@2x.png&quot;];</span><br><span class="line">    </span><br><span class="line">    UIViewController *controller4 = [[UIViewController alloc] init];</span><br><span class="line">    controller4.view.backgroundColor = [UIColor lightGrayColor];</span><br><span class="line">    controller4.tabBarItem.title = @&quot;我的&quot;;</span><br><span class="line">    controller4.tabBarItem.image = [UIImage imageNamed:@&quot;icon.bundle/home@2x.png&quot;];</span><br><span class="line">    controller4.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;icon.bundle/home_selected@2x.png&quot;];</span><br><span class="line">    </span><br><span class="line">    [tabbarConttroller setViewControllers:@[controller1,controller2,controller3,controller4]];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    self.window.rootViewController = tabbarConttroller;</span><br><span class="line">    [self.window makeKeyAndVisible];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -354,27 +298,37 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController()&lt;UITableViewDataSource,UITableViewDelegate&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    tableView.delegate = self;</span><br><span class="line">    </span><br><span class="line">    [self.view addSubview:tableView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    return 100;//高度</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    UIViewController *controller = [[UIViewController alloc]init]; //创建UIViewController</span><br><span class="line">    controller.title = [NSString stringWithFormat:@&quot;%@&quot;,@(indexPath.row)];//设置标题，第几个显示第几</span><br><span class="line">    [self.navigationController pushViewController:controller animated:YES];//推进新页面</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section&#123;</span><br><span class="line">    return 20;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@&quot;id&quot;];</span><br><span class="line">    </span><br><span class="line">    if(!cell)&#123;</span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@&quot;id&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 
 <h1 id><a href="#" class="headerlink" title></a></h1>
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/12/%E9%A1%B9%E7%9B%AE/" rel="next" title="项目">
+      项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
 
 
-  
-
-
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -421,6 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%96%B0%E5%BB%BAOC%E9%A1%B9%E7%9B%AE%EF%BC%8C%E5%AF%BC%E5%85%A5%E5%9B%BE%E7%89%87"><span class="nav-number">1.</span> <span class="nav-text">1、新建OC项目，导入图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%B7%BB%E5%8A%A0TabBar%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">2、添加TabBar代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E4%BD%BF%E7%94%A8Navigation-bar%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">3、使用Navigation bar进行页面的切换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ViewController-m%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%A6%82%E4%B8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">ViewController.m代码修改如下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81UInavigationController%E8%B7%B3%E8%BD%AC%E5%8C%85%E5%90%ABTabBar"><span class="nav-number">4.</span> <span class="nav-text">4、UInavigationController跳转包含TabBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81delegate%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">5、delegate的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%85%88%E5%A3%B0%E6%98%8E%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.1.</span> <span class="nav-text">1.先声明协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81OC%E4%B8%AD%E5%88%97%E8%A1%A8%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">6、OC中列表的样式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%8A%8AUI%E7%9A%84%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E6%8E%89%EF%BC%8C%E7%AE%80%E5%8D%95%E6%B7%BB%E5%8A%A0%E4%B8%AAUITableView"><span class="nav-number">6.1.</span> <span class="nav-text">1.把UI的逻辑删除掉，简单添加个UITableView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%BA%9B%E6%95%B0%E6%8D%AE"><span class="nav-number">6.2.</span> <span class="nav-text">2.添加一些数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-UITableView-delegate-datasource"><span class="nav-number">6.3.</span> <span class="nav-text">3.UITableView delegate datasource</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number"></span> <span class="nav-text"></span></a></div>
       </div>
       <!--/noindex-->
 
@@ -526,6 +481,25 @@
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : 'e9d0c590df56ca22ab9b020f38c369a7',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
