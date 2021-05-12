@@ -20,14 +20,17 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="iOS developer">
+<meta property="og:type" content="article">
 <meta property="og:title" content="hello-world">
 <meta property="og:url" content="http://example.com/2020/05/12/hello-world-1/index.html">
 <meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="iOS developer">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-12T05:33:58.000Z">
 <meta property="article:modified_time" content="2021-05-12T05:35:07.756Z">
 <meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/2020/05/12/hello-world-1/">
@@ -98,7 +101,7 @@
       <h1 class="site-title">我不是诸葛亮</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">只可碌碌，不可无为</p>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
   </div>
 
   <div class="site-nav-right">
@@ -189,7 +192,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
       <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content=" iOS developer">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -314,7 +317,7 @@
     <img class="site-author-image" itemprop="image" alt="zhuguanliang"
       src="/images/avatar.png">
   <p class="site-author-name" itemprop="name">zhuguanliang</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description"> iOS developer</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -420,10 +423,10 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
       clientID    : '094d16962ffc70f5c92f# GitHub Application Client ID',
-      clientSecret: 'c7b4e06773f3ffe75a380f4eecaf901f4e703253# GitHub Application Client Secret',
+      clientSecret: '7a5ff804c531396734f60d685f135e85562fc68a# GitHub Application Client Secret',
       repo        : 'zhuguanliang.github.io/# Repository name to store issues',
       owner       : 'zhuguanliang',
-      admin       : ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
       id          : '5d57f7f34c8b35a1158c8e0945958f44',
         language: 'zh-CN',
       distractionFreeMode: true
