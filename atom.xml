@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-12T10:13:42.005Z</updated>
+  <updated>2021-05-12T14:22:08.921Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,14 +21,15 @@
     <link href="http://example.com/2021/05/12/%E9%A1%B9%E7%9B%AE/"/>
     <id>http://example.com/2021/05/12/%E9%A1%B9%E7%9B%AE/</id>
     <published>2021-05-12T09:56:20.000Z</published>
-    <updated>2021-05-12T10:13:42.005Z</updated>
+    <updated>2021-05-12T14:22:08.921Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="一、项目开始（主框架搭建）"><a href="#一、项目开始（主框架搭建）" class="headerlink" title="一、项目开始（主框架搭建）"></a>一、项目开始（主框架搭建）</h1><h2 id="1、导入图片，设置启动图片，App图标"><a href="#1、导入图片，设置启动图片，App图标" class="headerlink" title="1、导入图片，设置启动图片，App图标"></a>1、<strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="1-1导入启动图片，项目图标，并给项目做好文档管理"><a href="#1-1导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="1.1导入启动图片，项目图标，并给项目做好文档管理"></a>1.1导入启动图片，项目图标，并给项目做好文档管理</h4><p><img src="image-20210512180648679.png" alt="image-20210512180648679"></p><h4 id="1-2设置启动图片"><a href="#1-2设置启动图片" class="headerlink" title="1.2设置启动图片"></a>1.2设置启动图片</h4><p><img src="image-20210512180716735.png" alt="image-20210512180716735"></p><p>1.把info.plist删掉</p><p><img src="image-20210512180708408.png" alt="image-20210512180708408"></p>]]></content>
+    <content type="html"><![CDATA[<p>新建项目</p><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512222006310.png" alt="image-20210512222006310"></p><p>新建View,ViewController.xib</p><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512222049718.png" alt="image-20210512222049718"></p><p>连接试图.设置ViewController</p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210403222149372.png" alt="image-20210403222149372" style="zoom:50%;"><p>在AppDelegate.m添加如下代码，修改运行入口为ViewController，默认入口上main.m</p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210403223700933.png" alt="image-20210403223700933" style="zoom:50%;">]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;一、项目开始（主框架搭建）&quot;&gt;&lt;a href=&quot;#一、项目开始（主框架搭建）&quot; class=&quot;headerlink&quot; title=&quot;一、项目开始（主框架搭建）&quot;&gt;&lt;/a&gt;一、项目开始（主框架搭建）&lt;/h1&gt;&lt;h2 id=&quot;1、导入图片，设置启动图片，App图标&quot;&gt;</summary>
+    <summary type="html">&lt;p&gt;新建项目&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512222006310.png&quot; alt=&quot;image-20210512222006310&quot;&gt;&lt;/</summary>
       
     
     
