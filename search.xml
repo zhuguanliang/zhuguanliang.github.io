@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title>项目</title>
+    <url>/2021/05/12/%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h1 id="一、项目开始（主框架搭建）"><a href="#一、项目开始（主框架搭建）" class="headerlink" title="一、项目开始（主框架搭建）"></a>一、项目开始（主框架搭建）</h1><h2 id="1、导入图片，设置启动图片，App图标"><a href="#1、导入图片，设置启动图片，App图标" class="headerlink" title="1、导入图片，设置启动图片，App图标"></a>1、<strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="1-1导入启动图片，项目图标，并给项目做好文档管理"><a href="#1-1导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="1.1导入启动图片，项目图标，并给项目做好文档管理"></a>1.1导入启动图片，项目图标，并给项目做好文档管理</h4><p><img src="image-20210512180648679.png" alt="image-20210512180648679"></p>
+<h4 id="1-2设置启动图片"><a href="#1-2设置启动图片" class="headerlink" title="1.2设置启动图片"></a>1.2设置启动图片</h4><p><img src="image-20210512180716735.png" alt="image-20210512180716735"></p>
+<p>1.把info.plist删掉</p>
+<p><img src="image-20210512180708408.png" alt="image-20210512180708408"></p>
+]]></content>
+  </entry>
 </search>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>我不是诸葛亮</title>
+  
+  <subtitle>宁可碌碌，不可无为</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2021-05-12T10:13:42.005Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>zhuguanliang</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>项目</title>
+    <link href="http://example.com/2021/05/12/%E9%A1%B9%E7%9B%AE/"/>
+    <id>http://example.com/2021/05/12/%E9%A1%B9%E7%9B%AE/</id>
+    <published>2021-05-12T09:56:20.000Z</published>
+    <updated>2021-05-12T10:13:42.005Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、项目开始（主框架搭建）"><a href="#一、项目开始（主框架搭建）" class="headerlink" title="一、项目开始（主框架搭建）"></a>一、项目开始（主框架搭建）</h1><h2 id="1、导入图片，设置启动图片，App图标"><a href="#1、导入图片，设置启动图片，App图标" class="headerlink" title="1、导入图片，设置启动图片，App图标"></a>1、<strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="1-1导入启动图片，项目图标，并给项目做好文档管理"><a href="#1-1导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="1.1导入启动图片，项目图标，并给项目做好文档管理"></a>1.1导入启动图片，项目图标，并给项目做好文档管理</h4><p><img src="image-20210512180648679.png" alt="image-20210512180648679"></p><h4 id="1-2设置启动图片"><a href="#1-2设置启动图片" class="headerlink" title="1.2设置启动图片"></a>1.2设置启动图片</h4><p><img src="image-20210512180716735.png" alt="image-20210512180716735"></p><p>1.把info.plist删掉</p><p><img src="image-20210512180708408.png" alt="image-20210512180708408"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;一、项目开始（主框架搭建）&quot;&gt;&lt;a href=&quot;#一、项目开始（主框架搭建）&quot; class=&quot;headerlink&quot; title=&quot;一、项目开始（主框架搭建）&quot;&gt;&lt;/a&gt;一、项目开始（主框架搭建）&lt;/h1&gt;&lt;h2 id=&quot;1、导入图片，设置启动图片，App图标&quot;&gt;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
