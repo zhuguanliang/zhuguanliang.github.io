@@ -2,17 +2,18 @@
 <search>
   <entry>
     <title>项目</title>
-    <url>/2021/05/12/%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<p>新建项目</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512222006310.png" alt="image-20210512222006310"></p>
-<p>新建View,ViewController.xib</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210512222049718.png" alt="image-20210512222049718"></p>
-<p>连接试图.设置ViewController</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210403222149372.png" alt="image-20210403222149372" style="zoom:50%;">
+    <url>/2020/04/12/%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h2 id="1、导入图片，设置启动图片，App图标"><a href="#1、导入图片，设置启动图片，App图标" class="headerlink" title="1、导入图片，设置启动图片，App图标"></a>1、<strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="1-1导入启动图片，项目图标，并给项目做好文档管理"><a href="#1-1导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="1.1导入启动图片，项目图标，并给项目做好文档管理"></a>1.1导入启动图片，项目图标，并给项目做好文档管理</h4><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222204617627.png" alt="image-20201222204617627" style="zoom: 25%;">
 
-<p>在AppDelegate.m添加如下代码，修改运行入口为ViewController，默认入口上main.m</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210403223700933.png" alt="image-20210403223700933" style="zoom:50%;">
+<h4 id="1-2设置启动图片"><a href="#1-2设置启动图片" class="headerlink" title="1.2设置启动图片"></a>1.2设置启动图片</h4><p>1.把info.plist删掉</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222182722922.png" alt="image-20201222182722922"></p>
+<p>2.这里选择空白</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222182950625.png" alt="image-20201222182950625" style="zoom: 25%;">
 
-]]></content>
+<p>3.搜索填好</p>
+<h2 id="2-视图控制器的设置"><a href="#2-视图控制器的设置" class="headerlink" title="2.视图控制器的设置"></a>2.视图控制器的设置</h2><h4 id="2-1在项目里设置，设置默认启动控制器为main，添加别的视图控制器"><a href="#2-1在项目里设置，设置默认启动控制器为main，添加别的视图控制器" class="headerlink" title="2.1在项目里设置，设置默认启动控制器为main，添加别的视图控制器"></a>2.1在项目里设置，设置默认启动控制器为main，添加别的视图控制器</h4><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222172014596.png" alt="image-20201222172014596" style="zoom:25%;">
+
+<p>添加UITab Bar Controller视图控制器，然后分别选择两个视图控制器，分别为其添加Navigation Controller（导航控制器）。</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20201222172533053.png" alt="image-20201222172533053" style="zoom:25%;">]]></content>
   </entry>
 </search>
