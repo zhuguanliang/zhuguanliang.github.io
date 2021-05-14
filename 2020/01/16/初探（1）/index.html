@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言：在这系列文章你可以学到swiftUI SWIFT——UI新建项目添加启动图片，和色彩背景等 设置第一张卡片 12345678910111213141516    var body: some View &amp;#123;        VStack &amp;#123;            VStack &amp;#123;•                Text(&quot;UI 设计&quot;)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swiftui初探（1）">
+<meta property="og:url" content="http://example.com/2020/01/16/%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="前言：在这系列文章你可以学到swiftUI SWIFT——UI新建项目添加启动图片，和色彩背景等 设置第一张卡片 12345678910111213141516    var body: some View &amp;#123;        VStack &amp;#123;            VStack &amp;#123;•                Text(&quot;UI 设计&quot;)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075504407.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075711609.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201001257114.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000722734.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003759295.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003830438.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000805186.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000824813.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/May-14-2021%2000-38-30.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514003658268.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201181352144.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184006996.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184108062.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201185543080.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184443568.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201190055683.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/1620924657941.GIF">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201220556076.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222631717.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222547399.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222602417.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/1620948619298.GIF">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201224606664.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201225305548.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/1620949756307.GIF">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075108968.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075129554.png">
+<meta property="article:published_time" content="2020-01-16T04:49:00.000Z">
+<meta property="article:modified_time" content="2020-01-18T06:49:00.000Z">
+<meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png">
+
+<link rel="canonical" href="http://example.com/2020/01/16/%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>swiftui初探（1） | 我不是诸葛亮</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="我不是诸葛亮" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我不是诸葛亮</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/16/%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          swiftui初探（1）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-16 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-16T12:49:00+08:00">2020-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-18 14:49:00" itemprop="dateModified" datetime="2020-01-18T14:49:00+08:00">2020-01-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>前言：在这系列文章你可以学到swiftUI</strong></p>
+<h1 id="SWIFT——UI"><a href="#SWIFT——UI" class="headerlink" title="SWIFT——UI"></a>SWIFT——UI</h1><h2 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h2><h2 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png" alt="image-20210131004320381"></h2><h2 id="添加启动图片，和色彩背景等"><a href="#添加启动图片，和色彩背景等" class="headerlink" title="添加启动图片，和色彩背景等"></a>添加启动图片，和色彩背景等</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075504407.png" alt="image-20210514075504407"></p>
+<h3 id="设置第一张卡片"><a href="#设置第一张卡片" class="headerlink" title="设置第一张卡片 "></a>设置第一张卡片 <img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075711609.png" alt="image-20210514075711609"></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            VStack &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Image(&quot;Background&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color.black).cornerRadius(10)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="布局和和堆栈"><a href="#布局和和堆栈" class="headerlink" title="布局和和堆栈"></a>布局和和堆栈</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201001257114.png" style="zoom: 33%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000722734.png" alt="image-20210514000722734"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    HStack &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;•</span><br><span class="line">            Text(&quot;UI 设计&quot;)</span><br><span class="line">                .font(.title)</span><br><span class="line">                .fontWeight(.bold)</span><br><span class="line">                .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                .padding(.top)</span><br><span class="line">            Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color(.white))</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()//推动到屏幕宽度</span><br><span class="line">        Image(&quot;Logo&quot;)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: 30.0, height: 30.0)</span><br><span class="line">    &#125;</span><br><span class="line">    Image(&quot;Background&quot;)</span><br><span class="line">&#125;.frame(width: 340.0, height: 220.0)</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置第二章卡片"><a href="#设置第二章卡片" class="headerlink" title="设置第二章卡片"></a>设置第二章卡片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003759295.png" alt="image-20210201003759295"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003830438.png" alt="image-20210201003830438"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZStack &#123;</span><br><span class="line">    </span><br><span class="line">    VStack &#123;</span><br><span class="line">        Text(&quot;背后的卡&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .padding()</span><br><span class="line">    .frame(width: 300.0, height: 220.0)</span><br><span class="line">    .background(Color.blue)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">    .offset(x: 0, y: -20)</span><br><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            VStack(alignment: .leading) &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.headline)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Spacer()//推动到屏幕宽度</span><br><span class="line">            Image(&quot;Logo&quot;)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: 30.0, height: 30.0)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()</span><br><span class="line">        Image(&quot;Background&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .frame(width: 340.0, height: 220.0)</span><br><span class="line">    .background(Color.black)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000805186.png" alt="image-20210514000805186"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000824813.png" alt="image-20210514000824813"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/May-14-2021%2000-38-30.gif" alt="May-14-2021 00-38-30"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514003658268.png" alt="image-20210514003658268"></p>
+<h3 id="添加标题，动画，图片"><a href="#添加标题，动画，图片" class="headerlink" title="添加标题，动画，图片"></a>添加标题，动画，图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            Text(&quot;合格证书&quot;)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .fontWeight(.heavy)</span><br><span class="line">            Spacer()</span><br><span class="line">        &#125;</span><br><span class="line">        Image(&quot;Illustration5&quot;)</span><br><span class="line">        Spacer()</span><br><span class="line">    &#125;.padding()//边距</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -40)</span><br><span class="line">        .scaleEffect(0.85)</span><br><span class="line">        .rotationEffect(Angle(degrees: 15))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 50), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -20)</span><br><span class="line">        .scaleEffect(0.9)</span><br><span class="line">        .rotationEffect(Angle(degrees: 10))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 40), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CertificateView()</span><br><span class="line">        .scaleEffect(0.95)</span><br><span class="line">        .rotationEffect(Angle(degrees: 5))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 30), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加正方形在中间"><a href="#添加正方形在中间" class="headerlink" title="添加正方形在中间"></a>添加正方形在中间</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201181352144.png" alt="image-20210201181352144"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">VStack(spacing: 20.0) &#123;</span><br><span class="line">     Rectangle()//添加正方形在中间</span><br><span class="line">         .frame(width: 60, height: 6)</span><br><span class="line">         .cornerRadius(30)</span><br><span class="line">         .opacity(0.1)//模糊度</span><br><span class="line">     Text(&quot;各个国家有各个国家的国歌，和某地的语言像极了鸟语。方言太多了，所以要统一语言，说出的话大家理解的都是同一份意思，这是小的，对于全球这么多国家，需要的是尊重各个国家的文化和历史，所以语言也是喽。&quot;)</span><br><span class="line">         .lineLimit(10)</span><br><span class="line">     Spacer()</span><br><span class="line"> &#125;</span><br><span class="line"> .padding()</span><br><span class="line"> .background(Color.blue)</span><br><span class="line"> .cornerRadius(30)</span><br></pre></td></tr></table></figure>
+
+<h3 id="底部卡片向下移动"><a href="#底部卡片向下移动" class="headerlink" title="底部卡片向下移动"></a>底部卡片向下移动</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184006996.png" alt="image-20210201184006996"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184108062.png" alt="image-20210201184108062"></p>
+<h3 id="并将新设置的给提到下面"><a href="#并将新设置的给提到下面" class="headerlink" title="并将新设置的给提到下面"></a>并将新设置的给提到下面</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201185543080.png" alt="image-20210201185543080" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184443568.png" alt="image-20210201184443568"></p>
+<h2 id="设置动画效果"><a href="#设置动画效果" class="headerlink" title="设置动画效果"></a>设置动画效果</h2><h2 id="模糊效果"><a href="#模糊效果" class="headerlink" title="模糊效果"></a>模糊效果</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201190055683.png" alt="image-20210201190055683"></p>
+<h3 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620924657941.GIF" alt="1620924657941"></p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201220556076.png" alt="image-20210201220556076" style="zoom: 33%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    @State var show = false</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        ZStack &#123;</span><br><span class="line">           TitleView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CarBottomView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -400 : -40)</span><br><span class="line">                .scaleEffect(0.85)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 15 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 50 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.7))</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -200 : -20)</span><br><span class="line">                .scaleEffect(0.9)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 10 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 40 : 0), axis: (x: 10.0, y: 10.0, z: 10.0))</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.5))</span><br><span class="line">            </span><br><span class="line">            CertificateView()</span><br><span class="line">                .scaleEffect(0.95)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 5 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 30 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .animation(.spring())</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    self.show.toggle()</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改后面卡片颜色"><a href="#修改后面卡片颜色" class="headerlink" title="修改后面卡片颜色"></a>修改后面卡片颜色<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222631717.png" style="zoom:50%;"></h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222547399.png" alt="image-20210201222547399"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222602417.png" alt="image-20210201222602417"></p>
+<h2 id="手势和事件"><a href="#手势和事件" class="headerlink" title="手势和事件"></a>手势和事件</h2><h3 id="自由拖动第一张卡片"><a href="#自由拖动第一张卡片" class="headerlink" title="自由拖动第一张卡片"></a>自由拖动第一张卡片</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620948619298.GIF" alt="1620948619298" style="zoom:150%;">
+
+
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201224606664.png" alt="image-20210201224606664"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@State var viewState = CGSize.zero</span><br><span class="line">    </span><br><span class="line">.offset(x: viewState.width, y: viewState.height)</span><br><span class="line"></span><br><span class="line">                .gesture(</span><br><span class="line">                    DragGesture()</span><br><span class="line">                        .onChanged(&#123; (Value) in</span><br><span class="line">                            self.viewState = Value.translation</span><br><span class="line">   </span><br><span class="line">                        &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="卡片归位"><a href="#卡片归位" class="headerlink" title="卡片归位"></a>卡片归位</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201225305548.png"></p>
+<h3 id="让三张卡片同时拖动"><a href="#让三张卡片同时拖动" class="headerlink" title="让三张卡片同时拖动"></a>让三张卡片同时拖动</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620949756307.GIF" alt="1620949756307" style="zoom:150%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075108968.png" alt="image-20210514075108968" style="zoom:50%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075129554.png" alt="image-20210514075129554" style="zoom: 33%;">
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/16/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%884%EF%BC%89/" rel="prev" title="oc版本的新闻App（4）">
+      <i class="fa fa-chevron-left"></i> oc版本的新闻App（4）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/17/swiftui%E5%88%9D%E6%8E%A2%EF%BC%882%EF%BC%89/" rel="next" title="swiftui初探（2）">
+      swiftui初探（2） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SWIFT%E2%80%94%E2%80%94UI"><span class="nav-number">1.</span> <span class="nav-text">SWIFT——UI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">新建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E5%9B%BE%E7%89%87%EF%BC%8C%E5%92%8C%E8%89%B2%E5%BD%A9%E8%83%8C%E6%99%AF%E7%AD%89"><span class="nav-number">1.3.</span> <span class="nav-text">添加启动图片，和色彩背景等</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%AC%AC%E4%B8%80%E5%BC%A0%E5%8D%A1%E7%89%87"><span class="nav-number">1.3.1.</span> <span class="nav-text">设置第一张卡片 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B1%80%E5%92%8C%E5%92%8C%E5%A0%86%E6%A0%88"><span class="nav-number">1.3.2.</span> <span class="nav-text">布局和和堆栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%AC%AC%E4%BA%8C%E7%AB%A0%E5%8D%A1%E7%89%87"><span class="nav-number">1.3.3.</span> <span class="nav-text">设置第二章卡片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%A0%87%E9%A2%98%EF%BC%8C%E5%8A%A8%E7%94%BB%EF%BC%8C%E5%9B%BE%E7%89%87"><span class="nav-number">1.3.4.</span> <span class="nav-text">添加标题，动画，图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%AD%A3%E6%96%B9%E5%BD%A2%E5%9C%A8%E4%B8%AD%E9%97%B4"><span class="nav-number">1.3.5.</span> <span class="nav-text">添加正方形在中间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E9%83%A8%E5%8D%A1%E7%89%87%E5%90%91%E4%B8%8B%E7%A7%BB%E5%8A%A8"><span class="nav-number">1.3.6.</span> <span class="nav-text">底部卡片向下移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%B0%86%E6%96%B0%E8%AE%BE%E7%BD%AE%E7%9A%84%E7%BB%99%E6%8F%90%E5%88%B0%E4%B8%8B%E9%9D%A2"><span class="nav-number">1.3.7.</span> <span class="nav-text">并将新设置的给提到下面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C"><span class="nav-number">1.4.</span> <span class="nav-text">设置动画效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E7%B3%8A%E6%95%88%E6%9E%9C"><span class="nav-number">1.5.</span> <span class="nav-text">模糊效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8A%A8%E7%94%BB"><span class="nav-number">1.5.1.</span> <span class="nav-text">添加动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%90%8E%E9%9D%A2%E5%8D%A1%E7%89%87%E9%A2%9C%E8%89%B2"><span class="nav-number">1.5.2.</span> <span class="nav-text">修改后面卡片颜色</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8A%BF%E5%92%8C%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.6.</span> <span class="nav-text">手势和事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%94%B1%E6%8B%96%E5%8A%A8%E7%AC%AC%E4%B8%80%E5%BC%A0%E5%8D%A1%E7%89%87"><span class="nav-number">1.6.1.</span> <span class="nav-text">自由拖动第一张卡片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E7%89%87%E5%BD%92%E4%BD%8D"><span class="nav-number">1.6.2.</span> <span class="nav-text">卡片归位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A9%E4%B8%89%E5%BC%A0%E5%8D%A1%E7%89%87%E5%90%8C%E6%97%B6%E6%8B%96%E5%8A%A8"><span class="nav-number">1.6.3.</span> <span class="nav-text">让三张卡片同时拖动</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhuguanliang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">zhuguanliang</p>
+  <div class="site-description" itemprop="description"> iOS developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuguanliang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : 'c55104c0f4b9a181dace751100c69538',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
