@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="学习目标： 以纯代码方式构建完整的应用，使用 NSCache 缓存图像 学习网络API的调用 学习MVVM设计模式 学习构建可重用视图 自定义带阴影的图像视图   API取自https:&#x2F;&#x2F;newsapi.org，自己申请下APIKey，完全免费，如上不了网页请用科学方法试试   项目目录结构如下     以纯代码方式创建应用SceneDelegate的代码进行修改，定义下初始视图控制器  123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="适合学习——swift版基于MVVM模式的网络API调用Demo">
+<meta property="og:url" content="http://example.com/2021/02/22/MVVM%E7%9A%84%E7%BD%91%E7%BB%9CAPI%E8%B0%83%E7%94%A8Demo/index.html">
+<meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="学习目标： 以纯代码方式构建完整的应用，使用 NSCache 缓存图像 学习网络API的调用 学习MVVM设计模式 学习构建可重用视图 自定义带阴影的图像视图   API取自https:&#x2F;&#x2F;newsapi.org，自己申请下APIKey，完全免费，如上不了网页请用科学方法试试   项目目录结构如下     以纯代码方式创建应用SceneDelegate的代码进行修改，定义下初始视图控制器  123">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2000-41-52.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2000-44-06.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005243522.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527010103004.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527004641210.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210525220551653.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527004836452.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005111733.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005332523.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005423935.png">
+<meta property="article:published_time" content="2021-02-22T04:49:00.000Z">
+<meta property="article:modified_time" content="2021-02-22T06:49:00.000Z">
+<meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2000-41-52.gif">
+
+<link rel="canonical" href="http://example.com/2021/02/22/MVVM%E7%9A%84%E7%BD%91%E7%BB%9CAPI%E8%B0%83%E7%94%A8Demo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>适合学习——swift版基于MVVM模式的网络API调用Demo | 我不是诸葛亮</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="我不是诸葛亮" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我不是诸葛亮</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/MVVM%E7%9A%84%E7%BD%91%E7%BB%9CAPI%E8%B0%83%E7%94%A8Demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          适合学习——swift版基于MVVM模式的网络API调用Demo
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-22 12:49:00 / 修改时间：14:49:00" itemprop="dateCreated datePublished" datetime="2021-02-22T12:49:00+08:00">2021-02-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="学习目标："><a href="#学习目标：" class="headerlink" title="学习目标："></a>学习目标：</h3><ul>
+<li>以纯代码方式构建完整的应用，使用 NSCache 缓存图像</li>
+<li>学习网络API的调用</li>
+<li>学习MVVM设计模式</li>
+<li>学习构建可重用视图</li>
+<li>自定义带阴影的图像视图</li>
+</ul>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2000-41-52.gif" alt="May-27-2021 00-41-52" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2000-44-06.gif" alt="May-27-2021 00-44-06" style="zoom:50%;"></p>
+<p>API取自<strong><a target="_blank" rel="noopener" href="https://newsapi.org/">https://newsapi.org</a></strong>，自己申请下APIKey，完全免费，如上不了网页请用科学方法试试</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005243522.png" alt="image-20210527005243522" style="zoom:50%;">
+
+<p>项目目录结构如下</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527010103004.png" alt="image-20210527010103004" style="zoom:33%;">
+
+
+
+<h3 id="以纯代码方式创建应用"><a href="#以纯代码方式创建应用" class="headerlink" title="以纯代码方式创建应用"></a>以纯代码方式创建应用</h3><p>SceneDelegate的代码进行修改，定义下初始视图控制器</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527004641210.png" alt="image-20210527004641210"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">guard let windowScene = (scene as? UIWindowScene) else &#123; return &#125;</span><br><span class="line"></span><br><span class="line">window = UIWindow(windowScene: windowScene)</span><br><span class="line">window = UIWindow(frame: UIScreen.main.bounds)</span><br><span class="line">window?.windowScene = windowScene</span><br><span class="line">let viewController = ViewController()</span><br><span class="line">window?.rootViewController = viewController</span><br><span class="line">window?.makeKeyAndVisible()</span><br></pre></td></tr></table></figure>
+
+<p>同时删除main与Main.storyboard</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210525220551653.png" alt="image-20210525220551653" style="zoom:50%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527004836452.png" alt="image-20210527004836452"></p>
+<h3 id="创建视图模型"><a href="#创建视图模型" class="headerlink" title="创建视图模型"></a>创建视图模型</h3><h3 id="创建APIkey"><a href="#创建APIkey" class="headerlink" title="创建APIkey"></a>创建APIkey</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005111733.png" alt="image-20210527005111733"></p>
+<h3 id="创建模型"><a href="#创建模型" class="headerlink" title="创建模型"></a>创建模型</h3><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005332523.png" alt="image-20210527005332523" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">struct News: Decodable &#123;</span><br><span class="line">    let author : String?</span><br><span class="line">    let title : String?</span><br><span class="line">    let description : String?</span><br><span class="line">    let url : String?</span><br><span class="line">    let urlToImage : String?</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct NewsEnvelope: Decodable &#123;</span><br><span class="line">    let Status : String?</span><br><span class="line">    let totalResuls : String?</span><br><span class="line">    let articles : [News]</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<h3 id="创建网络服务NetworkManager-swift"><a href="#创建网络服务NetworkManager-swift" class="headerlink" title="创建网络服务NetworkManager.swift"></a>创建网络服务NetworkManager.swift</h3><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527005423935.png" alt="image-20210527005423935" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">class NetworkManager &#123;</span><br><span class="line">    let imageCache = NSCache&lt;NSString,NSData&gt;()</span><br><span class="line">    static let shared = NetworkManager()</span><br><span class="line">    private init () &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    private let baseUrlString = &quot;https://newsapi.org/v2/&quot;</span><br><span class="line">    private let USTopHeadline = &quot;top-headlines?country=us&quot;</span><br><span class="line">    </span><br><span class="line">    func getNews(Completion: @escaping ([News]?) -&gt; Void) &#123;</span><br><span class="line">        </span><br><span class="line">        let urlString = &quot;\(baseUrlString)\(USTopHeadline)&amp;apikey=\(APIKey.key)&quot;</span><br><span class="line">        guard let url = URL(string: urlString) else &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        URLSession.shared.dataTask(with: url) &#123; (date, response, error) in</span><br><span class="line">            guard error == nil, let data = date else&#123;</span><br><span class="line">                Completion(nil)</span><br><span class="line">                return</span><br><span class="line">            &#125;</span><br><span class="line">            let newsEnvelope = try? JSONDecoder().decode(NewsEnvelope.self, from: data)</span><br><span class="line">            newsEnvelope == nil ? Completion(nil) : Completion(newsEnvelope!.articles)</span><br><span class="line">        &#125;.resume()</span><br><span class="line">    &#125;</span><br><span class="line">    func getImage(urlString: String,Completion: @escaping (Data?) -&gt; Void) &#123;</span><br><span class="line">        guard let url = URL(string: urlString) else &#123;</span><br><span class="line">            Completion(nil)</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        if let cachedImage = imageCache.object(forKey: NSString(string: urlString)) &#123;</span><br><span class="line">            Completion(cachedImage as Data)</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            URLSession.shared.dataTask(with: url) &#123; (date, response, error) in</span><br><span class="line">                guard error == nil, let data = date else&#123;</span><br><span class="line">                    Completion(nil)</span><br><span class="line">                    return</span><br><span class="line">                &#125;</span><br><span class="line">                self.imageCache.setObject(date as! NSData, forKey: NSString(string: urlString))</span><br><span class="line">                Completion(date)</span><br><span class="line">                </span><br><span class="line">            &#125;.resume()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建网络服务NewViewModel.swift</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">struct NewsViewModel &#123;</span><br><span class="line">    let news : News</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    var author : String &#123;</span><br><span class="line">        return news.author ?? &quot;Unknown&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var title : String &#123;</span><br><span class="line">        return news.title ?? &quot;&quot;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var description : String &#123;</span><br><span class="line">        return news.description ?? &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var url : String &#123;</span><br><span class="line">        return news.url ?? &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var urlToImage : String &#123;</span><br><span class="line">        return news.urlToImage ?? &quot;https://www.kindpng.com/picc/m/182-1827064_breaking-news-banner-png-transparent-background-breaking-news.png&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建NewsListViewModel-swift"><a href="#创建NewsListViewModel-swift" class="headerlink" title="创建NewsListViewModel.swift"></a>创建NewsListViewModel.swift</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">class  NewsListViewModel &#123;</span><br><span class="line">    var newsVM = [NewsViewModel]()</span><br><span class="line">    </span><br><span class="line">    let reauseID = &quot;news&quot;</span><br><span class="line">    func getNews(Completion: @escaping ([NewsViewModel]) -&gt; Void) &#123;</span><br><span class="line">        NetworkManager.shared.getNews &#123; (news) in</span><br><span class="line">            guard let news = news else &#123;  return &#125;</span><br><span class="line">            let newsVM = news.map(NewsViewModel.init)</span><br><span class="line">            DispatchQueue.main.async &#123;</span><br><span class="line">                self.newsVM = newsVM</span><br><span class="line">                Completion(newsVM)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建NewsTableViewCell-swift"><a href="#创建NewsTableViewCell-swift" class="headerlink" title="创建NewsTableViewCell.swift"></a>创建NewsTableViewCell.swift</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">final class NewsTableViewCell : UITableViewCell &#123;</span><br><span class="line">    var newsVM: NewsViewModel? &#123;</span><br><span class="line">        didSet&#123;</span><br><span class="line">            if let newsVM = newsVM &#123;</span><br><span class="line">                titleLabel.text = newsVM.title</span><br><span class="line">                </span><br><span class="line">                NetworkManager.shared.getImage(urlString: newsVM.urlToImage) &#123; (data) in</span><br><span class="line">                    guard let data = data else &#123; return &#125;</span><br><span class="line">                    DispatchQueue.main.async &#123;</span><br><span class="line">                        self.newsImage.image = UIImage(data: data)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    var newsImageData: Data? &#123;</span><br><span class="line">        didSet&#123;</span><br><span class="line">            if let data = newsImageData &#123;</span><br><span class="line">                newsImage.image = UIImage(data: data)</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private lazy var newsImage: ShadowImageView = &#123;</span><br><span class="line">        let v = ShadowImageView()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    private lazy var titleLabel: UILabel = &#123;</span><br><span class="line">        let v = UILabel()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.numberOfLines = 0</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) &#123;</span><br><span class="line">        super.init(style: style, reuseIdentifier : reuseIdentifier)</span><br><span class="line">        selectionStyle = .none</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    required init?(coder: NSCoder) &#123;</span><br><span class="line">        fatalError(&quot;init(coder:) has not been implemented&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func setupView() &#123;</span><br><span class="line">        addSubview(titleLabel)</span><br><span class="line">        addSubview(newsImage)</span><br><span class="line">        setupConstraints()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func setupConstraints() &#123;</span><br><span class="line">        </span><br><span class="line">        //news image</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            newsImage.leadingAnchor.constraint(equalTo: leadingAnchor),</span><br><span class="line">            newsImage.trailingAnchor.constraint(equalTo: trailingAnchor),</span><br><span class="line">            newsImage.topAnchor.constraint(equalTo: topAnchor),</span><br><span class="line">            newsImage.heightAnchor.constraint(equalToConstant: 200)</span><br><span class="line">        ])</span><br><span class="line">        //title</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),</span><br><span class="line">            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),</span><br><span class="line">            titleLabel.topAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: 8),</span><br><span class="line">            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)</span><br><span class="line">        ])</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建阴影ShadowImageView-swift"><a href="#创建阴影ShadowImageView-swift" class="headerlink" title="创建阴影ShadowImageView.swift"></a>创建阴影ShadowImageView.swift</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">final class ShadowImageView : UIView &#123;</span><br><span class="line">    var image: UIImage? &#123;</span><br><span class="line">        didSet&#123;</span><br><span class="line">            imageView.image = image</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private lazy var imageView : UIImageView = &#123;</span><br><span class="line">        let v = UIImageView()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.contentMode = .scaleAspectFill</span><br><span class="line">        v.layer.cornerRadius = 20</span><br><span class="line">        v.clipsToBounds = true</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    private lazy var baseView : UIView = &#123;</span><br><span class="line">        let v = UIView()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.backgroundColor = .clear</span><br><span class="line">        v.layer.shadowColor = UIColor.black.cgColor</span><br><span class="line">        v.layer.shadowOffset = CGSize(width: 5, height: 5)</span><br><span class="line">        v.layer.shadowOpacity = 0.7</span><br><span class="line">        v.layer.cornerRadius = 10</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    init() &#123;</span><br><span class="line">        super.init(frame: .zero)</span><br><span class="line">        </span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    required init?(coder: NSCoder) &#123;</span><br><span class="line">        fatalError(&quot;init(coder:) has not been implemented&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    func setupView()  &#123;</span><br><span class="line">        </span><br><span class="line">        addSubview(baseView)</span><br><span class="line">        baseView.addSubview(imageView)</span><br><span class="line">        setupConstraints()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func setupConstraints()  &#123;</span><br><span class="line">        [baseView, imageView].forEach &#123; (v) in</span><br><span class="line">            NSLayoutConstraint.activate([</span><br><span class="line">            v.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),</span><br><span class="line">            v.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),</span><br><span class="line">            v.topAnchor.constraint(equalTo: topAnchor, constant: 16),</span><br><span class="line">            v.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)</span><br><span class="line">            ])</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        func  layoutSubviews() &#123;</span><br><span class="line">        super.layoutSubviews()</span><br><span class="line">        baseView.layer.shadowPath = UIBezierPath(roundedRect: baseView.bounds, cornerRadius: 10).cgPath</span><br><span class="line">        baseView.layer.shouldRasterize = true</span><br><span class="line">        baseView.layer.rasterizationScale = UIScreen.main.scale</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建HeaderView-swift"><a href="#创建HeaderView-swift" class="headerlink" title="创建HeaderView.swift"></a>创建HeaderView.swift</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">final class HeaderView : UIView &#123;</span><br><span class="line">    </span><br><span class="line">    private var fontSize: CGFloat</span><br><span class="line">    </span><br><span class="line">    private lazy var headinglabel : UILabel = &#123;</span><br><span class="line">        let v = UILabel()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.text = &quot;新闻&quot;</span><br><span class="line">        v.font = UIFont.boldSystemFont(ofSize: fontSize)</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    private lazy var headingCircImage : UIImageView = &#123;</span><br><span class="line">        let v = UIImageView()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.contentMode = .scaleAspectFit</span><br><span class="line">        let config = UIImage.SymbolConfiguration(pointSize: fontSize, weight: .bold)</span><br><span class="line">        v.image = UIImage(systemName: &quot;btn_live_selected.png&quot;, withConfiguration: config)?.withRenderingMode(.alwaysOriginal)</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    private lazy var plusImage: UIImageView = &#123;</span><br><span class="line">        let v = UIImageView()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        let config = UIImage.SymbolConfiguration(pointSize: fontSize, weight: .bold)</span><br><span class="line">        v.image = UIImage(systemName: &quot;plus&quot;, withConfiguration: config)?.withRenderingMode(.alwaysOriginal)</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    private lazy var subheadlineLabel: UILabel = &#123;</span><br><span class="line">        let v = UILabel()</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.font = v.font.withSize(fontSize)</span><br><span class="line">        v.text = &quot;Top Headlines&quot;</span><br><span class="line">        v.textColor = .gray</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    private lazy var headerStackView: UIStackView = &#123;</span><br><span class="line">        let v = UIStackView(arrangedSubviews: [headingCircImage, headinglabel, plusImage])</span><br><span class="line">        v.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        v.axis = .horizontal</span><br><span class="line">        return v</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    init(fontSize: CGFloat)&#123;</span><br><span class="line">        self.fontSize = fontSize</span><br><span class="line">        super.init(frame: .zero)</span><br><span class="line">        translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    required init?(coder: NSCoder) &#123;</span><br><span class="line">        fatalError(&quot;init(coder:) has not been implemented&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func setupView()  &#123;</span><br><span class="line">        </span><br><span class="line">        addSubview(headerStackView)</span><br><span class="line">        addSubview(subheadlineLabel)</span><br><span class="line">        setupConstraints()</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    func setupConstraints()  &#123;</span><br><span class="line">        //new header</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            headerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),</span><br><span class="line">            headerStackView.topAnchor.constraint(equalTo: topAnchor)</span><br><span class="line">        ])</span><br><span class="line">        </span><br><span class="line">        //subheadline</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            subheadlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor),</span><br><span class="line">            subheadlineLabel.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 8),</span><br><span class="line">            subheadlineLabel.bottomAnchor.constraint(equalTo: bottomAnchor)</span><br><span class="line">        ])</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/22/iOS%E8%B0%83%E7%94%A8%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E6%97%B6/" rel="prev" title="Runtime消息发送机制">
+      <i class="fa fa-chevron-left"></i> Runtime消息发送机制
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">学习目标：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E7%BA%AF%E4%BB%A3%E7%A0%81%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">以纯代码方式创建应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">创建视图模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAAPIkey"><span class="nav-number">4.</span> <span class="nav-text">创建APIkey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">创建模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1NetworkManager-swift"><span class="nav-number">6.</span> <span class="nav-text">创建网络服务NetworkManager.swift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BANewsListViewModel-swift"><span class="nav-number">7.</span> <span class="nav-text">创建NewsListViewModel.swift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BANewsTableViewCell-swift"><span class="nav-number">8.</span> <span class="nav-text">创建NewsTableViewCell.swift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%98%B4%E5%BD%B1ShadowImageView-swift"><span class="nav-number">9.</span> <span class="nav-text">创建阴影ShadowImageView.swift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAHeaderView-swift"><span class="nav-number">10.</span> <span class="nav-text">创建HeaderView.swift</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhuguanliang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">zhuguanliang</p>
+  <div class="site-description" itemprop="description"> iOS developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuguanliang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : '9299a5dc653a8f3269762ff2a1bbdcd9',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

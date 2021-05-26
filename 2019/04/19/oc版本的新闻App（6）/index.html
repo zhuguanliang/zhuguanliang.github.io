@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="重构视频列表新建VideoController文件夹，将之前建好的放进去    新建GTVideoCoverView   12345678910111213141516#import &lt;UIKit&#x2F;UIKit.h&gt;NS_ASSUME_NONNULL_BEGIN&#x2F;** 视频ViewController collectionView Item *&#x2F;@interface GTVideoCov">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oc版本的新闻App（6）">
+<meta property="og:url" content="http://example.com/2019/04/19/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%886%EF%BC%89/index.html">
+<meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="重构视频列表新建VideoController文件夹，将之前建好的放进去    新建GTVideoCoverView   12345678910111213141516#import &lt;UIKit&#x2F;UIKit.h&gt;NS_ASSUME_NONNULL_BEGIN&#x2F;** 视频ViewController collectionView Item *&#x2F;@interface GTVideoCov">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210113215939815.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114152957357.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114004937065.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112223575.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114151736592.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112314318.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114151938859.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114152015694.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112609925.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114172430253.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112701308.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114174707956.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114174756491.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114180032098.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114180119940.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114182745589.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114182904689.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194035692.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194219900.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112814433.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194703986.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114230437235.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114230544663.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114231703891.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114231729970.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114232655759.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116151820470.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116151916188.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152041731.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152203496.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152356166.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514114233708.png">
+<meta property="article:published_time" content="2019-04-19T04:49:00.000Z">
+<meta property="article:modified_time" content="2021-02-01T06:49:00.000Z">
+<meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210113215939815.png">
+
+<link rel="canonical" href="http://example.com/2019/04/19/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%886%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>oc版本的新闻App（6） | 我不是诸葛亮</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="我不是诸葛亮" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我不是诸葛亮</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/19/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%886%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          oc版本的新闻App（6）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-19 12:49:00" itemprop="dateCreated datePublished" datetime="2019-04-19T12:49:00+08:00">2019-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-01 14:49:00" itemprop="dateModified" datetime="2021-02-01T14:49:00+08:00">2021-02-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="重构视频列表"><a href="#重构视频列表" class="headerlink" title="重构视频列表"></a>重构视频列表</h2><h3 id="新建VideoController文件夹，将之前建好的放进去"><a href="#新建VideoController文件夹，将之前建好的放进去" class="headerlink" title="新建VideoController文件夹，将之前建好的放进去"></a>新建VideoController文件夹，将之前建好的放进去</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210113215939815.png" alt="image-20210113215939815" style="zoom:50%;">
+
+
+
+<h3 id="新建GTVideoCoverView"><a href="#新建GTVideoCoverView" class="headerlink" title="新建GTVideoCoverView"></a>新建GTVideoCoverView</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114152957357.png"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114004937065.png" alt="image-20210114004937065"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112223575.png" alt="image-20210514112223575"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_BEGIN</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 视频ViewController collectionView Item</span><br><span class="line"> */</span><br><span class="line">@interface GTVideoCoverView : UICollectionViewCell</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 根据数据布局，封面图&amp;播放 url</span><br><span class="line"> */</span><br><span class="line">- (void)layoutWithVideoCoverUrl:(NSString *)videoCoverUrl videoUrl:(NSString *)videoUrl;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_END</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114151736592.png" alt="image-20210114151736592"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoCoverView.h&quot;</span><br><span class="line">@interface GTVideoCoverView ()</span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *coverView;</span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *playButton;</span><br><span class="line">@property (nonatomic, copy, readwrite) NSString *videoUrl;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GTVideoCoverView</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithFrame:(CGRect)frame &#123;</span><br><span class="line">    self = [super initWithFrame:frame];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _coverView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];</span><br><span class="line">            _coverView;</span><br><span class="line">        &#125;)];</span><br><span class="line"></span><br><span class="line">        [_coverView addSubview:(&#123;</span><br><span class="line">            _playButton = [[UIImageView alloc] initWithFrame:CGRectMake((frame.size.width - 50)/2, (frame.size.height - 50)/2, 50, 50)];</span><br><span class="line">            _playButton.image = [UIImage imageNamed:@&quot;icon.bundle/ VIdeobofang.png&quot;];</span><br><span class="line">            _playButton;</span><br><span class="line">        &#125;)];</span><br><span class="line">        //点击全部Item都支持播放</span><br><span class="line">        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_tapToPlay)];</span><br><span class="line">        [self addGestureRecognizer:tapGesture];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - public method</span><br><span class="line"></span><br><span class="line">- (void)layoutWithVideoCoverUrl:(NSString *)videoCoverUrl videoUrl:(NSString *)videoUrl &#123;</span><br><span class="line">    _coverView.image = [UIImage imageNamed:videoCoverUrl];</span><br><span class="line">    _videoUrl = videoUrl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - private method</span><br><span class="line"></span><br><span class="line">- (void)_tapToPlay &#123;</span><br><span class="line">    //在当前Item上播放视频</span><br><span class="line">    NSLog(@&quot;&quot;);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112314318.png" alt="image-20210514112314318"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoCoverView.h&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114151938859.png" alt="image-20210114151938859"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114152015694.png" alt="image-20210114152015694"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Scheme    </span><br><span class="line">1    </span><br><span class="line">    flowLayout.itemSize = CGSizeMake(self.view.frame.size.width,self.view.frame.size.width / 16*9);</span><br><span class="line">    </span><br><span class="line">2    </span><br><span class="line">    [collectionView registerClass:[GTVideoCoverView class] forCellWithReuseIdentifier:@&quot;GTVideoCoverView&quot;];//注册重用的cell</span><br><span class="line">    </span><br><span class="line">3    </span><br><span class="line">    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@&quot;GTVideoCoverView&quot; forIndexPath:indexPath];</span><br><span class="line">    </span><br><span class="line">    if ([cell isKindOfClass:[GTVideoCoverView class]]) &#123;</span><br><span class="line">        //方便讲解事例数据</span><br><span class="line">        [(GTVideoCoverView *)cell layoutWithVideoCoverUrl:@&quot;icon.bundle/Video.png&quot; videoUrl:@&quot;https://0x9.me/PzdXc&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h3 id="添加播放功能"><a href="#添加播放功能" class="headerlink" title="添加播放功能"></a>添加播放功能</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112609925.png" alt="image-20210514112609925"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114172430253.png" alt="image-20210114172430253"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">NSURL *videoURL = [NSURL URLWithString:_videoUrl];</span><br><span class="line"></span><br><span class="line">AVAsset *asset = [AVAsset assetWithURL:videoURL];</span><br><span class="line"></span><br><span class="line">AVPlayer *videoItem = [AVPlayerItem playerItemWithAsset:asset];</span><br><span class="line"></span><br><span class="line">AVPlayer *avPlayer = [AVPlayer playerWithPlayerItem:videoItem];</span><br><span class="line"></span><br><span class="line">AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:avPlayer];</span><br><span class="line">playerLayer.frame = _coverView.bounds;</span><br><span class="line">[_coverView.layer addSublayer:playerLayer];</span><br><span class="line"></span><br><span class="line">[avPlayer play];</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112701308.png" alt="image-20210514112701308"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(GTVideoCoverView *)cell layoutWithVideoCoverUrl:@&quot;icon.bundle/Video.png&quot; videoUrl:@&quot;http://sns-video-qc.xhscdn.com/d43514414bf02ff023c52b80362e914b663bdc83_v1_ln?sign=6bbeae5060160f3cd1f84e708c9413f7&amp;t=6001bad4&quot;];</span><br></pre></td></tr></table></figure>
+
+<p>视频播放完成获得通知</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114174707956.png" alt="image-20210114174707956"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePlayEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//注册通知</span><br><span class="line">&#125;</span><br><span class="line">return self;</span><br><span class="line">[[NSNotificationCenter defaultCenter] removeObserver:self];//移除</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114174756491.png" alt="image-20210114174756491"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void) _handlePlayEnd&#123;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="播放完成退出播放操作"><a href="#播放完成退出播放操作" class="headerlink" title="播放完成退出播放操作"></a>播放完成退出播放操作</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114180032098.png" alt="image-20210114180032098"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong, readwrite) AVPlayerItem *videoItem;</span><br><span class="line">@property (nonatomic, strong, readwrite) AVPlayer *avPlayer;</span><br><span class="line">@property (nonatomic, copy, readwrite) AVPlayerLayer *playerLayer;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114180119940.png" alt="image-20210114180119940"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    _videoItem = [AVPlayerItem playerItemWithAsset:asset];</span><br><span class="line">    </span><br><span class="line">    _avPlayer = [AVPlayer playerWithPlayerItem:_videoItem];</span><br><span class="line">    </span><br><span class="line">    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_avPlayer];</span><br><span class="line">    _playerLayer.frame = _coverView.bounds;</span><br><span class="line">    [_coverView.layer addSublayer:_playerLayer];</span><br><span class="line">    </span><br><span class="line">    [_avPlayer play];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;&quot;);</span><br><span class="line">&#125;</span><br><span class="line">- (void) _handlePlayEnd&#123;</span><br><span class="line">    [_playerLayer removeFromSuperlayer];</span><br><span class="line">    _videoItem = nil;</span><br><span class="line">    _avPlayer = nil;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过KVO监听播放资源的状态"><a href="#通过KVO监听播放资源的状态" class="headerlink" title="通过KVO监听播放资源的状态"></a>通过KVO监听播放资源的状态</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114182745589.png" alt="image-20210114182745589"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114182904689.png" alt="image-20210114182904689"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    [_videoItem removeObserver:self forKeyPath:@&quot;status&quot;];</span><br><span class="line">    </span><br><span class="line">    [_videoItem addObserver:self forKeyPath:@&quot;status&quot; options:NSKeyValueObservingOptionNew context:nil];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    #pragma mark - KVO</span><br><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSKeyValueChangeKey,id&gt; *)change context:(void *)context&#123;</span><br><span class="line">    if ([keyPath isEqualToString:@&quot;status&quot;]) &#123;</span><br><span class="line">        if (((NSNumber *)[change objectForKey:NSKeyValueChangeNewKey]).integerValue == AVPlayerItemStatusReadyToPlay) &#123;</span><br><span class="line">            [_avPlayer play];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            NSLog(@&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="监听视频播放的缓冲与进度（1）"><a href="#监听视频播放的缓冲与进度（1）" class="headerlink" title="监听视频播放的缓冲与进度（1）"></a>监听视频播放的缓冲与进度（1）</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194035692.png" alt="image-20210114194035692"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[_videoItem removeObserver:self forKeyPath:@&quot;loadedRimeRanges&quot;];</span><br><span class="line"></span><br><span class="line">[_videoItem addObserver:self forKeyPath:@&quot;loadedRimeRanges&quot; options:NSKeyValueObservingOptionNew context:nil];</span><br><span class="line"></span><br><span class="line">CMTime duration = _videoItem.duration;</span><br><span class="line">CGFloat videoDuration = CMTimeGetSeconds(duration);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194219900.png" alt="image-20210114194219900"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    [_avPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1,1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) &#123;</span><br><span class="line">        NSLog(@&quot;播放进度：%@&quot;,@(CMTimeGetSeconds(time)));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    [_avPlayer seekToTime:CMTimeMake(0, 1)];</span><br><span class="line">    [_avPlayer play];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514112814433.png" alt="image-20210514112814433"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#125;else if ([keyPath isEqualToString:@&quot;loadedRimeRanges&quot;])&#123;</span><br><span class="line">    NSLog(@&quot;缓冲：%@&quot;,[change objectForKey:NSKeyValueChangeNewKey]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="监听视频播放的缓冲与进度（2）"><a href="#监听视频播放的缓冲与进度（2）" class="headerlink" title="监听视频播放的缓冲与进度（2）"></a>监听视频播放的缓冲与进度（2）</h3><h2 id="建立一个视频播放器"><a href="#建立一个视频播放器" class="headerlink" title="建立一个视频播放器"></a>建立一个视频播放器</h2><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114194703986.png" alt="image-20210114194703986" style="zoom:50%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114230437235.png" alt="image-20210114230437235"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_BEGIN</span><br><span class="line"></span><br><span class="line">@interface GTVideoPlayer : NSObject</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 全局播放器单例</span><br><span class="line"> */</span><br><span class="line">+ (GTVideoPlayer *)Player;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 在指定View上 通过url播放视频</span><br><span class="line"> */</span><br><span class="line">- (void)playVideoWithUrl:(NSString *)videoUrl attachView:(UIView *)attachView;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_END</span><br></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114230544663.png" alt="image-20210114230544663" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoPlayer.h&quot;</span><br><span class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface GTVideoPlayer()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) AVPlayerItem *videoItem;</span><br><span class="line">@property (nonatomic, strong, readwrite) AVPlayer *avPlayer;</span><br><span class="line">@property (nonatomic, copy, readwrite) AVPlayerLayer *playerLayer;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GTVideoPlayer</span><br><span class="line"></span><br><span class="line">+ (GTVideoPlayer *)Player &#123;</span><br><span class="line">    static GTVideoPlayer *player;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        player = [[GTVideoPlayer alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return player;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)playVideoWithUrl:(NSString *)videoUrl attachView:(UIView *)attachView&#123;</span><br><span class="line">    </span><br><span class="line">    //首先停止播放</span><br><span class="line">    [self _stopPlay];</span><br><span class="line">    </span><br><span class="line">    //在当前Item上播放视频</span><br><span class="line">    NSURL *videoURL = [NSURL URLWithString:videoUrl];</span><br><span class="line">    </span><br><span class="line">    AVAsset *asset = [AVAsset assetWithURL:videoURL];</span><br><span class="line"></span><br><span class="line">    _videoItem = [AVPlayerItem playerItemWithAsset:asset];</span><br><span class="line">    [_videoItem addObserver:self forKeyPath:@&quot;status&quot; options:NSKeyValueObservingOptionNew context:nil];</span><br><span class="line">    [_videoItem addObserver:self forKeyPath:@&quot;loadedRimeRanges&quot; options:NSKeyValueObservingOptionNew context:nil];</span><br><span class="line">    </span><br><span class="line">    CMTime duration = _videoItem.duration;</span><br><span class="line">    CGFloat videoDuration = CMTimeGetSeconds(duration);</span><br><span class="line">    </span><br><span class="line">    _avPlayer = [AVPlayer playerWithPlayerItem:_videoItem];</span><br><span class="line">    [_avPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1,1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) &#123;</span><br><span class="line">        NSLog(@&quot;播放进度：%@&quot;,@(CMTimeGetSeconds(time)));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_avPlayer];</span><br><span class="line">    _playerLayer.frame = attachView.bounds;</span><br><span class="line">    [attachView.layer addSublayer:_playerLayer];</span><br><span class="line">    </span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePlayEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//注册通知</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">- (void)_stopPlay &#123;</span><br><span class="line">    //移除监听</span><br><span class="line">    [[NSNotificationCenter defaultCenter] removeObserver:self];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    [_playerLayer removeFromSuperlayer];</span><br><span class="line">    </span><br><span class="line">    [_videoItem removeObserver:self forKeyPath:@&quot;status&quot;];</span><br><span class="line">    [_videoItem removeObserver:self forKeyPath:@&quot;loadedRimeRanges&quot;];</span><br><span class="line">    _videoItem = nil;</span><br><span class="line">    </span><br><span class="line">    _avPlayer = nil;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;&quot;);</span><br><span class="line">&#125;</span><br><span class="line">- (void) _handlePlayEnd&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    [_avPlayer seekToTime:CMTimeMake(0, 1)];</span><br><span class="line">    [_avPlayer play];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - KVO</span><br><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSKeyValueChangeKey,id&gt; *)change context:(void *)context&#123;</span><br><span class="line">    if ([keyPath isEqualToString:@&quot;status&quot;]) &#123;</span><br><span class="line">        if (((NSNumber *)[change objectForKey:NSKeyValueChangeNewKey]).integerValue == AVPlayerItemStatusReadyToPlay) &#123;</span><br><span class="line">            [_avPlayer play];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            NSLog(@&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else if ([keyPath isEqualToString:@&quot;loadedRimeRanges&quot;])&#123;</span><br><span class="line">        NSLog(@&quot;缓冲：%@&quot;,[change objectForKey:NSKeyValueChangeNewKey]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114231703891.png" alt="image-20210114231703891"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114231729970.png" alt="image-20210114231729970"></p>
+<h3 id="使用AutoLayout实现列表toolbar，并添加上相应图片"><a href="#使用AutoLayout实现列表toolbar，并添加上相应图片" class="headerlink" title="使用AutoLayout实现列表toolbar，并添加上相应图片"></a>使用AutoLayout实现列表toolbar，并添加上相应图片</h3><p>新建GTVideoToolbar</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210114232655759.png" alt="image-20210114232655759"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116151820470.png" alt="image-20210116151820470"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">#define GTVideoToolbarHeight 60</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_BEGIN</span><br><span class="line"></span><br><span class="line">@interface GTVideoToolbar : UIView</span><br><span class="line"></span><br><span class="line">- (void)layoutWithModel:(id)model;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">NS_ASSUME_NONNULL_END</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116151916188.png" alt="image-20210116151916188"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoToolbar.h&quot;</span><br><span class="line"></span><br><span class="line">@interface GTVideoToolbar ()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *avatorImageView;</span><br><span class="line">@property (nonatomic, strong, readwrite) UILabel *nickLabel;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *commentImageView;</span><br><span class="line">@property (nonatomic, strong, readwrite) UILabel *commentLabel;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *likeImageView;</span><br><span class="line">@property (nonatomic, strong, readwrite) UILabel *likeLabel;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) UIImageView *shareImageView;</span><br><span class="line">@property (nonatomic, strong, readwrite) UILabel *shareLabel;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GTVideoToolbar</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithFrame:(CGRect)frame &#123;</span><br><span class="line">    self = [super initWithFrame:frame];</span><br><span class="line">    if (self) &#123;</span><br><span class="line"></span><br><span class="line">        self.backgroundColor = [UIColor whiteColor];</span><br><span class="line"></span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _avatorImageView = [[UIImageView alloc] initWithFrame:CGRectZero];</span><br><span class="line">            _avatorImageView.layer.masksToBounds = YES;</span><br><span class="line">            _avatorImageView.layer.cornerRadius = 15;</span><br><span class="line">            _avatorImageView.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line">            _avatorImageView;</span><br><span class="line">        &#125;)];</span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _nickLabel = [[UILabel alloc] init];</span><br><span class="line">            _nickLabel.font = [UIFont systemFontOfSize:15];</span><br><span class="line">            _nickLabel.textColor = [UIColor lightGrayColor];</span><br><span class="line">            _nickLabel.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line">            _nickLabel;</span><br><span class="line">        &#125;)];</span><br><span class="line"></span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];</span><br><span class="line">            _commentImageView.layer.masksToBounds = YES;</span><br><span class="line">            _commentImageView.layer.cornerRadius = 15;</span><br><span class="line">            _commentImageView.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line"></span><br><span class="line">            _commentImageView;</span><br><span class="line">        &#125;)];</span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _commentLabel = [[UILabel alloc] init];</span><br><span class="line">            _commentLabel.font = [UIFont systemFontOfSize:15];</span><br><span class="line">            _commentLabel.textColor = [UIColor lightGrayColor];</span><br><span class="line">            _commentLabel.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line"></span><br><span class="line">            _commentLabel;</span><br><span class="line">        &#125;)];</span><br><span class="line"></span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _likeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];</span><br><span class="line">            _likeImageView.layer.masksToBounds = YES;</span><br><span class="line">            _likeImageView.layer.cornerRadius = 15;</span><br><span class="line">            _likeImageView.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line"></span><br><span class="line">            _likeImageView;</span><br><span class="line">        &#125;)];</span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _likeLabel = [[UILabel alloc] init];</span><br><span class="line">            _likeLabel.font = [UIFont systemFontOfSize:15];</span><br><span class="line">            _likeLabel.textColor = [UIColor lightGrayColor];</span><br><span class="line">            _likeLabel.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line"></span><br><span class="line">            _likeLabel;</span><br><span class="line">        &#125;)];</span><br><span class="line"></span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _shareImageView = [[UIImageView alloc] initWithFrame:CGRectZero];</span><br><span class="line">            _shareImageView.layer.masksToBounds = YES;</span><br><span class="line">            _shareImageView.layer.cornerRadius = 15;</span><br><span class="line">            _shareImageView.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line">            _shareImageView.contentMode = UIViewContentModeScaleToFill;</span><br><span class="line">            _shareImageView;</span><br><span class="line">        &#125;)];</span><br><span class="line">        </span><br><span class="line">        [self addSubview:(&#123;</span><br><span class="line">            _shareLabel = [[UILabel alloc] init];</span><br><span class="line">            _shareLabel.font = [UIFont systemFontOfSize:15];</span><br><span class="line">            _shareLabel.textColor = [UIColor lightGrayColor];</span><br><span class="line">            _shareLabel.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line">            _shareLabel;</span><br><span class="line">        &#125;)];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)layoutWithModel:(id)model &#123;</span><br><span class="line"></span><br><span class="line">    _avatorImageView.image = [UIImage imageNamed:@&quot;icon.bundle/icon.png&quot;];</span><br><span class="line">    _nickLabel.text = @&quot;北京时间&quot;;</span><br><span class="line"></span><br><span class="line">    _commentImageView.image = [UIImage imageNamed:@&quot;comment&quot;];</span><br><span class="line">    _commentLabel.text = @&quot;100&quot;;</span><br><span class="line"></span><br><span class="line">    _likeImageView.image = [UIImage imageNamed:@&quot;praise&quot;];</span><br><span class="line">    _likeLabel.text = @&quot;25&quot;;</span><br><span class="line"></span><br><span class="line">    _shareImageView.image = [UIImage imageNamed:@&quot;share&quot;];</span><br><span class="line">    _shareLabel.text = @&quot;分享&quot;;</span><br><span class="line"></span><br><span class="line">    [NSLayoutConstraint activateConstraints:@[</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeCenterY</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:self</span><br><span class="line">                                      attribute:NSLayoutAttributeCenterY</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:0],</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeLeft</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:self</span><br><span class="line">                                      attribute:NSLayoutAttributeLeft</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:15],</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeWidth</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:nil</span><br><span class="line">                                      attribute:NSLayoutAttributeNotAnAttribute</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:30],</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeHeight</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:nil</span><br><span class="line">                                      attribute:NSLayoutAttributeNotAnAttribute</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:30],</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_nickLabel</span><br><span class="line">                                      attribute:NSLayoutAttributeCenterY</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeCenterY</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:0],</span><br><span class="line"></span><br><span class="line">         [NSLayoutConstraint constraintWithItem:_nickLabel</span><br><span class="line">                                      attribute:NSLayoutAttributeLeft</span><br><span class="line">                                      relatedBy:NSLayoutRelationEqual</span><br><span class="line">                                         toItem:_avatorImageView</span><br><span class="line">                                      attribute:NSLayoutAttributeRight</span><br><span class="line">                                     multiplier:1</span><br><span class="line">                                       constant:0],</span><br><span class="line"></span><br><span class="line">    ]];</span><br><span class="line"></span><br><span class="line">    NSString *vflString = @&quot;H:|-15-[_avatorImageView]-0-[_nickLabel]-(&gt;=0)-[_commentImageView(==_avatorImageView)]-0-[_commentLabel]-15-[_likeImageView(==_avatorImageView)]-0-[_likeLabel]-15-[_shareImageView(==_avatorImageView)]-0-[_shareLabel]-15-|&quot;;</span><br><span class="line"></span><br><span class="line">    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vflString options:NSLayoutFormatAlignAllCenterY metrics:nil views:NSDictionaryOfVariableBindings(_avatorImageView, _nickLabel, _commentImageView, _commentLabel, _likeImageView, _likeLabel, _shareImageView, _shareLabel)]];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152041731.png" alt="image-20210116152041731"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoToolbar.h&quot;</span><br><span class="line"></span><br><span class="line">    flowLayout.itemSize = CGSizeMake(self.view.frame.size.width,self.view.frame.size.width / 16 * 9 + GTVideoToolbarHeight);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152203496.png" alt="image-20210116152203496"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GTVideoToolbar.h&quot;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong, readwrite) GTVideoToolbar *toolbar;</span><br><span class="line"></span><br><span class="line">_coverView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height - GTVideoToolbarHeight)];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">_playButton = [[UIImageView alloc] initWithFrame:CGRectMake((frame.size.width - 50)/2, (frame.size.height - GTVideoToolbarHeight - 50)/2, 50, 50)];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[self addSubview:(&#123;</span><br><span class="line">_toolbar = [[GTVideoToolbar alloc] initWithFrame:CGRectMake(0, _coverView.bounds.size.height, frame.size.width, GTVideoToolbarHeight)];</span><br><span class="line">            _toolbar;</span><br><span class="line">        &#125;)];</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210116152356166.png" alt="image-20210116152356166"></p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514114233708.png" alt="image-20210514114233708" style="zoom:50%;">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/17/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%885%EF%BC%89/" rel="prev" title="oc版本的新闻App（5）">
+      <i class="fa fa-chevron-left"></i> oc版本的新闻App（5）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/20/oc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%B0%E9%97%BBApp%EF%BC%887%EF%BC%89/" rel="next" title="oc版本的新闻App（7）">
+      oc版本的新闻App（7） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%9E%84%E8%A7%86%E9%A2%91%E5%88%97%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">重构视频列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAVideoController%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E5%B0%86%E4%B9%8B%E5%89%8D%E5%BB%BA%E5%A5%BD%E7%9A%84%E6%94%BE%E8%BF%9B%E5%8E%BB"><span class="nav-number">1.1.</span> <span class="nav-text">新建VideoController文件夹，将之前建好的放进去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAGTVideoCoverView"><span class="nav-number">1.2.</span> <span class="nav-text">新建GTVideoCoverView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%92%AD%E6%94%BE%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.</span> <span class="nav-text">添加播放功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E5%AE%8C%E6%88%90%E9%80%80%E5%87%BA%E6%92%AD%E6%94%BE%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.</span> <span class="nav-text">播放完成退出播放操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87KVO%E7%9B%91%E5%90%AC%E6%92%AD%E6%94%BE%E8%B5%84%E6%BA%90%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">1.5.</span> <span class="nav-text">通过KVO监听播放资源的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E7%9A%84%E7%BC%93%E5%86%B2%E4%B8%8E%E8%BF%9B%E5%BA%A6%EF%BC%881%EF%BC%89"><span class="nav-number">1.6.</span> <span class="nav-text">监听视频播放的缓冲与进度（1）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E7%9A%84%E7%BC%93%E5%86%B2%E4%B8%8E%E8%BF%9B%E5%BA%A6%EF%BC%882%EF%BC%89"><span class="nav-number">1.7.</span> <span class="nav-text">监听视频播放的缓冲与进度（2）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">建立一个视频播放器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AutoLayout%E5%AE%9E%E7%8E%B0%E5%88%97%E8%A1%A8toolbar%EF%BC%8C%E5%B9%B6%E6%B7%BB%E5%8A%A0%E4%B8%8A%E7%9B%B8%E5%BA%94%E5%9B%BE%E7%89%87"><span class="nav-number">2.1.</span> <span class="nav-text">使用AutoLayout实现列表toolbar，并添加上相应图片</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhuguanliang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">zhuguanliang</p>
+  <div class="site-description" itemprop="description"> iOS developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuguanliang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : '7b62216fc7ad52d31ca963a0df88b49a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

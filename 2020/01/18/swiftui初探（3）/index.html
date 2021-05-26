@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="滚动视图新建HomeList.swift(SwiftUiView),为其设计卡片样式 123456789101112131415161718    var body: some View &amp;#123;        VStack(alignment: .leading) &amp;#123;            Text(&quot;设计一个应用非常棒&quot;)                .fo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swiftui初探（3）">
+<meta property="og:url" content="http://example.com/2020/01/18/swiftui%E5%88%9D%E6%8E%A2%EF%BC%883%EF%BC%89/index.html">
+<meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="滚动视图新建HomeList.swift(SwiftUiView),为其设计卡片样式 123456789101112131415161718    var body: some View &amp;#123;        VStack(alignment: .leading) &amp;#123;            Text(&quot;设计一个应用非常棒&quot;)                .fo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085528334.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202113152709.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202120559746.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085119337.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202123458539.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/555-2.gif">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085556160.png">
+<meta property="og:image" content="http://example.com/Users/zhuguanliang/Library/Application%20Support/typora-user-images/image-20210202135415951.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084651827.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202140433327.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084742188.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141423229.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141840469.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142336572.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142742256.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084840096.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202144315388.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202151920190.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202152207911.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154610027.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154717118.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203163000374.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202160320233.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202164959469.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171235647.png">
+<meta property="og:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171527102.png">
+<meta property="article:published_time" content="2020-01-18T04:49:00.000Z">
+<meta property="article:modified_time" content="2021-02-22T06:49:00.000Z">
+<meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085528334.png">
+
+<link rel="canonical" href="http://example.com/2020/01/18/swiftui%E5%88%9D%E6%8E%A2%EF%BC%883%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>swiftui初探（3） | 我不是诸葛亮</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="我不是诸葛亮" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我不是诸葛亮</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/18/swiftui%E5%88%9D%E6%8E%A2%EF%BC%883%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          swiftui初探（3）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-18 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-18T12:49:00+08:00">2020-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 14:49:00" itemprop="dateModified" datetime="2021-02-22T14:49:00+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="滚动视图"><a href="#滚动视图" class="headerlink" title="滚动视图"></a>滚动视图</h2><h3 id="新建HomeList-swift-SwiftUiView-为其设计卡片样式"><a href="#新建HomeList-swift-SwiftUiView-为其设计卡片样式" class="headerlink" title="新建HomeList.swift(SwiftUiView),为其设计卡片样式"></a>新建HomeList.swift(SwiftUiView),为其设计卡片样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085528334.png" alt="image-20210514085528334"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;</span><br><span class="line">            Text(&quot;设计一个应用非常棒&quot;)</span><br><span class="line">                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color.white)</span><br><span class="line">                .padding(20)</span><br><span class="line">                .lineLimit(4)</span><br><span class="line">                .frame(width: 150)</span><br><span class="line">            Spacer()</span><br><span class="line">            Image(&quot;Illustration1&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color(&quot;background3&quot;))</span><br><span class="line">        .cornerRadius(30)</span><br><span class="line">        .frame(width: 246, height: 360)</span><br><span class="line">        .shadow(color: Color(red: 0.27058823529411763, green: 0.23529411764705882, blue: 0.788235294117647, opacity: 0.3), radius: 20, x: 0, y: 20)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="将颜色3和颜色4复制处理为背景3和背景4，不透明30"><a href="#将颜色3和颜色4复制处理为背景3和背景4，不透明30" class="headerlink" title="将颜色3和颜色4复制处理为背景3和背景4，不透明30"></a>将颜色3和颜色4复制处理为背景3和背景4，不透明30</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202113152709.png" alt="image-20210202113152709" style="zoom:50%;">
+
+<p>点击VStack,选择in HStack，然后提取子视图，点击VStack，subView为CourseView（）</p>
+<p>点击VStack,选择repeat,重复3次</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202120559746.png" alt="image-20210202120559746" style="zoom:50%;">
+
+<p>点击HStack,选择Group，改为ScrollView</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085119337.png" alt="image-20210514085119337"></p>
+<h3 id="滚动视图的设置"><a href="#滚动视图的设置" class="headerlink" title="滚动视图的设置"></a>滚动视图的设置</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202123458539.png" alt="image-20210202123458539"></p>
+<h2 id="模态"><a href="#模态" class="headerlink" title="模态"></a>模态</h2><img src="https://gitee.com/zhu565615430/images/raw/master/imas/555-2.gif" alt="555-2" style="zoom:67%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085556160.png" alt="image-20210514085556160"><img src="/Users/zhuguanliang/Library/Application Support/typora-user-images/image-20210202135415951.png" alt="image-20210202135415951" style="zoom:50%;"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@State var showContentView: Bool = false</span><br><span class="line">var body: some View &#123;</span><br><span class="line">    ScrollView(.horizontal, showsIndicators: false) &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            HStack &#123;</span><br><span class="line">                ForEach(0 ..&lt; 3) &#123; item in</span><br><span class="line">                    Button(action: &#123;</span><br><span class="line">                        self.showContentView = true</span><br><span class="line">                    &#125;) &#123;</span><br><span class="line">                        CourseView()</span><br><span class="line">                    &#125;.sheet(isPresented: self.$showContentView) &#123;</span><br><span class="line">                        ContentView()</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建数据模型"><a href="#创建数据模型" class="headerlink" title="创建数据模型"></a>创建数据模型</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084651827.png" alt="image-20210514084651827"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">struct Courses: Identifiable &#123;</span><br><span class="line">    var id = UUID()</span><br><span class="line">    var title : String</span><br><span class="line">    var image : String</span><br><span class="line">    var backgroundColor: Color</span><br><span class="line">    var shadowColor : Color</span><br><span class="line">&#125;</span><br><span class="line">let CourseData = [</span><br><span class="line">    Courses(</span><br><span class="line">        title: &quot;设计一个非常棒应用&quot;,</span><br><span class="line">        image: &quot;Illustration1&quot;,</span><br><span class="line">        backgroundColor: Color(&quot;background3&quot;),</span><br><span class="line">        shadowColor: Color(&quot;backgroundShadow3&quot;)</span><br><span class="line">    ),</span><br><span class="line">    Courses(</span><br><span class="line">        title: &quot;课程设计&quot;,</span><br><span class="line">        image: &quot;Illustration2&quot;,</span><br><span class="line">        backgroundColor: Color(&quot;background4&quot;),</span><br><span class="line">        shadowColor: Color(&quot;backgroundShadow4&quot;)</span><br><span class="line">    )</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用数据模型"><a href="#使用数据模型" class="headerlink" title="使用数据模型"></a>使用数据模型</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202140433327.png" alt="image-20210202140433327" style="zoom:50%;">
+
+<h3 id="绑定数据模型"><a href="#绑定数据模型" class="headerlink" title="绑定数据模型"></a>绑定数据模型</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084742188.png" alt="image-20210514084742188"></p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141423229.png" alt="image-20210202141423229" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    var title = &quot;设计一个非常棒应用&quot;</span><br><span class="line">    var image : String = &quot;Illustration1&quot;</span><br><span class="line">    var color = Color(&quot;background3&quot;)</span><br><span class="line">    var shadowColor = Color(&quot;backgroundshadow3&quot;)</span><br><span class="line">    </span><br><span class="line">CourseView(title: item.title, image: item.image, color: item.backgroundColor, shadowColor: item.shadowColor)</span><br></pre></td></tr></table></figure>
+
+<p>调整页面大小，调整文字大小一样适应</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141840469.png" alt="image-20210202141840469"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142336572.png" alt="image-20210202142336572"></p>
+<h3 id="调整设计间距"><a href="#调整设计间距" class="headerlink" title="调整设计间距"></a>调整设计间距</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142742256.png" alt="image-20210202142742256"></p>
+<h2 id="模糊背景"><a href="#模糊背景" class="headerlink" title="模糊背景"></a>模糊背景</h2><h3 id="新建BlurView-swift-SwiftUiView-为其设计样式"><a href="#新建BlurView-swift-SwiftUiView-为其设计样式" class="headerlink" title="新建BlurView.swift(SwiftUiView),为其设计样式"></a>新建BlurView.swift(SwiftUiView),为其设计样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084840096.png" alt="image-20210514084840096"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">struct BlurView: UIViewRepresentable &#123;</span><br><span class="line">    </span><br><span class="line">    let style: UIBlurEffect.Style</span><br><span class="line">    </span><br><span class="line">    func makeUIView(context: UIViewRepresentableContext&lt;BlurView&gt;) -&gt; UIView &#123;</span><br><span class="line">        let view = UIView(frame: .zero)</span><br><span class="line">        view.backgroundColor = .clear</span><br><span class="line">        let blurEffect = UIBlurEffect(style: style)</span><br><span class="line">        let blurView = UIVisualEffectView(effect: blurEffect)</span><br><span class="line">        blurView.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        view.insertSubview(blurView, at: 0)</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            blurView.heightAnchor.constraint(equalTo: view.heightAnchor),</span><br><span class="line">            blurView.widthAnchor.constraint(equalTo: view.widthAnchor)</span><br><span class="line">        ])</span><br><span class="line">        return view</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext&lt;BlurView&gt;) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回到ContentView中，使用模糊背景</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202144315388.png" alt="image-20210202144315388" style="zoom:50%;">
+
+<p>回到ContentView中，将HomeList视图添加上去</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202151920190.png" alt="image-20210202151920190"></p>
+<h3 id="重新设计布局"><a href="#重新设计布局" class="headerlink" title="重新设计布局"></a>重新设计布局</h3><p>标题在滚动视图之上</p>
+<p>回到HomeList中，修改视图</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202152207911.png" alt="image-20210202152207911" style="zoom:50%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154610027.png" alt="image-20210202154610027"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154717118.png" alt="image-20210202154717118"></p>
+<h3 id="添加模糊与动画效果"><a href="#添加模糊与动画效果" class="headerlink" title="添加模糊与动画效果"></a>添加模糊与动画效果</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203163000374.png" alt="image-20210203163000374"></p>
+<h2 id="导航视图和列表"><a href="#导航视图和列表" class="headerlink" title="导航视图和列表"></a>导航视图和列表</h2><h3 id="新建UpdateList-swift-SwiftUiView-为其设计样式"><a href="#新建UpdateList-swift-SwiftUiView-为其设计样式" class="headerlink" title="新建UpdateList.swift(SwiftUiView),为其设计样式"></a>新建UpdateList.swift(SwiftUiView),为其设计样式</h3><p>从工具栏添加一个NavigationView，</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202160320233.png" alt="image-20210202160320233" style="zoom: 33%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202164959469.png" alt="image-20210202164959469" style="zoom:33%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">    @State var present = false</span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        NavigationView &#123;</span><br><span class="line">                  List(0 ..&lt; 20) &#123; item in</span><br><span class="line">                      NavigationLink(destination: Text(&quot;1&quot;)) &#123;</span><br><span class="line">                        Text(&quot;Navigate 1&quot;) &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">                  .navigationBarTitle(Text(&quot;更新&quot;))</span><br><span class="line">                  .navigationBarItems(trailing:</span><br><span class="line">                     Button(action: &#123;</span><br><span class="line">                       self.present.toggle()</span><br><span class="line">                    &#125;) &#123;</span><br><span class="line">                         Image(systemName: &quot;gear&quot;)</span><br><span class="line">                    &#125;</span><br><span class="line">                    .sheet(isPresented: $present, content: &#123;</span><br><span class="line">                        Text(&quot;Settings&quot;)</span><br><span class="line">                    &#125;)</span><br><span class="line">                  )</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在底部创建数据模型"><a href="#在底部创建数据模型" class="headerlink" title="在底部创建数据模型"></a>在底部创建数据模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">struct Update: Identifiable &#123;</span><br><span class="line">    var id = UUID()</span><br><span class="line">    var image: String</span><br><span class="line">    var title: String</span><br><span class="line">    var text: String</span><br><span class="line">    var date: String</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let updateDate = [</span><br><span class="line">    Update(image: &quot;Illustration1&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration2&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration3&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration4&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate1&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate2&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate3&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="显示数据"><a href="#显示数据" class="headerlink" title="显示数据"></a>显示数据</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171235647.png" alt="image-20210202171235647" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var updates = updateDate</span><br><span class="line"></span><br><span class="line">@State var present = false</span><br><span class="line">var body: some View &#123;</span><br><span class="line">    NavigationView &#123;</span><br><span class="line">              List(updates) &#123; item in</span><br><span class="line">                  NavigationLink(destination: Text(&quot;1&quot;)) &#123;</span><br><span class="line">                    VStack(alignment: .leading) &#123;</span><br><span class="line">                        Text(item.title)</span><br><span class="line">                            .font(.headline)</span><br><span class="line">                        Text(item.text)</span><br><span class="line">                            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)</span><br><span class="line">                            .lineSpacing(4)</span><br><span class="line">                            .font(.subheadline)</span><br><span class="line">                            .frame(height: 50.0)</span><br><span class="line">                        </span><br><span class="line">                        Text(item.date)</span><br><span class="line">                            .font(.caption)</span><br><span class="line">                            .fontWeight(.bold)</span><br><span class="line">                            .foregroundColor(Color.gray)</span><br><span class="line">                            </span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                  &#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171527102.png" alt="image-20210202171527102" style="zoom: 33%;">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/17/swiftui%E5%88%9D%E6%8E%A2%EF%BC%882%EF%BC%89/" rel="prev" title="swiftui初探（2）">
+      <i class="fa fa-chevron-left"></i> swiftui初探（2）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/19/swiftui%E5%88%9D%E6%8E%A2%EF%BC%884%EF%BC%89/" rel="next" title="swiftui初探（4）">
+      swiftui初探（4） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%9A%E5%8A%A8%E8%A7%86%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">滚动视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAHomeList-swift-SwiftUiView-%E4%B8%BA%E5%85%B6%E8%AE%BE%E8%AE%A1%E5%8D%A1%E7%89%87%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">新建HomeList.swift(SwiftUiView),为其设计卡片样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E9%A2%9C%E8%89%B23%E5%92%8C%E9%A2%9C%E8%89%B24%E5%A4%8D%E5%88%B6%E5%A4%84%E7%90%86%E4%B8%BA%E8%83%8C%E6%99%AF3%E5%92%8C%E8%83%8C%E6%99%AF4%EF%BC%8C%E4%B8%8D%E9%80%8F%E6%98%8E30"><span class="nav-number">1.2.</span> <span class="nav-text">将颜色3和颜色4复制处理为背景3和背景4，不透明30</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%9A%E5%8A%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">滚动视图的设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%80%81"><span class="nav-number">2.</span> <span class="nav-text">模态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">创建数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">使用数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">绑定数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E8%AE%BE%E8%AE%A1%E9%97%B4%E8%B7%9D"><span class="nav-number">2.4.</span> <span class="nav-text">调整设计间距</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E7%B3%8A%E8%83%8C%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">模糊背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BABlurView-swift-SwiftUiView-%E4%B8%BA%E5%85%B6%E8%AE%BE%E8%AE%A1%E6%A0%B7%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">新建BlurView.swift(SwiftUiView),为其设计样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%BE%E8%AE%A1%E5%B8%83%E5%B1%80"><span class="nav-number">3.2.</span> <span class="nav-text">重新设计布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%A8%A1%E7%B3%8A%E4%B8%8E%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">添加模糊与动画效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E8%A7%86%E5%9B%BE%E5%92%8C%E5%88%97%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">导航视图和列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAUpdateList-swift-SwiftUiView-%E4%B8%BA%E5%85%B6%E8%AE%BE%E8%AE%A1%E6%A0%B7%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">新建UpdateList.swift(SwiftUiView),为其设计样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%BA%95%E9%83%A8%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">在底部创建数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE"><span class="nav-number">4.3.</span> <span class="nav-text">显示数据</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhuguanliang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">zhuguanliang</p>
+  <div class="site-description" itemprop="description"> iOS developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuguanliang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : '2cd2ca5905af98fcb4693e313726397e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
