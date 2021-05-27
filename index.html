@@ -286,364 +286,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/18/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/18/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo2/" class="post-title-link" itemprop="url">斗鱼直播Demo(二)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-18 13:49:59" itemprop="dateCreated datePublished" datetime="2020-05-18T13:49:59+08:00">2020-05-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-30 14:49:00" itemprop="dateModified" datetime="2020-12-30T14:49:00+08:00">2020-12-30</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="封装PageConnetView（滚动内容）"><a href="#封装PageConnetView（滚动内容）" class="headerlink" title="封装PageConnetView（滚动内容）"></a>封装PageConnetView（滚动内容）</h2><p>在view新建PageContentView.swift  （cocoa）</p>
-<h3 id="封装构造函数"><a href="#封装构造函数" class="headerlink" title="封装构造函数"></a>封装构造函数</h3><p>定义属性，封装构造函数</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224230113472.png" alt="image-20201224230113472" style="zoom:50%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">class PageContentView: UIView &#123;</span><br><span class="line"></span><br><span class="line">    // MARK:- 定义属性</span><br><span class="line">    private var childVcs : [UIViewController]</span><br><span class="line">    private weak var parentViewController : UIViewController?</span><br><span class="line">    </span><br><span class="line">    // MARK:- 自定义构造函数</span><br><span class="line">    init(frame: CGRect, childVcs : [UIViewController], parentViewController : UIViewController?) &#123;</span><br><span class="line">        self.childVcs = childVcs</span><br><span class="line">        self.parentViewController = parentViewController</span><br><span class="line">        </span><br><span class="line">        super.init(frame: frame)</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">    required init?(coder aDecoder: NSCoder) &#123;</span><br><span class="line">        fatalError(&quot;init(coder:) has not been implemented&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在Extension扩展处给UIColor扩充一个UIColor-Extension.swift扩展</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">extension UIColor &#123;</span><br><span class="line">    convenience init(r : CGFloat, g : CGFloat, b : CGFloat) &#123;</span><br><span class="line">        self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: 1.0)//遍历构造函数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>转到homeVC懒加载</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224231930544-20210527162223790.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private lazy var pageContentView : PageContentView = &#123;[weak self] in</span><br><span class="line">       </span><br><span class="line">       // 1.确定内容的frame</span><br><span class="line">       let contentH = kScreenH - KStatusBarH - kNavigationBarH - KTitleViewH</span><br><span class="line">       let contentFrame = CGRect(x: 0, y: KStatusBarH + kNavigationBarH + KTitleViewH, width: kScreenW, height: contentH)</span><br><span class="line">       </span><br><span class="line">       // 2.确定所有的子控制器</span><br><span class="line">       var childVcs = [UIViewController]()</span><br><span class="line">       for _ in 0..&lt;4 &#123;</span><br><span class="line">           let vc = UIViewController()</span><br><span class="line">           vc.view.backgroundColor = UIColor(r: CGFloat(arc4random_uniform(255)), g: CGFloat(arc4random_uniform(255)), b: CGFloat(arc4random_uniform(255)))</span><br><span class="line">           childVcs.append(vc)</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后到底部添加ContentView，为了能看到，还给其定义个颜色</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108144813422.png" alt="image-20210108144813422" style="zoom:50%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 3.添加ContentView</span><br><span class="line">view.addSubview(pageConten      </span><br><span class="line">pageContentView.backgroundColor = UIColor.purple//添加可是颜色tView)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>运行项目，发现添加上</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224232859850.png" alt="image-20201224232859850"></p>
-<h4 id="给里面添加布局，设置UI界面，回到PageContentView-swift"><a href="#给里面添加布局，设置UI界面，回到PageContentView-swift" class="headerlink" title="给里面添加布局，设置UI界面，回到PageContentView.swift"></a>给里面添加布局，设置UI界面，回到PageContentView.swift</h4><h4 id="将所有的子控制器添加父控制器中，在最后添加"><a href="#将所有的子控制器添加父控制器中，在最后添加" class="headerlink" title="将所有的子控制器添加父控制器中，在最后添加"></a>将所有的子控制器添加父控制器中，在最后添加</h4><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224233818271.png" alt="image-20201224233818271"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// MARK:- 设置UI界面</span><br><span class="line">extension PageContentView &#123;</span><br><span class="line">    fileprivate func setupUI() &#123;</span><br><span class="line">        // 1.将所有的子控制器添加父控制器中</span><br><span class="line">        for childVc in childVcs &#123;</span><br><span class="line">            parentViewController?.addChild(childVc)      </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><strong>添加懒加载属性</strong></p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224234503637.png" alt="image-20201224234503637" style="zoom:50%;"></li>
-<li><p>```</p>
-<pre><code>// MARK:- 懒加载属性
-</code></pre>
-<p>  private lazy var collectionView : UICollectionView = {</p>
-<pre><code>    // 1.创建layout
-    let layout = UICollectionViewFlowLayout()
-    layout.itemSize = self.bounds.size
-    layout.minimumLineSpacing = 0 //行间距
-    layout.minimumInteritemSpacing = 0
-    layout.scrollDirection = .horizontal //滚动方向水平滚动
-    
-    // 2.创建UICollectionView
-    let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-    collectionView.showsHorizontalScrollIndicator = false
-    collectionView.isPagingEnabled = true
-    collectionView.bounces = false
-    return collectionView
-&#125;()
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">转到代码下方**extension**里</span><br><span class="line"></span><br><span class="line">添加UICollectionView,用于在Cell中存放控制器的View</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    // 2.添加UICollectionView,用于在Cell中存放控制器的View
-    addSubview(collectionView)
-    collectionView.frame = bounds
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">同时把设置UI添加</span><br><span class="line"></span><br><span class="line">![image-20201224235251519](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235251519.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行，CollectionView没有内容，但可以显示（黑的）</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235319031.png&quot; alt=&quot;image-20201224235319031&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">给其添加设置数据源</span><br><span class="line"></span><br><span class="line">![image-20201224235533496](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235533496.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    collectionView.dataSource = self
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 添加数据源要遵守协议，在最下方添加扩展</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  // MARK:- 遵守UICollectionViewDataSource</span><br><span class="line">  extension PageContentView : UICollectionViewDataSource &#123;</span><br><span class="line">      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int &#123;</span><br><span class="line">          return childVcs.count</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -&gt; UICollectionViewCell &#123;</span><br><span class="line">          // 1.创建Cell</span><br><span class="line">          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCellID, for: indexPath)</span><br><span class="line">          </span><br><span class="line">          // 2.给Cell设置内容</span><br><span class="line">          for view in cell.contentView.subviews &#123;</span><br><span class="line">              view.removeFromSuperview()</span><br><span class="line">          &#125;</span><br><span class="line">          let childVc = childVcs[(indexPath as NSIndexPath).item]</span><br><span class="line">          childVc.view.frame = cell.contentView.bounds</span><br><span class="line">          cell.contentView.addSubview(childVc.view)</span><br><span class="line">          </span><br><span class="line">          return cell</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="1-创建cell必须注册cell-添加"><a href="#1-创建cell必须注册cell-添加" class="headerlink" title="1.创建cell必须注册cell,添加"></a>1.创建cell必须注册cell,添加<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225084422492.png" alt="image-20201225084422492"></h5>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ContentCellID)//注册cell</span><br></pre></td></tr></table></figure>
-
-<p>  注册完在上方添加后面的标识报错消失</p>
-<p>  <img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225084809822.png" alt="image-20201225084809822"></p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private let ContentCellID = &quot;ContentCellID&quot;//添加标识</span><br></pre></td></tr></table></figure>
-
-<p>  2.给cell设置内容，如1代码</p>
-<p>  运行，滚动实现</p>
-  <img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-13-24.gif" alt="May-27-2021 16-13-24" style="zoom:50%;">
-
-<h5 id="4-给代码进行优化"><a href="#4-给代码进行优化" class="headerlink" title="4.给代码进行优化"></a>4.给代码进行优化</h5><p>  闭包里面用self会产生循环引用，给用weak</p>
-<ul>
-<li><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225091115247.png" alt="image-20201225091115247"></p>
-</li>
-<li><p>```<br>private lazy var collectionView : UICollectionView = {[weak self] in</p>
-<pre><code>  // 1.创建layout
-  let layout = UICollectionViewFlowLayout()
-  layout.itemSize = (self?.bounds.size)!//可选链返回值是可选值，（）强制解包
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    homeVC,前面以改![image-20201225091330746](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225091330746.png)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">## 封装PageTitleView&amp;PageConnetView的逻辑</span><br><span class="line"></span><br><span class="line">### PageTitleView发生点击</span><br><span class="line"></span><br><span class="line">- ###### 将PageTitleView中逻辑进行处理     </span><br><span class="line"></span><br><span class="line">- ![image-20210108150907265](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108150907265.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>extension PageTitleView {<br>  @objc fileprivate func titleLabelClick(_ tapGes : UITapGestureRecognizer) {</p>
-<pre><code>    // 1.获取当前Label
-    guard let currentLabel = tapGes.view as? UILabel else &#123; return &#125;
-    
-    
-    // 2.获取之前的Label
-    let oldLabel = titleLabels[currentIndex]
-  // 3.切换文字的颜色
-    currentLabel.textColor = UIColor.orange
-  oldLabel.textColor = UIColor.darkGray
-    
-  // 4.保存最新Label的下标值
-    currentIndex = currentLabel.tag
-  // 5.滚动条位置发生改变
-    let scrollLineX = CGFloat(currentIndex) * scrollLine.frame.width
-  UIView.animate(withDuration: 0.15, animations: &#123;
-        self.scrollLine.frame.origin.x = scrollLineX
-    &#125;)
-    
-  // 6.通知代理
-    delegate?.pageTitleView(self, selectedIndex: currentIndex)
-  
-&#125;
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###### 给Label添加手势</span><br><span class="line"></span><br><span class="line">![image-20210527163449870](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527163449870.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>// 5.给Label添加手势
-      label.isUserInteractionEnabled = true
-        let tapGes = UITapGestureRecognizer(target: self, action: #selector(self.titleLabelClick(_:)))
-      label.addGestureRecognizer(tapGes)//添加手势到label
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**extension**给label添加监听</span><br><span class="line"></span><br><span class="line">![image-20201225092349310](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225092349310.png)</span><br><span class="line"></span><br><span class="line">获取当前Label的下标值前，先默认currentIndex</span><br><span class="line"></span><br><span class="line">![image-20201225092839764](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225092839764.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>private var currentIndex : Int = 0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">之前前Label的下标值的处理（添加了）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>let oldLabel = titleLabels[currentIndex]</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">保存最新Label的下标值（添加了）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    // 4.保存最新Label的下标值
-    currentIndex = currentLabel.tag
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">切换文字的颜色&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-33-16.gif&quot; alt=&quot;May-27-2021 16-33-16&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">文字颜色修改了，但是方的线————滚动条没发生滚动</span><br><span class="line"></span><br><span class="line">设置滚动条位置发生改变</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    // 5.滚动条位置发生改变
-    let scrollLineX = CGFloat(currentIndex) * scrollLine.frame.width
-    UIView.animate(withDuration: 0.15, animations: &#123;
-        self.scrollLine.frame.origin.x = scrollLineX
-    &#125;) 
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">内容滚动，通过代理把PageConnetView发生的事件传递给homeVC</span><br><span class="line"></span><br><span class="line">在PageTitleView.swift头部定义协议</span><br><span class="line"></span><br><span class="line">![image-20210527163533615](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527163533615.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 定义协议<br>protocol PageTitleViewDelegate : class {//class表示协议只能被类取走</p>
-<pre><code>func pageTitleView(_ titleView : PageTitleView, selectedIndex index : Int)
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>weak var delegate : PageTitleViewDelegate?//定义代理属性
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">接着在下方通知代理</span><br><span class="line"></span><br><span class="line">![image-20201225142217505](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142217505.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>        // 6.通知代理
-        delegate?.pageTitleView(self, selectedIndex: currentIndex)
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">回到homeVC  </span><br><span class="line"></span><br><span class="line">![image-20201225142537239](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142537239.png)</span><br><span class="line"></span><br><span class="line">最后加上，避免循环引用</span><br><span class="line"></span><br><span class="line">加上extension遵守PageTitleViewDelegate协议</span><br><span class="line"></span><br><span class="line">![image-20201225142904333](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142904333.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 遵守PageTitleViewDelegate协议<br>extension HomeViewController : PageTitleViewDelegate {<br>  func pageTitleView(_ titleView: PageTitleView, selectedIndex index: Int) {</p>
-<pre><code>  print(index)
-</code></pre>
-<p>  }<br>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目 ，发现可以拿到index，控制台输出点击的序号</span><br><span class="line"></span><br><span class="line">把index传给pageContentView，添加</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 遵守PageTitleViewDelegate协议<br>extension HomeViewController : PageTitleViewDelegate {<br>  func pageTitleView(_ titleView: PageTitleView, selectedIndex index: Int) {</p>
-<pre><code>  pageContentView.setCurrentIndex(index)//添加此行
-</code></pre>
-<p>  }<br>}</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">回到PageTitleView VC，在下发添加对外暴露的方法</span><br><span class="line"></span><br><span class="line">![image-20210108152545633](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108152545633.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 对外暴露的方法<br>extension PageTitleView {<br>    func setTitleWithProgress(_ progress : CGFloat, sourceIndex : Int, targetIndex : Int) {<br>        // 1.取出sourceLabel/targetLabel<br>        let sourceLabel = titleLabels[sourceIndex]<br>        let targetLabel = titleLabels[targetIndex]</p>
-<pre><code>    // 2.处理滑块的逻辑
-    let moveTotalX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
-    let moveX = moveTotalX * progress
-    scrollLine.frame.origin.x = sourceLabel.frame.origin.x + moveX
-    
-    
-    
-&#125;
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">PageContentView里</span><br><span class="line"></span><br><span class="line">![image-20210302233328985](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210302233328985.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 对外暴露的方法<br>extension PageContentView {<br>    func setCurrentIndex(_ currentIndex : Int) {</p>
-<pre><code>    let offsetX = CGFloat(currentIndex) * collectionView.frame.width
-    collectionView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
-&#125;
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目，点标签栏发现页面也滚动，但滑动标签未跟随滚动</span><br><span class="line"></span><br><span class="line">![Dec-25-2020 14-44-12](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/Dec-25-2020%2014-44-12.gif)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PageConnetView的滚动，主要是监听 ，先设置代理</span><br><span class="line"></span><br><span class="line">![image-20201225170005062](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225170005062.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>collectionView.delegate = self</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**遵守UICollectionViewDelegate**</span><br><span class="line"></span><br><span class="line">![image-20201225171438499](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225171438499.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 遵守UICollectionViewDelegate<br>extension PageContentView : UICollectionViewDelegate {</p>
-<pre><code>func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
-    print(&quot;----&quot;)
-&#125; 
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">手指滚动，控制台有输出，可以监测到</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_E239AF31318F-1.jpeg&quot; alt=&quot;IMG_E239AF31318F-1&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">在上方添加个属性</span><br><span class="line"></span><br><span class="line">![image-20201225175535613](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225175535613.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>private var startOffsetX : CGFloat = 0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">继续添加扩展</span><br><span class="line"></span><br><span class="line">![image-20201225175652479](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225175652479.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>func scrollViewWillBeginDragging(_ scrollView: UIScrollView) &#123;
-    startOffsetX = scrollView.contentOffset.x
-&#125;
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义需要获取的数据 ,在**遵守UICollectionViewDataSource**的扩展下方添加扩展</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 遵守UICollectionViewDelegate<br>extension PageContentView : UICollectionViewDelegate {</p>
-<pre><code>func scrollViewWillBeginDragging(_ scrollView: UIScrollView) &#123;
-    startOffsetX = scrollView.contentOffset.x
-&#125;
-
-func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
-    // 1.定义获取需要的数据
-    var progress : CGFloat = 0
-    var sourceIndex : Int = 0
-    var targetIndex : Int = 0
-    // 2.判断是左滑还是右滑
-    let currentOffsetX = scrollView.contentOffset.x
-    let scrollViewW = scrollView.bounds.width
-    if currentOffsetX &gt; startOffsetX &#123; // 左滑
-        // 1.计算progress
-        progress = currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW)
-        
-        // 2.计算sourceIndex
-        sourceIndex = Int(currentOffsetX / scrollViewW)
-        
-        // 3.计算targetIndex
-        targetIndex = sourceIndex + 1
-        if targetIndex &gt;= childVcs.count &#123;
-            targetIndex = childVcs.count - 1
-        &#125;
-        
-        // 4.如果完全划过去
-        if currentOffsetX - startOffsetX == scrollViewW &#123;
-            progress = 1
-            targetIndex = sourceIndex
-        &#125;
-    &#125; else &#123; // 右滑
-        // 1.计算progress
-        progress = 1 - (currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW))
-        
-        // 2.计算targetIndex
-        targetIndex = Int(currentOffsetX / scrollViewW)
-        
-        // 3.计算sourceIndex
-        sourceIndex = targetIndex + 1
-        if sourceIndex &gt;= childVcs.count &#123;
-            sourceIndex = childVcs.count - 1
-        &#125;
-    &#125;
-    // 3.将progress/sourceIndex/targetIndex传递给titleView
-    delegate?.pageContentView(self, progress: progress, sourceIndex: sourceIndex, targetIndex: targetIndex)
-&#125;
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">到开头定义代理，将progress sourceIndex targetIndex传值给titleView</span><br><span class="line"></span><br><span class="line">![image-20201226005404473](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005404473.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>//  定义代理，将progress sourceIndex targetIndex传值给titleView<br>protocol PageContentViewDelegate : class {<br>    func pageContentView(_ contentView : PageContentView, progress : CGFloat, sourceIndex : Int, targetIndex : Int)<br>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义代理属性，遵守协议</span><br><span class="line"></span><br><span class="line">![image-20201226005634347](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005634347.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>weak var delegate : PageContentViewDelegate?//定义代理属性，遵守协议
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">到homeVC取值</span><br><span class="line"></span><br><span class="line">![image-20201226005821490](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005821490.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>   contentView.delegate = self//取值progress sourceIndex targetIndex
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最下方**遵守PageContentViewDelegate协议**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 遵守PageContentViewDelegate协议<br>extension HomeViewController : PageContentViewDelegate {<br>    func pageContentView(_ contentView: PageContentView, progress: CGFloat, sourceIndex: Int, targetIndex: Int) {<br>        pageTitleView.setTitleWithProgress(progress, sourceIndex: sourceIndex, targetIndex: targetIndex)<br>    }<br>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">转到PageTitleVc,在最下方添加**对外暴露的方法**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>// MARK:- 对外暴露的方法<br>extension PageTitleView {<br>    func setTitleWithProgress(_ progress : CGFloat, sourceIndex : Int, targetIndex : Int) {<br>        // 1.取出sourceLabel/targetLabel<br>        let sourceLabel = titleLabels[sourceIndex]<br>        let targetLabel = titleLabels[targetIndex]</p>
-<pre><code>    // 2.处理滑块的逻辑
-    let moveTotalX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
-    let moveX = moveTotalX * progress
-    scrollLine.frame.origin.x = sourceLabel.frame.origin.x + moveX     
-&#125;
-</code></pre>
-<p>}</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目，标签和下方一起滚动，但是字体颜色没有变化</span><br><span class="line"></span><br><span class="line">![Dec-26-2020 01-24-33](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/Dec-26-2020%2001-24-33.gif)</span><br><span class="line"></span><br><span class="line">颜色的渐变</span><br><span class="line"></span><br><span class="line">在PageTitleView.swift，定义RGB值常量</span><br><span class="line"></span><br><span class="line">![image-20201226114737491](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226114737491.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>private let kNormalColor : (CGFloat, CGFloat, CGFloat) = (85, 85, 85)<br>private let kSelectColor : (CGFloat, CGFloat, CGFloat) = (255, 128, 0)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> 修改设置的颜色用RGB值设置</span><br><span class="line"></span><br><span class="line">![image-20201226115501235](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115501235.png)</span><br><span class="line"></span><br><span class="line">![image-20201226115628756](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115628756.png)</span><br><span class="line"></span><br><span class="line">![image-20201226115723314](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115723314.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>   label.textColor = UIColor(r: kNormalColor.0, g: kNormalColor.1, b: kNormalColor.2)//文字颜色
-    
-    firstLabel.textColor = UIColor(r: kSelectColor.0, g: kSelectColor.1, b: kSelectColor.2)
-    
-    currentLabel.textColor = UIColor(r: kSelectColor.0, g: kSelectColor.1, b: kSelectColor.2)
-    oldLabel.textColor = UIColor(r: kNormalColor.0, g: kNormalColor.1, b: kNormalColor.2)
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">颜色的渐变</span><br><span class="line"></span><br><span class="line">![image-20201226165046797](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226165046797.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    // 3.颜色的渐变(复杂)
-    // 3.1.取出变化的范围
-    let colorDelta = (kSelectColor.0 - kNormalColor.0, kSelectColor.1 - kNormalColor.1, kSelectColor.2 - kNormalColor.2)
-    
-    // 3.2.变化sourceLabel
-    sourceLabel.textColor = UIColor(r: kSelectColor.0 - colorDelta.0 * progress, g: kSelectColor.1 - colorDelta.1 * progress, b: kSelectColor.2 - colorDelta.2 * progress)
-    
-    // 3.2.变化targetLabel
-    targetLabel.textColor = UIColor(r: kNormalColor.0 + colorDelta.0 * progress, g: kNormalColor.1 + colorDelta.1 * progress, b: kNormalColor.2 + colorDelta.2 * progress)
-    
-    // 4.记录最新的index
-    currentIndex = targetIndex
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行程序，轻微滑动，有颜色渐变的效果</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-19-07.gif&quot; alt=&quot;May-27-2021 16-19-07&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">对点击事件的优化</span><br><span class="line"></span><br><span class="line">pageContentV去定义属性</span><br><span class="line"></span><br><span class="line">![image-20201226165741879](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226165741879.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>private var isForbidScrollDelegate : Bool = false
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">记录要禁止执行的代理方法</span><br><span class="line"></span><br><span class="line">![image-20201226170139718](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226170139718.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    // 1.记录需要禁止执行代理方法
-    isForbidScrollDelegate = true
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image-20201226170634281](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226170634281.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<pre><code>    isForbidScrollDelegate = false
-
-    // 0.判断是否是点击事件
-    if isForbidScrollDelegate &#123; return &#125;
-</code></pre>
-<pre><code>
-主界面导航栏内容滚动与点击的布局完成
-
-&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-20-47.gif&quot; alt=&quot;May-27-2021 16-20-47&quot; style=&quot;zoom:50%;&quot; /&gt;
-</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/16/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1530,6 +1172,117 @@ func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（1）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-16 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-16T12:49:00+08:00">2020-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-18 14:49:00" itemprop="dateModified" datetime="2020-01-18T14:49:00+08:00">2020-01-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>前言：在这系列文章你可以学到swiftUI</strong></p>
+<h1 id="SWIFT——UI"><a href="#SWIFT——UI" class="headerlink" title="SWIFT——UI"></a>SWIFT——UI</h1><h2 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h2><h2 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png" alt="image-20210131004320381"></h2><h2 id="添加启动图片，和色彩背景等"><a href="#添加启动图片，和色彩背景等" class="headerlink" title="添加启动图片，和色彩背景等"></a>添加启动图片，和色彩背景等</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075504407.png" alt="image-20210514075504407"></p>
+<h3 id="设置第一张卡片"><a href="#设置第一张卡片" class="headerlink" title="设置第一张卡片 "></a>设置第一张卡片 <img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075711609.png" alt="image-20210514075711609"></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            VStack &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Image(&quot;Background&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color.black).cornerRadius(10)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="布局和和堆栈"><a href="#布局和和堆栈" class="headerlink" title="布局和和堆栈"></a>布局和和堆栈</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201001257114.png" style="zoom: 33%;">
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000722734.png" alt="image-20210514000722734"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    HStack &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;•</span><br><span class="line">            Text(&quot;UI 设计&quot;)</span><br><span class="line">                .font(.title)</span><br><span class="line">                .fontWeight(.bold)</span><br><span class="line">                .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                .padding(.top)</span><br><span class="line">            Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color(.white))</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()//推动到屏幕宽度</span><br><span class="line">        Image(&quot;Logo&quot;)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: 30.0, height: 30.0)</span><br><span class="line">    &#125;</span><br><span class="line">    Image(&quot;Background&quot;)</span><br><span class="line">&#125;.frame(width: 340.0, height: 220.0)</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置第二章卡片"><a href="#设置第二章卡片" class="headerlink" title="设置第二章卡片"></a>设置第二章卡片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003759295.png" alt="image-20210201003759295"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003830438.png" alt="image-20210201003830438"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZStack &#123;</span><br><span class="line">    </span><br><span class="line">    VStack &#123;</span><br><span class="line">        Text(&quot;背后的卡&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .padding()</span><br><span class="line">    .frame(width: 300.0, height: 220.0)</span><br><span class="line">    .background(Color.blue)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">    .offset(x: 0, y: -20)</span><br><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            VStack(alignment: .leading) &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.headline)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Spacer()//推动到屏幕宽度</span><br><span class="line">            Image(&quot;Logo&quot;)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: 30.0, height: 30.0)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()</span><br><span class="line">        Image(&quot;Background&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .frame(width: 340.0, height: 220.0)</span><br><span class="line">    .background(Color.black)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000805186.png" alt="image-20210514000805186"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000824813.png" alt="image-20210514000824813"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/May-14-2021%2000-38-30.gif" alt="May-14-2021 00-38-30"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514003658268.png" alt="image-20210514003658268"></p>
+<h3 id="添加标题，动画，图片"><a href="#添加标题，动画，图片" class="headerlink" title="添加标题，动画，图片"></a>添加标题，动画，图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            Text(&quot;合格证书&quot;)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .fontWeight(.heavy)</span><br><span class="line">            Spacer()</span><br><span class="line">        &#125;</span><br><span class="line">        Image(&quot;Illustration5&quot;)</span><br><span class="line">        Spacer()</span><br><span class="line">    &#125;.padding()//边距</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -40)</span><br><span class="line">        .scaleEffect(0.85)</span><br><span class="line">        .rotationEffect(Angle(degrees: 15))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 50), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -20)</span><br><span class="line">        .scaleEffect(0.9)</span><br><span class="line">        .rotationEffect(Angle(degrees: 10))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 40), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CertificateView()</span><br><span class="line">        .scaleEffect(0.95)</span><br><span class="line">        .rotationEffect(Angle(degrees: 5))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 30), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加正方形在中间"><a href="#添加正方形在中间" class="headerlink" title="添加正方形在中间"></a>添加正方形在中间</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201181352144.png" alt="image-20210201181352144"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">VStack(spacing: 20.0) &#123;</span><br><span class="line">     Rectangle()//添加正方形在中间</span><br><span class="line">         .frame(width: 60, height: 6)</span><br><span class="line">         .cornerRadius(30)</span><br><span class="line">         .opacity(0.1)//模糊度</span><br><span class="line">     Text(&quot;各个国家有各个国家的国歌，和某地的语言像极了鸟语。方言太多了，所以要统一语言，说出的话大家理解的都是同一份意思，这是小的，对于全球这么多国家，需要的是尊重各个国家的文化和历史，所以语言也是喽。&quot;)</span><br><span class="line">         .lineLimit(10)</span><br><span class="line">     Spacer()</span><br><span class="line"> &#125;</span><br><span class="line"> .padding()</span><br><span class="line"> .background(Color.blue)</span><br><span class="line"> .cornerRadius(30)</span><br></pre></td></tr></table></figure>
+
+<h3 id="底部卡片向下移动"><a href="#底部卡片向下移动" class="headerlink" title="底部卡片向下移动"></a>底部卡片向下移动</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184006996.png" alt="image-20210201184006996"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184108062.png" alt="image-20210201184108062"></p>
+<h3 id="并将新设置的给提到下面"><a href="#并将新设置的给提到下面" class="headerlink" title="并将新设置的给提到下面"></a>并将新设置的给提到下面</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201185543080.png" alt="image-20210201185543080" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184443568.png" alt="image-20210201184443568"></p>
+<h2 id="设置动画效果"><a href="#设置动画效果" class="headerlink" title="设置动画效果"></a>设置动画效果</h2><h2 id="模糊效果"><a href="#模糊效果" class="headerlink" title="模糊效果"></a>模糊效果</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201190055683.png" alt="image-20210201190055683"></p>
+<h3 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620924657941.GIF" alt="1620924657941"></p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201220556076.png" alt="image-20210201220556076" style="zoom: 33%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    @State var show = false</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        ZStack &#123;</span><br><span class="line">           TitleView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CarBottomView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -400 : -40)</span><br><span class="line">                .scaleEffect(0.85)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 15 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 50 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.7))</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -200 : -20)</span><br><span class="line">                .scaleEffect(0.9)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 10 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 40 : 0), axis: (x: 10.0, y: 10.0, z: 10.0))</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.5))</span><br><span class="line">            </span><br><span class="line">            CertificateView()</span><br><span class="line">                .scaleEffect(0.95)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 5 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 30 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .animation(.spring())</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    self.show.toggle()</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改后面卡片颜色"><a href="#修改后面卡片颜色" class="headerlink" title="修改后面卡片颜色"></a>修改后面卡片颜色<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222631717.png" style="zoom:50%;"></h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222547399.png" alt="image-20210201222547399"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222602417.png" alt="image-20210201222602417"></p>
+<h2 id="手势和事件"><a href="#手势和事件" class="headerlink" title="手势和事件"></a>手势和事件</h2><h3 id="自由拖动第一张卡片"><a href="#自由拖动第一张卡片" class="headerlink" title="自由拖动第一张卡片"></a>自由拖动第一张卡片</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620948619298.GIF" alt="1620948619298" style="zoom:150%;">
+
+
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201224606664.png" alt="image-20210201224606664"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@State var viewState = CGSize.zero</span><br><span class="line">    </span><br><span class="line">.offset(x: viewState.width, y: viewState.height)</span><br><span class="line"></span><br><span class="line">                .gesture(</span><br><span class="line">                    DragGesture()</span><br><span class="line">                        .onChanged(&#123; (Value) in</span><br><span class="line">                            self.viewState = Value.translation</span><br><span class="line">   </span><br><span class="line">                        &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="卡片归位"><a href="#卡片归位" class="headerlink" title="卡片归位"></a>卡片归位</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201225305548.png"></p>
+<h3 id="让三张卡片同时拖动"><a href="#让三张卡片同时拖动" class="headerlink" title="让三张卡片同时拖动"></a>让三张卡片同时拖动</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620949756307.GIF" alt="1620949756307" style="zoom:150%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075108968.png" alt="image-20210514075108968" style="zoom:50%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075129554.png" alt="image-20210514075129554" style="zoom: 33%;">
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1601,7 +1354,7 @@ func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
