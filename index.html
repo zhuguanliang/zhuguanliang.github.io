@@ -286,6 +286,452 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/28/%E4%BD%BF%E7%94%A8%20GCD%20%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%89%AF%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/28/%E4%BD%BF%E7%94%A8%20GCD%20%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%89%AF%E6%9C%AC/" class="post-title-link" itemprop="url">线程之间的通信</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-28 17:15:13" itemprop="dateCreated datePublished" datetime="2021-01-28T17:15:13+08:00">2021-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:42:43" itemprop="dateModified" datetime="2021-05-27T17:42:43+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>线程之间的通信</p>
+<p>1)从子线程回到主线程</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="type">DispatchQueue</span>.global().async&#123;</span><br><span class="line"><span class="comment">//执行耗时的异步操作. </span></span><br><span class="line">   <span class="type">DispatchQueue</span>.main.async(</span><br><span class="line"><span class="comment">//回到主线程，执行 UI 刷新操作</span></span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2)线程之间通信的具体实现实例</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> imageView: <span class="type">UIlmageView</span>? <span class="function"><span class="keyword">func</span> <span class="title">queuesCommunication</span>()</span>&#123;</span><br><span class="line">    <span class="comment">//创建异步全局并发队列 DispatchQueue.global().async!</span></span><br><span class="line">    <span class="comment">//图片的网络路径</span></span><br><span class="line">    <span class="keyword">let</span> imageUrl <span class="operator">=</span> <span class="type">URL</span>(string: <span class="string">&quot;http://xxx.jpg&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> url <span class="operator">=</span> imageUrl (</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="comment">//加载图片</span></span><br><span class="line">        <span class="keyword">let</span> data <span class="operator">=</span> <span class="keyword">try</span> <span class="type">Data</span>(contentsOf: url)</span><br><span class="line">        <span class="comment">//生成图片</span></span><br><span class="line">        <span class="keyword">let</span> image <span class="operator">=</span> <span class="type">UImage</span>(data: data)</span><br><span class="line">        <span class="comment">//回到主线程设置图片</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.async</span><br><span class="line">        selfimageView<span class="operator">?</span>.image <span class="operator">=</span> image</span><br><span class="line">        </span><br><span class="line">        ) <span class="keyword">catch</span> &#123; &#125;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/27/%E4%BD%BF%E7%94%A8%20GCD%20%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/27/%E4%BD%BF%E7%94%A8%20GCD%20%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">使用 GCD 实现多线程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-27 17:15:13" itemprop="dateCreated datePublished" datetime="2021-01-27T17:15:13+08:00">2021-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:37:30" itemprop="dateModified" datetime="2021-05-27T17:37:30+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>使用 GCD 实现多线程</strong></p>
+<p> GCD(Grand Central Dispatch)是苹果公司开发的一种旨在优化多核环境中的并发操作，以取代传统多线程技术的编程模式。它是基于C语言的线程管理方案，使用者无需过多参与线程的管理，只需要将想要执行的代码添加到调度队列即可。<br> GCD的工作原理如下:<br>(1)让程序平行排队的特定任务，根据可用的处理资源，安排它们在任何可用的处理器核心上执行任务。<br>(2)要执行的任务可以是一个函数或者一个Block<br>(3)GCD中的FIFO队列称为 Dispatch Queue，可以保证先进来的任务先得到执行。(4)notify()方法可以实现监听一组任务是否完成，完成后得到通知。</p>
+<p> GCD的底层依然是用线程实现，不过我们可以不用关注实现的细节。Dispatch Queue(调度队列)可以是并发的或串行的，也可以异步或同步执行。</p>
+<p>(1)GCD队列:并发队列和串行队列。<br>并发队列:可以让多个任务并发执行(自动开启多个线程同时执行任务)。并发功能只有在异步函数下才有效。<br>串行队列:让多个任务一个接一个执行(一个任务执行完，再执行下一个任务)。(2)GCD任务的执行方式:异步操作和同步操作。<br>异步操作:在其他线程执行任务，会开启新的线程;异步方法无法确定任务的执行顺序。<br>同步操作:在当前线程执行任务，不开启新的线程;同步方法与队列无关，它会依次执行，能够决定任务的执行顺序;更新 UI时，最好使用同步方法。</p>
+<p>1.创建队列的方法<br>(1)创建一个串行队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: <span class="string">&quot;serial&quot;</span>, atributes: .<span class="keyword">init</span>(rawValue: <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<p>(2)创建一个并发队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> conQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: <span class="string">&quot;concurrent&quot;</span>, attributes: .concurrent)</span><br></pre></td></tr></table></figure>
+
+<p>(3)获得全局并发队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> globalQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>.globalo</span><br></pre></td></tr></table></figure>
+
+<p>(4)获得主队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mainQueue <span class="operator">=</span> <span class="type">DispatchOueue</span>.main</span><br></pre></td></tr></table></figure>
+
+<p>主队列即在主线程里执行的队列。因为主线程只有一个，所以它属于串行队列。与 UI有关的操作必须放在主线程中执行。</p>
+<p>2.同步/异步+串行/并发队列的组合</p>
+<p>1)同步+串行队列<br>同步+串行队列不会开启新的线程，在当前线程(主线程)执行任务。任务是串行的，执行完一个任务，再执行下一个任务。示例代码如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sync_serial</span>()</span></span><br><span class="line"><span class="comment">//创建一个串行队列</span></span><br><span class="line"> <span class="keyword">let</span> serialQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: <span class="string">&quot;serial&quot;</span>, attributes: .<span class="keyword">init</span>(rawValue: <span class="number">0</span>))<span class="comment">//同步执行三个任务</span></span><br><span class="line"> serialQueue.sync (</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;1 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> serialQueue.sync</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;2 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> serialQueue.sync(</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;3 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> sync_serial)</span><br></pre></td></tr></table></figure>
+
+<p>示例代码的输出日志如图<br><img src="https://gitee.com/zhu565615430/images/raw/master/dyzb/image-20210527172731259.png" alt="image-20210527172731259"><br>2)异步+串行队列<br>异步+串行队列将开启新的线程，但只开启一条子线程，并在子线程中串行执行任务。示例代码如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">async</span> </span>serial()(</span><br><span class="line"><span class="comment">//创建一个串行队列</span></span><br><span class="line"> <span class="keyword">let</span> serialQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: <span class="string">&quot;serial&quot;</span>, attributes: .<span class="keyword">init</span>(rawValue: <span class="number">0</span>))<span class="comment">//异步执行三个任务</span></span><br><span class="line"> serialQueue.async<span class="operator">!</span></span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;1 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> serialQueue.async(</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;2+<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">   serialQueue.async</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;3 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> asyne_serial()</span><br></pre></td></tr></table></figure>
+
+<p>3)示例代码的输出日志如图<br><img src="https://gitee.com/zhu565615430/images/raw/master/dyzb/image-20210527173002192.png" alt="image-20210527173002192"><br>同步+并发队列<br>同步+并发队列不开启新线程，在主线程中顺序执行任务。示例代码如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">sync_concurrent</span>()</span>&#123;</span><br><span class="line"><span class="comment">//创建一个全局队列</span></span><br><span class="line"> <span class="keyword">let</span> globalQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>.global()<span class="comment">//同步执行三个任务</span></span><br><span class="line"> globalQueue.sync &#123;</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;1 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> globalQueue.sync&#123;</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;2 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> globalQueue.sync f</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;3 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> sync concurrent()</span><br></pre></td></tr></table></figure>
+
+<p>同步+并发队列示例输出日志</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/dyzb/image-20210527173020801.png" alt="image-20210527173020801"></p>
+<p>4)异步+并发队列<br>异步+并发队列同时开启多条线程，并发执行任务。示例代码如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">async_concurrent</span>()</span>&#123;</span><br><span class="line"><span class="comment">//创建一个全局队列</span></span><br><span class="line"> <span class="keyword">let</span> globalQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>.global(<span class="comment">//异步执行三个任务</span></span><br><span class="line"> globalQueue.async(</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;1 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> globalQueue.async&#123;</span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;2 +<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> globalQueue.async <span class="operator">!</span></span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&quot;3+<span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"> async_concurrent()</span><br></pre></td></tr></table></figure>
+
+<p>示例代码的输出日志如图</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/dyzb/image-20210527173341630.png" alt="image-20210527173341630" style="zoom: 67%;">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/27/%E5%9C%A8%E5%8E%9F%E9%A1%B9%E7%9B%AE%E5%9F%BA%E7%A1%80%E4%B8%8A%E4%BD%BF%E7%94%A8SwiftUI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/27/%E5%9C%A8%E5%8E%9F%E9%A1%B9%E7%9B%AE%E5%9F%BA%E7%A1%80%E4%B8%8A%E4%BD%BF%E7%94%A8SwiftUI/" class="post-title-link" itemprop="url">在原项目基础上使用SwiftUI</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-27 17:15:13" itemprop="dateCreated datePublished" datetime="2021-01-27T17:15:13+08:00">2021-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:16:41" itemprop="dateModified" datetime="2021-05-27T17:16:41+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>首先判断是否为iOS 13，只有iOS 13+才能支持SwiftUI；</p>
+<p>Swift跳转到SwiftUI；以Push为例，present一样的，只不过是需要用UIHostingController初始化你的SwiftUIView。初始化出来的就是一个正常的UIViewController，正儿八经的控制器，怎么用都行。</p>
+<p>示例代码：</p>
+<pre><code> if #available(iOS 13, *) &#123;
+      let testSwiftUIView = UIHostingController(rootView: TestSwiftUIView())
+
+        navigationController?.pushViewController(testSwiftUIView, animated: true)
+
+    &#125;
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/17/ios%E5%BC%80%E5%8F%91%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/17/ios%E5%BC%80%E5%8F%91%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">ios开发的多线程技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-17 17:10:31" itemprop="dateCreated datePublished" datetime="2021-01-17T17:10:31+08:00">2021-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:14:15" itemprop="dateModified" datetime="2021-05-27T17:14:15+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="iOS-的3种多线程技术"><a href="#iOS-的3种多线程技术" class="headerlink" title="iOS 的3种多线程技术"></a>iOS 的3种多线程技术</h3><h4 id="iOS常用的多线程开发技术主要有以下3种。"><a href="#iOS常用的多线程开发技术主要有以下3种。" class="headerlink" title="iOS常用的多线程开发技术主要有以下3种。"></a>iOS常用的多线程开发技术主要有以下3种。</h4><p> <strong>Thread:每个Thread 对象对应一个线程，量级较轻(真正的多线程)。</strong></p>
+<p> <strong>Operation/OperationQueue:面向对象的线程技术。</strong></p>
+<p> <strong>GCD(Grand Central Dispatch):基于C语言的框架，它可以充分利用多核处理技术，是苹果公司推荐使用的多线程技术。</strong></p>
+<p>  以上这3种多线程技术，从上到下对比，抽象度层次是从低到高的，抽象度越高的使用越简单，也是苹果公司最推荐使用的。但是就目前而言，我们需要了解3种多线程技术的基本使用过程，因为很多框架技术分别使用了不同的多线程技术。<br>现对3种多线程技术对比如下。</p>
+<p><strong>1) Thread</strong><br>1Thread 比其他两个轻量级使用简单;2需要自己管理线程的生命周期、线程同步、加锁、睡眠及唤醒等，线程同步对数据的加锁会有一定的系统开销。<br><strong>2)Operation/OperationQueue</strong><br>1 不需要关心线程管理、数据同步的事情，可以把精力放在自己需要执行的操作上面;2 Operation/OperationQueue 是面向对象的。<br><strong>3)GCD</strong><br>1GCD是由苹果公司开发的一个多核编程的技术方案，iOS4.0以上才能使用，是替代 Thread、Operation/OperationQueue的高效而强大的技术;2GCD是基于C语言的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/02/%E8%AE%B0%E5%BD%95%E4%B8%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/02/%E8%AE%B0%E5%BD%95%E4%B8%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" class="post-title-link" itemprop="url">记录下开发过程遇到的坑与笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-02 17:05:29" itemprop="dateCreated datePublished" datetime="2021-01-02T17:05:29+08:00">2021-01-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:07:55" itemprop="dateModified" datetime="2021-05-27T17:07:55+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1.badgeVaule气泡提示,self.navigationController.tabBarItem.badgeValue</strong></p>
+<p><strong>2.git终端命令方法&gt; pwd查看全部 &gt;cd&gt;ls &gt;之后桌面找到文件夹内容,以cd xxxx ,ls格式&gt;git status查看&gt;git pull origin master从网上储存库中下下来。 返回上一级地址命令cd ..</strong></p>
+<p><strong>3.全球最大开源代码托管平台——SourceForge</strong></p>
+<p><strong>4.sections更改数量可使tableview分量</strong></p>
+<p><strong>5.static cells静态tableview</strong></p>
+<p><strong>6.nothing to commit, working directory clean 表示上传Git成功</strong></p>
+<p><strong>7.git提交步骤</strong></p>
+<ul>
+<li>git add . //此处add后加空格.</li>
+<li>git commit -m “xxx”</li>
+<li>git pull origin master //更新代码</li>
+<li>git push origin master //提交</li>
+</ul>
+<p><strong>8.Identifier是写在navigation上边的</strong></p>
+<p><strong>9.AF的方法中全部属于异步下载。</strong></p>
+<p><strong>10.无论使用collectionView还是tableView的自定义cell，都需要先在viewDidLoad中注册cell</strong></p>
+<p><strong>11.可以使用mac自带的数码测色计来获取颜色的RGB值</strong></p>
+<p><strong>12.例子：</strong><br>indexPath.row==0 &amp;&amp; indexPath.section==1<br>不同的section中的indexpath的row是会归0重置的，从0开始重头计</p>
+<p><strong>13.代理协议写在m文件即可，不用过多的暴露在头文件中</strong></p>
+<p><strong>14.radioButton的图片更改方法，不用代码实现，在button的State 。cc。oo。nn。ff。ll。gg。中选择Default为未点击时状态，可赋予图片，选择selected为选中时状态，可赋予图片，直接使用imageView的方法是不专业的</strong></p>
+<p><strong>15.在button的中选择Default为未点击时状态，，直接使用imageView的方法是不专业的。</strong></p>
+<p><strong>16.textView加边框</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;QuartzCore/QuartzCore.h&gt;    </span><br><span class="line">textview对象.layer.borderColor = UIColor.grayColor.CGColor;</span><br><span class="line">textview对象.layer.borderWidth = 5;</span><br><span class="line">self.textView.layer.masksToBounds = YES;</span><br><span class="line">self.textView.layer.cornerRadius = 5;</span><br></pre></td></tr></table></figure>
+
+<p><strong>17.ruby -e “$(curl -fsSL <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Homebrew/install/master/install">https://raw.githubusercontent…</a>)” //下载安装git插件</strong></p>
+<p><strong>18.scrollView可以专门用来自动处理键盘布局，但需要嵌入代码</strong></p>
+<p><strong>19.有造好的轮子就要用，不要傻乎乎的想要自己去造，理解就可以了，闲暇时间自己研究，工作当中效率进度第一</strong></p>
+<p><strong>20.alloc之后几乎全是init方法</strong></p>
+<p><strong>21. if(indexPath.row==2 &amp;&amp; indexPath.section==0){//row表示在一个section下顺序第几个，section表示第几个section</strong></p>
+<p><strong>22.区别：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewDidLoad//加载后调用</span><br><span class="line">-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil//进入后就调用</span><br></pre></td></tr></table></figure>
+
+<p><strong>23.git比svn要强大</strong></p>
+<p><strong>24.@property (assign,nonatomic) BOOL hONG; //bool型只能用于状态判断，只有yes和no，非黑即白 assign表示弱类型的赋值 nonatomic会有先后顺序 简单变量是assign，指针变量是strong</strong><br><strong>//@property的意思是属性，类似于c++的一个成员变量，在oc中成为一个类的属性</strong><br><strong>@implementation具体方法的实现</strong></p>
+<p><strong>25.来记个方法，这是针对不同类型的初始化方法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//push界面之前的初始化方法，该方法是在push  xib类型界面之前进行初始化的方法</span><br><span class="line">LSIntegralShopViewController * integrelShopViewController =[[LSIntegralShopViewController alloc]initWithNibName:@&quot;LSIntegralShopViewController&quot; bundle:nil];  //这里那个nibName是写的那个controller的对应的那个类</span><br><span class="line"></span><br><span class="line">//针对toryboard的初始化方法</span><br><span class="line">[WPUtil getViewControllerWithIdentifier: storyboardName:]  //此处Identifier是storyboard上的Identifier ID,而UINavigationController * homeNavigationController = [WPUtil getViewControllerWithIdentifier:@&quot;homeNavigation&quot; storyboardName:@&quot;Home&quot;];这里的Identifier则是Navigation上的ID，注意区分</span><br></pre></td></tr></table></figure>
+
+<p><strong>26.上下bar的地方切图使用时，后缀加上@2x，注意是在.png前使用，同时图盘拖到2x那格中</strong></p>
+<p><strong>27.2x图片清晰度更高</strong></p>
+<p><strong>28.已经在界面上都配置好了，代码里面就不需要这些设置了</strong><br><strong>只需处理点击事件，比如选中第一个，第一个button.selected = YES，其他两个button.selected = NO</strong></p>
+<p><strong>29.UIButton的edge可以调整image和title</strong></p>
+<p><strong>30.[self.view endEditing:YES]; //直接撤销键盘的方法</strong></p>
+<p><strong>31.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@”text/html”, nil];//默认为json格式，若为json可省略这行代码</strong></p>
+<p><strong>32.+方法写在头文件中，谁都可以调用，只要引用其头文件名称，如viewController是可以在任何地方初始化任意次的</strong></p>
+<p><strong>33.使用最底部或最上部的UIButton或某个控件来支撑住scrollview，来让scrollview知晓其最大距离</strong></p>
+<p><strong>34.NSUInteger表示无符号整型，即非负数</strong></p>
+<p><strong>35.严格按照流程来，先在外边，比如说美工发给你的图片，把名字改好，<a href="mailto:&#120;&#x78;&#x78;&#x40;&#50;&#x78;&#x2e;&#112;&#x6e;&#x67;">&#120;&#x78;&#x78;&#x40;&#50;&#x78;&#x2e;&#112;&#x6e;&#x67;</a>,然后再拖进去,还有，文件名不要出现空格，这些有空格的通通改掉,把有问题的全部删了，重新加</strong></p>
+<p><strong>36.至于重写set和get方法，简要说明一下</strong>，当我们使用@property这用法之后，系统便会自动给我们定义的变量以一个默认的set和get方法。插一句，_any和self.any的区别，_any就是只指_any本身，是系统会生成的，而如果我们重写了any的set方法后，self.any会调用我们重写的set方法中的内容，而_any不是，比如这句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void)setCount:(NSUInteger)count</span><br><span class="line">&#123;</span><br><span class="line">    _count = count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里表示的是将系统默认给我们生成的count变成我们自定义的count，达到我们想要的目的。<br>_any就是单单指当我们使用@property后系统给我自动生成的一个any，而self.any不同，它会自动调用（set和get方法本身就包含在其中，也可以理解为就是它自身的一个属性一部分）我们重写后的set方法，当我们self.any的时候，其中重写的set方法中的任何内容都会被我们使用，所以即使我们只self.any，也可实现许多只要set方法中写出的效果，大致是这个意思</p>
+<p><strong>37.推荐使用代理传值，通知的观察者模式效率低下</strong></p>
+<p><strong>38.cell控制视图显示，controller负责网络解析</strong></p>
+<p><strong>39.取数据的时候，要看返回的数据是什么样子的，需要两个就两个，需要一个就一个</strong>，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">data =     &#123;</span><br><span class="line">    CurrentPageIndex = 1;</span><br><span class="line">    PageSize = 10;</span><br><span class="line">    TotalItemCount = 1;</span><br><span class="line">    TotalPageCount = 1;</span><br><span class="line">    data =         (</span><br><span class="line">                    &#123;</span><br><span class="line">            ClickNumber = 0;</span><br><span class="line">            ID = 1796;</span><br><span class="line">            Norm = &quot;\U6876&quot;;</span><br><span class="line">            Picture = &quot;/upload/goods/default.jpg&quot;;</span><br><span class="line">            SellerRetailPrice = 10;</span><br><span class="line">            TheSorting = 12500000;</span><br><span class="line">            TypeID = 22;</span><br><span class="line">            goodsName = &quot;\U51b0\U51b0\U4e50&quot;;</span><br><span class="line">            goodsTypeName = &quot;\U7eaf\U51c0\U6c34&quot;;</span><br><span class="line">            sellerId = 125;</span><br><span class="line">            sellerName = &quot;\U51e4\U51f0\U57ce\U6c34\U5e97&quot;;</span><br><span class="line">            sellerState = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br><span class="line">    msg = &quot;&lt;null&gt;&quot;;</span><br><span class="line">    result = ok;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个data取的是里面的一大堆即一个字典，第二个data才是个数组，@”data”这个大体是指前一个data是拿到一个字典的数据，第二个data是那里面的数组咯</p>
+<p><strong>40.不要直接用button或控件push到下一个界面，尤其是在tableView的cell上</strong></p>
+<p><strong>41</strong>.shopTVC.delegate = self;//<strong>上一个界面的代理设为这个界面自身</strong>，在上一个见面中调用代理的时候，因为上一个界面的代理已经被设置为这个界面，所以在上一个见面中调用其自身代理时，实际上是这个界面在执行</p>
+<p><strong>42.没有了summary,但是原来的summary的功能可以在targets的general里面找到</strong></p>
+<p><strong>43.关于尝试新方法</strong>，比如：将字典中的值赋值给一个float，有时候.不行可以换( ) 或 ]试试看有没有其方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float left= [aaa[@&quot;abc&quot;] floatValue];</span><br></pre></td></tr></table></figure>
+
+<p><strong>44</strong>.else if (self.btnOfAddress.selected){ //<strong>点了之后立马又弹回去了</strong>，当执行的时候按钮状态已经弹回去了，如果需要一直是点击状态那么你需要设置selected=YES，这是状态是需要设置的，不然就不会有效果，需要是选中状态，那么你就要在合适的位置设置起，btn.selected = YES</p>
+<p><strong>45.总之，要看他数据需要什么，保存的是哪里</strong></p>
+<p><strong>46.本着，谁分配谁管理的原则</strong></p>
+<p><strong>47.thread:breakpoint 1.2，在该行最左侧的蓝色矩形区域右键，选择delete breakpoint即可。</strong></p>
+<p><strong>48.逻辑步骤关系，所有异步都要先完成数据的请求，成功后，返回数据信息后才开始跳转界面，换句话说，需要将需要提交的数据全部获取到之后，再做统一提交处理</strong></p>
+<p><strong>49.所有网络请求都用异步,上传提交也叫下载，只不过下载的内容可能就是个提示性的东西，提示你提交成功没有</strong></p>
+<p><strong>50.字符串比较用isEqualToString，不用等号， ]是调方法 ( )是优先级</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/16/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -722,571 +1168,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/20/swiftui%E5%88%9D%E6%8E%A2%EF%BC%885%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/20/swiftui%E5%88%9D%E6%8E%A2%EF%BC%885%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（5）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-20 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-20T12:49:00+08:00">2020-01-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 14:49:00" itemprop="dateModified" datetime="2021-02-22T14:49:00+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="窗体和控制"><a href="#窗体和控制" class="headerlink" title="窗体和控制"></a>窗体和控制</h2><p>新建Settings(SwiftUiView),为其设计样式</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514092208356.png" alt="image-20210514092208356"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">struct Settings: View &#123;</span><br><span class="line">    @State var reeive = false</span><br><span class="line">    @State var number = 1</span><br><span class="line">    @State var selection = 1</span><br><span class="line">    @State var date = Date()</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        NavigationView &#123;</span><br><span class="line">            Form &#123;</span><br><span class="line">                Toggle(isOn: $reeive) &#123;</span><br><span class="line">                    Text(&quot;接收通知&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">                Stepper(value: $number, in: 1...10) &#123;</span><br><span class="line">                    Text(&quot;\(number) Notification\(number &gt; 1 ? &quot;s&quot; : &quot;&quot;) per  week&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">                Picker(selection: $selection, label: Text(&quot;最喜欢的课程&quot;)) &#123;</span><br><span class="line">                    Text(&quot;SwiftUI&quot;).tag(1)</span><br><span class="line">                    Text(&quot;React&quot;).tag(2)</span><br><span class="line">                &#125;</span><br><span class="line">                DatePicker(selection: $date, label: &#123;</span><br><span class="line">                    Text(&quot;日期&quot;)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationBarTitle(&quot;设置&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加你的邮件标签"><a href="#添加你的邮件标签" class="headerlink" title="添加你的邮件标签"></a>添加你的邮件标签</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514094314959.png" alt="image-20210514094314959"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@State var email = &quot;&quot;</span><br><span class="line"></span><br><span class="line">TextField(&quot;你的邮件&quot;, text: $email)</span><br><span class="line">                    .textFieldStyle(RoundedBorderTextFieldStyle())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>TextField inside HStack然后改为Section，添加提交按钮</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203212130255.png" alt="image-20210203212130255"></p>
-<h3 id="将设置添加到TabBar中"><a href="#将设置添加到TabBar中" class="headerlink" title="将设置添加到TabBar中"></a>将设置添加到TabBar中</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203212446653.png" alt="image-20210203212446653"></p>
-<h3 id="修复左侧按钮"><a href="#修复左侧按钮" class="headerlink" title="修复左侧按钮"></a>修复左侧按钮</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203214205699.png" alt="image-20210203214205699"></p>
-<h2 id="滚动动画"><a href="#滚动动画" class="headerlink" title="滚动动画"></a>滚动动画</h2><h3 id="CourseView-inside-HStack然后改为GeometryReader"><a href="#CourseView-inside-HStack然后改为GeometryReader" class="headerlink" title="CourseView inside HStack然后改为GeometryReader"></a>CourseView inside HStack然后改为GeometryReader</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203223956684.png" alt="image-20210203223956684"></p>
-<h3 id="设置卡片动画并添加几张卡片"><a href="#设置卡片动画并添加几张卡片" class="headerlink" title="设置卡片动画并添加几张卡片"></a>设置卡片动画并添加几张卡片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203225850886.png" alt="image-20210203225850886"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203225946633.png" alt="image-20210203225946633"></p>
-<p> 新建CertificateRows(SwiftUiView),为其设计样式</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203230752697.png" alt="image-20210203230752697"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import SwiftUI</span><br><span class="line"></span><br><span class="line">struct CertificateRows: View &#123;</span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        CertificateView()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct CertificateRows_Previews: PreviewProvider &#123;</span><br><span class="line">    static var previews: some View &#123;</span><br><span class="line">        CertificateRows()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct Certificate: Identifiable &#123;</span><br><span class="line">    var id = UUID()</span><br><span class="line">    var title: String</span><br><span class="line">    var image: String</span><br><span class="line">    var width: CGFloat</span><br><span class="line">    var height: CGFloat</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let certificateData = [</span><br><span class="line">    Certificate(title: &quot;OC&quot;, image: &quot;Certificate1&quot;, width: 230, height: 150),</span><br><span class="line">    Certificate(title: &quot;Swift&quot;, image: &quot;Certificate2&quot;, width: 230, height: 150),</span><br><span class="line">    Certificate(title: &quot;Java&quot;, image: &quot;Certificate3&quot;, width: 230, height: 150),</span><br><span class="line">    Certificate(title: &quot;GO&quot;, image: &quot;Certificate4&quot;, width: 230, height: 150),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置数据，循环出现"><a href="#设置数据，循环出现" class="headerlink" title="设置数据，循环出现"></a>设置数据，循环出现</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203231007100.png" alt="image-20210203231007100"></p>
-<h3 id="回去绑定数据"><a href="#回去绑定数据" class="headerlink" title="回去绑定数据"></a>回去绑定数据</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203232220207.png" alt="image-20210203232220207"></p>
-<h3 id="设置卡片内图片大小"><a href="#设置卡片内图片大小" class="headerlink" title="设置卡片内图片大小"></a>设置卡片内图片大小</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203232706802.png" alt="image-20210203232706802"></p>
-<h3 id="修改卡片样式，添加滚动视图"><a href="#修改卡片样式，添加滚动视图" class="headerlink" title="修改卡片样式，添加滚动视图"></a>修改卡片样式，添加滚动视图</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203233454078.png" alt="image-20210203233454078"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203233559826.png" alt="image-20210203233559826"></p>
-<h3 id="到HomeList，把滚动视图添加上，调整下布局"><a href="#到HomeList，把滚动视图添加上，调整下布局" class="headerlink" title="到HomeList，把滚动视图添加上，调整下布局"></a>到HomeList，把滚动视图添加上，调整下布局</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204164006165.png" alt="image-20210204164006165"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204164030817.png" alt="image-20210204164030817"></p>
-<h3 id="调整卡片布局"><a href="#调整卡片布局" class="headerlink" title="调整卡片布局"></a>调整卡片布局</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204164853286.png" alt="image-20210204164853286"></p>
-<h2 id="iPad与小屏幕适配"><a href="#iPad与小屏幕适配" class="headerlink" title="iPad与小屏幕适配"></a>iPad与小屏幕适配</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204172819307.png" alt="image-20210204172819307"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204172841134.png" alt="image-20210204172841134"></p>
-<h3 id="按钮颜色适配与侧边栏"><a href="#按钮颜色适配与侧边栏" class="headerlink" title="按钮颜色适配与侧边栏"></a>按钮颜色适配与侧边栏</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204173903507.png" alt="image-20210204173903507"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204174015944.png" alt="image-20210204174015944"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204174057140.png" alt="image-20210204174057140"></p>
-<p>顶部遮挡适配</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204180951736.png" alt="image-20210204180951736"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let statusBarHeight = UIApplication.shared.windows[0].windowScene?.statusBarManager?.statusBarFrame.height ?? 0</span><br><span class="line">let screen = UIScreen.main.bounds</span><br></pre></td></tr></table></figure>
-
-<h3 id="修复铃声按钮打开是更新"><a href="#修复铃声按钮打开是更新" class="headerlink" title="修复铃声按钮打开是更新"></a>修复铃声按钮打开是更新</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204183207492.png" alt="image-20210204183207492"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    @State var showUpdate = false</span><br><span class="line"></span><br><span class="line">Button(action: &#123;</span><br><span class="line">                       self.showUpdate.toggle()</span><br><span class="line">                   </span><br><span class="line">               &#125;) &#123;</span><br><span class="line">                   CircleButton(icon: &quot;bell&quot;)</span><br><span class="line">               &#125;.sheet(isPresented: $showUpdate) &#123;</span><br><span class="line">                   UpdateList()</span><br><span class="line">               &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="左侧设置按钮的设置"><a href="#左侧设置按钮的设置" class="headerlink" title="左侧设置按钮的设置"></a>左侧设置按钮的设置</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514094249786.png" alt="image-20210514094249786"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">.foregroundColor(.primary)</span><br><span class="line"></span><br><span class="line">@State var showUpdate = false </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">          if (item.title == &quot;设置&quot;) &#123;</span><br><span class="line">                        Button(action: &#123;</span><br><span class="line">                            self.showUpdate.toggle()</span><br><span class="line">                        &#125;) &#123;</span><br><span class="line">                            MenuRow(image: item.icon, text: item.title)</span><br><span class="line">                        &#125;.sheet(isPresented: self.$showUpdate) &#123;</span><br><span class="line">                            Settings()</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        MenuRow(image: item.icon, text: item.title)</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改主页为home</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210204190121377.png" alt="image-20210204190121377"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/19/swiftui%E5%88%9D%E6%8E%A2%EF%BC%884%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/19/swiftui%E5%88%9D%E6%8E%A2%EF%BC%884%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（4）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-19 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-19T12:49:00+08:00">2020-01-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 14:49:00" itemprop="dateModified" datetime="2021-02-22T14:49:00+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="导航和传递数据"><a href="#导航和传递数据" class="headerlink" title="导航和传递数据"></a>导航和传递数据</h2><h3 id="VStack-inside-HStack"><a href="#VStack-inside-HStack" class="headerlink" title="VStack inside HStack"></a>VStack inside HStack</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171506669.png" alt="image-20210202171506669" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202173428207.png" alt="image-20210202173428207"></p>
-<h3 id="显示添加图片"><a href="#显示添加图片" class="headerlink" title="显示添加图片"></a>显示添加图片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171506669.png" alt="image-20210202171506669" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202173428207.png" alt="image-20210202173428207"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Image(item.image)</span><br><span class="line">     .resizable()</span><br><span class="line">     .aspectRatio(contentMode: .fit)//图片设置自适应不改变长款</span><br><span class="line">     .frame(width: 80, height: 80)</span><br><span class="line">     .background(Color(&quot;background&quot;))</span><br><span class="line">     .cornerRadius(20)</span><br></pre></td></tr></table></figure>
-
-<h3 id="新建UpdateDetail-SwiftUiView-为其设计样式"><a href="#新建UpdateDetail-SwiftUiView-为其设计样式" class="headerlink" title="新建UpdateDetail(SwiftUiView),为其设计样式"></a>新建UpdateDetail(SwiftUiView),为其设计样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202174444547.png" alt="image-20210202174444547"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">struct UpdateDetail: View &#123;</span><br><span class="line">    var title = &quot;Swiftui&quot;</span><br><span class="line">    var text = &quot;Loading&quot;</span><br><span class="line">    var image = &quot;Illustration1&quot;</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack(spacing: 20.0) &#123;</span><br><span class="line">            Text(title)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .fontWeight(.heavy)</span><br><span class="line">            </span><br><span class="line">            Image(image)</span><br><span class="line">                .resizable()</span><br><span class="line">                .aspectRatio(contentMode: .fit)</span><br><span class="line">                .frame(height: 200)</span><br><span class="line">            </span><br><span class="line">            Text(text)</span><br><span class="line">                .lineLimit(nil)</span><br><span class="line">            Spacer()</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(30.0)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>回到UpdateList，添加视图到点击<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202181632454.png" alt="image-20210202181632454"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NavigationLink(destination: UpdateDetail(title: item.title, text: item.text, image: item.image)) </span><br></pre></td></tr></table></figure>
-
-<h3 id="调整文字适应对齐"><a href="#调整文字适应对齐" class="headerlink" title="调整文字适应对齐"></a>调整文字适应对齐</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202183313954.png" alt="image-20210202183313954"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.frame(minWidth: 0, maxWidth:</span><br><span class="line">               .infinity, alignment: .leading)</span><br></pre></td></tr></table></figure>
-
-<h2 id="合并和编辑数据"><a href="#合并和编辑数据" class="headerlink" title="合并和编辑数据"></a>合并和编辑数据</h2><h3 id="新建UpdateStore-SwiftUiView-为其设计样式"><a href="#新建UpdateStore-SwiftUiView-为其设计样式" class="headerlink" title="新建UpdateStore(SwiftUiView),为其设计样式"></a>新建UpdateStore(SwiftUiView),为其设计样式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import SwiftUI</span><br><span class="line">import Combine</span><br><span class="line"></span><br><span class="line">class UpdateStore: ObservableObject &#123;</span><br><span class="line">    let didChange = PassthroughSubject&lt;Void, Never&gt;()</span><br><span class="line">    </span><br><span class="line">    @Published var updates: [Update] &#123;</span><br><span class="line">        didSet &#123;</span><br><span class="line">            didChange.send()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    init(updates: [Update] = []) &#123;</span><br><span class="line">        self.updates = updates</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203141323725.png" alt="image-20210203141323725"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ObservedObject var store = UpdateStore(updates: updateData)// 声明 UpdateStore 类对象</span><br></pre></td></tr></table></figure>
-
-<h3 id="新建一个按钮，方便添加数据"><a href="#新建一个按钮，方便添加数据" class="headerlink" title="新建一个按钮，方便添加数据"></a>新建一个按钮，方便添加数据</h3><p>List inside VStack</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203154553673.png" alt="image-20210203154553673"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func addUpdate() &#123;</span><br><span class="line">    store.updates.append(Update(image: &quot;Illustration1&quot;, title: &quot;落梅&quot;, text: &quot;这个女子，曾经走过人间四月，又与连开的夏季有过相濡以沫的约定&quot;, date: &quot;JUN 1&quot;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">                Button(action: addUpdate) &#123;</span><br><span class="line">                Text(&quot;添加&quot;)</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改下布局"><a href="#修改下布局" class="headerlink" title="修改下布局"></a>修改下布局</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203154703311.png" alt="image-20210203154703311"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203155046293.png" alt="image-20210203155046293"></p>
-<h3 id="添加删除按钮"><a href="#添加删除按钮" class="headerlink" title="添加删除按钮"></a>添加删除按钮</h3><h3 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203155741490.png" alt="image-20210203155741490"></h3><p>添加删除后排序方法与编辑按钮</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/Feb-03-2021%2016-09-42-2-20210514091333519.gif"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203160426320.png" alt="image-20210203160426320"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203160444308.png" alt="image-20210203160444308"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func move(from source: IndexSet, to destination: Int) &#123;</span><br><span class="line">    store.updates.swapAt(source.first!, destination)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>给按钮添加样式</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203162206580.png" alt="image-20210203162206580"></p>
-<h2 id="标签栏与测试"><a href="#标签栏与测试" class="headerlink" title="标签栏与测试"></a>标签栏与测试</h2><h3 id="新建TabBar-SwiftUiView-为其设计样式"><a href="#新建TabBar-SwiftUiView-为其设计样式" class="headerlink" title="新建TabBar(SwiftUiView),为其设计样式"></a>新建TabBar(SwiftUiView),为其设计样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203165630153.png" alt="image-20210203165630153"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">struct TabBar: View &#123;</span><br><span class="line">    @State var selectedView = 1</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        TabView(selection: .constant(1)) &#123;</span><br><span class="line">            Home().tabItem &#123;</span><br><span class="line">                VStack &#123;</span><br><span class="line">                    Image(&quot;IconHome&quot;)</span><br><span class="line">                    Text(&quot;首页&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .tag(1)</span><br><span class="line">            ContentView().tabItem &#123;</span><br><span class="line">                VStack &#123;</span><br><span class="line">                    Image(&quot;IconCards&quot;)</span><br><span class="line">                    Text(&quot;证书&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .tag(2)</span><br><span class="line">            UpdateList().tabItem &#123;</span><br><span class="line">                VStack &#123;</span><br><span class="line">                    Image(&quot;IconSettings&quot;)</span><br><span class="line">                    Text(&quot;最新&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .tag(3)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改模拟器首页视图"><a href="#修改模拟器首页视图" class="headerlink" title="修改模拟器首页视图"></a>修改模拟器首页视图</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514091034806.png" alt="image-20210514091034806"></p>
-<h2 id="暗黑模式和辅助功能（无障碍模式）"><a href="#暗黑模式和辅助功能（无障碍模式）" class="headerlink" title="暗黑模式和辅助功能（无障碍模式）"></a>暗黑模式和辅助功能（无障碍模式）</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203184545098.png" alt="image-20210203184545098"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203184611447.png" alt="image-20210203184611447"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203184635336.png" alt="image-20210203184635336"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203184652566.png" alt="image-20210203184652566"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BlurView(style: .systemThinMaterial)</span><br><span class="line"></span><br><span class="line">.environment(\.colorScheme, .dark)</span><br><span class="line">.environment(\.sizeCategory, .extraExtraLarge)</span><br></pre></td></tr></table></figure>
-
-<h3 id="TabBar-inside-HStack"><a href="#TabBar-inside-HStack" class="headerlink" title="TabBar() inside HStack"></a>TabBar() inside HStack</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203185623837.png" alt="image-20210203185623837"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/18/swiftui%E5%88%9D%E6%8E%A2%EF%BC%883%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/18/swiftui%E5%88%9D%E6%8E%A2%EF%BC%883%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（3）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-18 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-18T12:49:00+08:00">2020-01-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 14:49:00" itemprop="dateModified" datetime="2021-02-22T14:49:00+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="滚动视图"><a href="#滚动视图" class="headerlink" title="滚动视图"></a>滚动视图</h2><h3 id="新建HomeList-swift-SwiftUiView-为其设计卡片样式"><a href="#新建HomeList-swift-SwiftUiView-为其设计卡片样式" class="headerlink" title="新建HomeList.swift(SwiftUiView),为其设计卡片样式"></a>新建HomeList.swift(SwiftUiView),为其设计卡片样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085528334.png" alt="image-20210514085528334"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;</span><br><span class="line">            Text(&quot;设计一个应用非常棒&quot;)</span><br><span class="line">                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color.white)</span><br><span class="line">                .padding(20)</span><br><span class="line">                .lineLimit(4)</span><br><span class="line">                .frame(width: 150)</span><br><span class="line">            Spacer()</span><br><span class="line">            Image(&quot;Illustration1&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color(&quot;background3&quot;))</span><br><span class="line">        .cornerRadius(30)</span><br><span class="line">        .frame(width: 246, height: 360)</span><br><span class="line">        .shadow(color: Color(red: 0.27058823529411763, green: 0.23529411764705882, blue: 0.788235294117647, opacity: 0.3), radius: 20, x: 0, y: 20)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="将颜色3和颜色4复制处理为背景3和背景4，不透明30"><a href="#将颜色3和颜色4复制处理为背景3和背景4，不透明30" class="headerlink" title="将颜色3和颜色4复制处理为背景3和背景4，不透明30"></a>将颜色3和颜色4复制处理为背景3和背景4，不透明30</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202113152709.png" alt="image-20210202113152709" style="zoom:50%;">
-
-<p>点击VStack,选择in HStack，然后提取子视图，点击VStack，subView为CourseView（）</p>
-<p>点击VStack,选择repeat,重复3次</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202120559746.png" alt="image-20210202120559746" style="zoom:50%;">
-
-<p>点击HStack,选择Group，改为ScrollView</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085119337.png" alt="image-20210514085119337"></p>
-<h3 id="滚动视图的设置"><a href="#滚动视图的设置" class="headerlink" title="滚动视图的设置"></a>滚动视图的设置</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202123458539.png" alt="image-20210202123458539"></p>
-<h2 id="模态"><a href="#模态" class="headerlink" title="模态"></a>模态</h2><img src="https://gitee.com/zhu565615430/images/raw/master/imas/555-2.gif" alt="555-2" style="zoom:67%;">
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514085556160.png" alt="image-20210514085556160"><img src="/Users/zhuguanliang/Library/Application Support/typora-user-images/image-20210202135415951.png" alt="image-20210202135415951" style="zoom:50%;"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@State var showContentView: Bool = false</span><br><span class="line">var body: some View &#123;</span><br><span class="line">    ScrollView(.horizontal, showsIndicators: false) &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            HStack &#123;</span><br><span class="line">                ForEach(0 ..&lt; 3) &#123; item in</span><br><span class="line">                    Button(action: &#123;</span><br><span class="line">                        self.showContentView = true</span><br><span class="line">                    &#125;) &#123;</span><br><span class="line">                        CourseView()</span><br><span class="line">                    &#125;.sheet(isPresented: self.$showContentView) &#123;</span><br><span class="line">                        ContentView()</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建数据模型"><a href="#创建数据模型" class="headerlink" title="创建数据模型"></a>创建数据模型</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084651827.png" alt="image-20210514084651827"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">struct Courses: Identifiable &#123;</span><br><span class="line">    var id = UUID()</span><br><span class="line">    var title : String</span><br><span class="line">    var image : String</span><br><span class="line">    var backgroundColor: Color</span><br><span class="line">    var shadowColor : Color</span><br><span class="line">&#125;</span><br><span class="line">let CourseData = [</span><br><span class="line">    Courses(</span><br><span class="line">        title: &quot;设计一个非常棒应用&quot;,</span><br><span class="line">        image: &quot;Illustration1&quot;,</span><br><span class="line">        backgroundColor: Color(&quot;background3&quot;),</span><br><span class="line">        shadowColor: Color(&quot;backgroundShadow3&quot;)</span><br><span class="line">    ),</span><br><span class="line">    Courses(</span><br><span class="line">        title: &quot;课程设计&quot;,</span><br><span class="line">        image: &quot;Illustration2&quot;,</span><br><span class="line">        backgroundColor: Color(&quot;background4&quot;),</span><br><span class="line">        shadowColor: Color(&quot;backgroundShadow4&quot;)</span><br><span class="line">    )</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用数据模型"><a href="#使用数据模型" class="headerlink" title="使用数据模型"></a>使用数据模型</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202140433327.png" alt="image-20210202140433327" style="zoom:50%;">
-
-<h3 id="绑定数据模型"><a href="#绑定数据模型" class="headerlink" title="绑定数据模型"></a>绑定数据模型</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084742188.png" alt="image-20210514084742188"></p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141423229.png" alt="image-20210202141423229" style="zoom:50%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    var title = &quot;设计一个非常棒应用&quot;</span><br><span class="line">    var image : String = &quot;Illustration1&quot;</span><br><span class="line">    var color = Color(&quot;background3&quot;)</span><br><span class="line">    var shadowColor = Color(&quot;backgroundshadow3&quot;)</span><br><span class="line">    </span><br><span class="line">CourseView(title: item.title, image: item.image, color: item.backgroundColor, shadowColor: item.shadowColor)</span><br></pre></td></tr></table></figure>
-
-<p>调整页面大小，调整文字大小一样适应</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202141840469.png" alt="image-20210202141840469"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142336572.png" alt="image-20210202142336572"></p>
-<h3 id="调整设计间距"><a href="#调整设计间距" class="headerlink" title="调整设计间距"></a>调整设计间距</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202142742256.png" alt="image-20210202142742256"></p>
-<h2 id="模糊背景"><a href="#模糊背景" class="headerlink" title="模糊背景"></a>模糊背景</h2><h3 id="新建BlurView-swift-SwiftUiView-为其设计样式"><a href="#新建BlurView-swift-SwiftUiView-为其设计样式" class="headerlink" title="新建BlurView.swift(SwiftUiView),为其设计样式"></a>新建BlurView.swift(SwiftUiView),为其设计样式</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514084840096.png" alt="image-20210514084840096"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">struct BlurView: UIViewRepresentable &#123;</span><br><span class="line">    </span><br><span class="line">    let style: UIBlurEffect.Style</span><br><span class="line">    </span><br><span class="line">    func makeUIView(context: UIViewRepresentableContext&lt;BlurView&gt;) -&gt; UIView &#123;</span><br><span class="line">        let view = UIView(frame: .zero)</span><br><span class="line">        view.backgroundColor = .clear</span><br><span class="line">        let blurEffect = UIBlurEffect(style: style)</span><br><span class="line">        let blurView = UIVisualEffectView(effect: blurEffect)</span><br><span class="line">        blurView.translatesAutoresizingMaskIntoConstraints = false</span><br><span class="line">        view.insertSubview(blurView, at: 0)</span><br><span class="line">        NSLayoutConstraint.activate([</span><br><span class="line">            blurView.heightAnchor.constraint(equalTo: view.heightAnchor),</span><br><span class="line">            blurView.widthAnchor.constraint(equalTo: view.widthAnchor)</span><br><span class="line">        ])</span><br><span class="line">        return view</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext&lt;BlurView&gt;) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>回到ContentView中，使用模糊背景</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202144315388.png" alt="image-20210202144315388" style="zoom:50%;">
-
-<p>回到ContentView中，将HomeList视图添加上去</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202151920190.png" alt="image-20210202151920190"></p>
-<h3 id="重新设计布局"><a href="#重新设计布局" class="headerlink" title="重新设计布局"></a>重新设计布局</h3><p>标题在滚动视图之上</p>
-<p>回到HomeList中，修改视图</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202152207911.png" alt="image-20210202152207911" style="zoom:50%;">
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154610027.png" alt="image-20210202154610027"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202154717118.png" alt="image-20210202154717118"></p>
-<h3 id="添加模糊与动画效果"><a href="#添加模糊与动画效果" class="headerlink" title="添加模糊与动画效果"></a>添加模糊与动画效果</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210203163000374.png" alt="image-20210203163000374"></p>
-<h2 id="导航视图和列表"><a href="#导航视图和列表" class="headerlink" title="导航视图和列表"></a>导航视图和列表</h2><h3 id="新建UpdateList-swift-SwiftUiView-为其设计样式"><a href="#新建UpdateList-swift-SwiftUiView-为其设计样式" class="headerlink" title="新建UpdateList.swift(SwiftUiView),为其设计样式"></a>新建UpdateList.swift(SwiftUiView),为其设计样式</h3><p>从工具栏添加一个NavigationView，</p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202160320233.png" alt="image-20210202160320233" style="zoom: 33%;">
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202164959469.png" alt="image-20210202164959469" style="zoom:33%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">    @State var present = false</span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        NavigationView &#123;</span><br><span class="line">                  List(0 ..&lt; 20) &#123; item in</span><br><span class="line">                      NavigationLink(destination: Text(&quot;1&quot;)) &#123;</span><br><span class="line">                        Text(&quot;Navigate 1&quot;) &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">                  .navigationBarTitle(Text(&quot;更新&quot;))</span><br><span class="line">                  .navigationBarItems(trailing:</span><br><span class="line">                     Button(action: &#123;</span><br><span class="line">                       self.present.toggle()</span><br><span class="line">                    &#125;) &#123;</span><br><span class="line">                         Image(systemName: &quot;gear&quot;)</span><br><span class="line">                    &#125;</span><br><span class="line">                    .sheet(isPresented: $present, content: &#123;</span><br><span class="line">                        Text(&quot;Settings&quot;)</span><br><span class="line">                    &#125;)</span><br><span class="line">                  )</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="在底部创建数据模型"><a href="#在底部创建数据模型" class="headerlink" title="在底部创建数据模型"></a>在底部创建数据模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">struct Update: Identifiable &#123;</span><br><span class="line">    var id = UUID()</span><br><span class="line">    var image: String</span><br><span class="line">    var title: String</span><br><span class="line">    var text: String</span><br><span class="line">    var date: String</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let updateDate = [</span><br><span class="line">    Update(image: &quot;Illustration1&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration2&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration3&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Illustration4&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate1&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate2&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">    Update(image: &quot;Certificate3&quot;, title: &quot;swiftui&quot;, text: &quot;大家忽视覅偶尔回复而韩国is的hi多少个is多个收到货IGis个his读后感is多个hi韩国ID深V出魔抗VBUI欧盟是的归属感就是 属地化工is多个hi是个 是个hi第三帝国会死哦低功耗is电话公司工会&quot;, date: &quot;JUN 26&quot;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="显示数据"><a href="#显示数据" class="headerlink" title="显示数据"></a>显示数据</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171235647.png" alt="image-20210202171235647" style="zoom:50%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var updates = updateDate</span><br><span class="line"></span><br><span class="line">@State var present = false</span><br><span class="line">var body: some View &#123;</span><br><span class="line">    NavigationView &#123;</span><br><span class="line">              List(updates) &#123; item in</span><br><span class="line">                  NavigationLink(destination: Text(&quot;1&quot;)) &#123;</span><br><span class="line">                    VStack(alignment: .leading) &#123;</span><br><span class="line">                        Text(item.title)</span><br><span class="line">                            .font(.headline)</span><br><span class="line">                        Text(item.text)</span><br><span class="line">                            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)</span><br><span class="line">                            .lineSpacing(4)</span><br><span class="line">                            .font(.subheadline)</span><br><span class="line">                            .frame(height: 50.0)</span><br><span class="line">                        </span><br><span class="line">                        Text(item.date)</span><br><span class="line">                            .font(.caption)</span><br><span class="line">                            .fontWeight(.bold)</span><br><span class="line">                            .foregroundColor(Color.gray)</span><br><span class="line">                            </span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                  &#125;</span><br></pre></td></tr></table></figure>
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202171527102.png" alt="image-20210202171527102" style="zoom: 33%;">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/17/swiftui%E5%88%9D%E6%8E%A2%EF%BC%882%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/17/swiftui%E5%88%9D%E6%8E%A2%EF%BC%882%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（2）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-17 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-17T12:49:00+08:00">2020-01-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-18 14:49:00" itemprop="dateModified" datetime="2020-01-18T14:49:00+08:00">2020-01-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="创建侧边菜单栏"><a href="#创建侧边菜单栏" class="headerlink" title="创建侧边菜单栏"></a>创建侧边菜单栏</h2><h3 id="新建Home（SwiftUIView），添加我的账户标题与图片"><a href="#新建Home（SwiftUIView），添加我的账户标题与图片" class="headerlink" title="新建Home（SwiftUIView），添加我的账户标题与图片"></a>新建Home（SwiftUIView），添加我的账户标题与图片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201233226589.png" alt="image-20210201233226589"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">        VStack &#123;</span><br><span class="line">            HStack &#123;</span><br><span class="line">                Image(systemName: &quot;creditcard&quot;)</span><br><span class="line">                    .imageScale(.large)</span><br><span class="line">                    .foregroundColor(Color(&quot;icons&quot;))</span><br><span class="line">                    .frame(width: 32, height: 32)</span><br><span class="line">                Text(&quot;我的账户&quot;)</span><br><span class="line">                    .font(.headline)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201233322123.png" alt="image-20210201233322123"></p>
-<h3 id="添加完整四个标签"><a href="#添加完整四个标签" class="headerlink" title="添加完整四个标签"></a>添加完整四个标签</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201234418862.png" alt="image-20210201234418862"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import SwiftUI</span><br><span class="line"></span><br><span class="line">struct Home: View &#123;</span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;</span><br><span class="line">            MenuRow(image: &quot;person.crop.circle&quot;, text: &quot;我的账户&quot;)</span><br><span class="line">            MenuRow(image: &quot;creditcard&quot;, text: &quot;记账&quot;)</span><br><span class="line">            MenuRow(image: &quot;person.and.person&quot;, text: &quot;团队&quot;)</span><br><span class="line">            MenuRow(image: &quot;arrow.uturn.down&quot;, text: &quot;退出&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct Home_Previews: PreviewProvider &#123;</span><br><span class="line">    static var previews: some View &#123;</span><br><span class="line">        Home()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct MenuRow: View &#123;</span><br><span class="line">    var image = &quot;creditcard&quot;</span><br><span class="line">    var text = &quot;我的账户&quot;</span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            Image(systemName: image)</span><br><span class="line">                .imageScale(.large)</span><br><span class="line">                .foregroundColor(Color(&quot;icons&quot;))</span><br><span class="line">                .frame(width: 32, height: 32)</span><br><span class="line">            Text(text)</span><br><span class="line">                .font(.headline)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="靠左处理"><a href="#靠左处理" class="headerlink" title="靠左处理"></a>靠左处理</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201235203766.png" alt="image-20210201235203766"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">VStack(alignment: .leading , spacing : 20) &#123;</span><br><span class="line">    MenuRow(image: &quot;person.crop.circle&quot;, text: &quot;我的账户&quot;)</span><br><span class="line">    MenuRow(image: &quot;creditcard&quot;, text: &quot;记账&quot;)</span><br><span class="line">    MenuRow(image: &quot;person.and.person&quot;, text: &quot;团队&quot;)</span><br><span class="line">    MenuRow(image: &quot;arrow.uturn.down&quot;, text: &quot;退出&quot;)</span><br><span class="line">    Spacer()</span><br><span class="line">&#125;</span><br><span class="line">.padding(.top, 20)//顶边添加20</span><br><span class="line">.padding(30)//边距30</span><br><span class="line">.frame(minWidth: 0, maxWidth: .infinity)</span><br><span class="line">.background(Color.white)</span><br><span class="line">.cornerRadius(30)</span><br><span class="line">.padding(.trailing, 60)//左边缘处理</span><br><span class="line">.shadow(radius: 20)</span><br></pre></td></tr></table></figure>
-
-<h3 id="左对齐"><a href="#左对齐" class="headerlink" title="左对齐"></a>左对齐</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514082157862.png" alt="image-20210514082157862"></p>
-<h2 id="使用数据创建列表"><a href="#使用数据创建列表" class="headerlink" title="使用数据创建列表"></a>使用数据创建列表</h2><h3 id="使用数组创建模型对象"><a href="#使用数组创建模型对象" class="headerlink" title="使用数组创建模型对象"></a>使用数组创建模型对象</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202000320367.png" alt="image-20210202000320367"></p>
-<p>创建模型，进行拆分</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202001623021.png" alt="image-20210202001623021"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202001558218.png" alt="image-20210202001558218"></p>
-<p>菜单动画与其绑定</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202001737567.png" alt="image-20210202001737567"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202003014167.png" alt="image-20210202003014167"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/Feb-02-2021%2000-31-19.gif" alt="Feb-02-2021 00-31-19" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/Feb-02-2021%2000-37-38.gif" alt="Feb-02-2021 00-37-38" style="zoom:50%;"></p>
-<h3 id="插入3d动画"><a href="#插入3d动画" class="headerlink" title="插入3d动画"></a>插入3d动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202003708338.png" alt="image-20210202003708338"></p>
-<h3 id="将其变为MenuView（）"><a href="#将其变为MenuView（）" class="headerlink" title="将其变为MenuView（）"></a>将其变为MenuView（）</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202004014460.png" alt="image-20210202004014460"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202004855971.png" alt="image-20210202004855971"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202004914752.png" alt="image-20210202004914752"></p>
-<h2 id="创建漂浮按钮"><a href="#创建漂浮按钮" class="headerlink" title="创建漂浮按钮"></a>创建漂浮按钮</h2><h3 id="创建按钮"><a href="#创建按钮" class="headerlink" title="创建按钮"></a>创建按钮</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202005904354.png" alt="image-20210202005904354"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514080743123.png" alt="image-20210514080743123"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HStack &#123;</span><br><span class="line">    Spacer()</span><br><span class="line">    Image(systemName: &quot;list.dash&quot;)</span><br><span class="line">        .foregroundColor(.black)</span><br><span class="line">&#125;</span><br><span class="line">.padding(.trailing, 20)</span><br><span class="line">.frame(width: 90, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)</span><br><span class="line">.background(Color.white)</span><br><span class="line">.cornerRadius(30)</span><br><span class="line">.shadow(color:Color(&quot;buttonShadow&quot;), radius: 10, x: 0, y: 10)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202010054884.png" alt="image-20210202010054884"></p>
-<h3 id="让按钮靠边栏"><a href="#让按钮靠边栏" class="headerlink" title="让按钮靠边栏"></a>让按钮靠边栏</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202011922525.png" alt="image-20210202011922525"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)</span><br></pre></td></tr></table></figure>
-
-<h3 id="将其变为CircleButton（）"><a href="#将其变为CircleButton（）" class="headerlink" title="将其变为CircleButton（）"></a>将其变为CircleButton（）</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202012031731.png" alt="image-20210202012031731"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202091035645.png" alt="image-20210202091035645"></p>
-<p>提取变量</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202091324973.png" alt="image-20210202091324973"></p>
-<p>第二个图标显示</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202091452735.png" alt="image-20210202091452735"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202091947984.png" alt="image-20210202091947984"></p>
-<h3 id="将其变为MenuButton（）"><a href="#将其变为MenuButton（）" class="headerlink" title="将其变为MenuButton（）"></a>将其变为MenuButton（）</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202091920496.png" alt="image-20210202091920496"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202092209983.png" alt="image-20210202092209983"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202092531713.png" alt="image-20210202092531713"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202092708191.png" alt="image-20210202092708191"></p>
-<p>移动到此与右边按钮修复</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202095552477.png" alt="image-20210202095552477"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202095745303.png" alt="image-20210202095745303"></p>
-<p>将home带到主页</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202095914699.png" alt="image-20210202095914699"></p>
-<h3 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/Feb-02-2021%2010-57-52.gif" alt="Feb-02-2021 10-57-52"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210202105633364.png" alt="image-20210202105633364"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（1）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-16 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-16T12:49:00+08:00">2020-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-18 14:49:00" itemprop="dateModified" datetime="2020-01-18T14:49:00+08:00">2020-01-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>前言：在这系列文章你可以学到swiftUI</strong></p>
-<h1 id="SWIFT——UI"><a href="#SWIFT——UI" class="headerlink" title="SWIFT——UI"></a>SWIFT——UI</h1><h2 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h2><h2 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png" alt="image-20210131004320381"></h2><h2 id="添加启动图片，和色彩背景等"><a href="#添加启动图片，和色彩背景等" class="headerlink" title="添加启动图片，和色彩背景等"></a>添加启动图片，和色彩背景等</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075504407.png" alt="image-20210514075504407"></p>
-<h3 id="设置第一张卡片"><a href="#设置第一张卡片" class="headerlink" title="设置第一张卡片 "></a>设置第一张卡片 <img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075711609.png" alt="image-20210514075711609"></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            VStack &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Image(&quot;Background&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color.black).cornerRadius(10)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="布局和和堆栈"><a href="#布局和和堆栈" class="headerlink" title="布局和和堆栈"></a>布局和和堆栈</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201001257114.png" style="zoom: 33%;">
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000722734.png" alt="image-20210514000722734"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    HStack &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;•</span><br><span class="line">            Text(&quot;UI 设计&quot;)</span><br><span class="line">                .font(.title)</span><br><span class="line">                .fontWeight(.bold)</span><br><span class="line">                .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                .padding(.top)</span><br><span class="line">            Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color(.white))</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()//推动到屏幕宽度</span><br><span class="line">        Image(&quot;Logo&quot;)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: 30.0, height: 30.0)</span><br><span class="line">    &#125;</span><br><span class="line">    Image(&quot;Background&quot;)</span><br><span class="line">&#125;.frame(width: 340.0, height: 220.0)</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置第二章卡片"><a href="#设置第二章卡片" class="headerlink" title="设置第二章卡片"></a>设置第二章卡片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003759295.png" alt="image-20210201003759295"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003830438.png" alt="image-20210201003830438"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZStack &#123;</span><br><span class="line">    </span><br><span class="line">    VStack &#123;</span><br><span class="line">        Text(&quot;背后的卡&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .padding()</span><br><span class="line">    .frame(width: 300.0, height: 220.0)</span><br><span class="line">    .background(Color.blue)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">    .offset(x: 0, y: -20)</span><br><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            VStack(alignment: .leading) &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.headline)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Spacer()//推动到屏幕宽度</span><br><span class="line">            Image(&quot;Logo&quot;)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: 30.0, height: 30.0)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()</span><br><span class="line">        Image(&quot;Background&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .frame(width: 340.0, height: 220.0)</span><br><span class="line">    .background(Color.black)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000805186.png" alt="image-20210514000805186"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000824813.png" alt="image-20210514000824813"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/May-14-2021%2000-38-30.gif" alt="May-14-2021 00-38-30"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514003658268.png" alt="image-20210514003658268"></p>
-<h3 id="添加标题，动画，图片"><a href="#添加标题，动画，图片" class="headerlink" title="添加标题，动画，图片"></a>添加标题，动画，图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            Text(&quot;合格证书&quot;)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .fontWeight(.heavy)</span><br><span class="line">            Spacer()</span><br><span class="line">        &#125;</span><br><span class="line">        Image(&quot;Illustration5&quot;)</span><br><span class="line">        Spacer()</span><br><span class="line">    &#125;.padding()//边距</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -40)</span><br><span class="line">        .scaleEffect(0.85)</span><br><span class="line">        .rotationEffect(Angle(degrees: 15))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 50), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -20)</span><br><span class="line">        .scaleEffect(0.9)</span><br><span class="line">        .rotationEffect(Angle(degrees: 10))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 40), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CertificateView()</span><br><span class="line">        .scaleEffect(0.95)</span><br><span class="line">        .rotationEffect(Angle(degrees: 5))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 30), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加正方形在中间"><a href="#添加正方形在中间" class="headerlink" title="添加正方形在中间"></a>添加正方形在中间</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201181352144.png" alt="image-20210201181352144"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">VStack(spacing: 20.0) &#123;</span><br><span class="line">     Rectangle()//添加正方形在中间</span><br><span class="line">         .frame(width: 60, height: 6)</span><br><span class="line">         .cornerRadius(30)</span><br><span class="line">         .opacity(0.1)//模糊度</span><br><span class="line">     Text(&quot;各个国家有各个国家的国歌，和某地的语言像极了鸟语。方言太多了，所以要统一语言，说出的话大家理解的都是同一份意思，这是小的，对于全球这么多国家，需要的是尊重各个国家的文化和历史，所以语言也是喽。&quot;)</span><br><span class="line">         .lineLimit(10)</span><br><span class="line">     Spacer()</span><br><span class="line"> &#125;</span><br><span class="line"> .padding()</span><br><span class="line"> .background(Color.blue)</span><br><span class="line"> .cornerRadius(30)</span><br></pre></td></tr></table></figure>
-
-<h3 id="底部卡片向下移动"><a href="#底部卡片向下移动" class="headerlink" title="底部卡片向下移动"></a>底部卡片向下移动</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184006996.png" alt="image-20210201184006996"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184108062.png" alt="image-20210201184108062"></p>
-<h3 id="并将新设置的给提到下面"><a href="#并将新设置的给提到下面" class="headerlink" title="并将新设置的给提到下面"></a>并将新设置的给提到下面</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201185543080.png" alt="image-20210201185543080" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184443568.png" alt="image-20210201184443568"></p>
-<h2 id="设置动画效果"><a href="#设置动画效果" class="headerlink" title="设置动画效果"></a>设置动画效果</h2><h2 id="模糊效果"><a href="#模糊效果" class="headerlink" title="模糊效果"></a>模糊效果</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201190055683.png" alt="image-20210201190055683"></p>
-<h3 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620924657941.GIF" alt="1620924657941"></p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201220556076.png" alt="image-20210201220556076" style="zoom: 33%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    @State var show = false</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        ZStack &#123;</span><br><span class="line">           TitleView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CarBottomView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -400 : -40)</span><br><span class="line">                .scaleEffect(0.85)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 15 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 50 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.7))</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -200 : -20)</span><br><span class="line">                .scaleEffect(0.9)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 10 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 40 : 0), axis: (x: 10.0, y: 10.0, z: 10.0))</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.5))</span><br><span class="line">            </span><br><span class="line">            CertificateView()</span><br><span class="line">                .scaleEffect(0.95)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 5 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 30 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .animation(.spring())</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    self.show.toggle()</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改后面卡片颜色"><a href="#修改后面卡片颜色" class="headerlink" title="修改后面卡片颜色"></a>修改后面卡片颜色<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222631717.png" style="zoom:50%;"></h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222547399.png" alt="image-20210201222547399"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222602417.png" alt="image-20210201222602417"></p>
-<h2 id="手势和事件"><a href="#手势和事件" class="headerlink" title="手势和事件"></a>手势和事件</h2><h3 id="自由拖动第一张卡片"><a href="#自由拖动第一张卡片" class="headerlink" title="自由拖动第一张卡片"></a>自由拖动第一张卡片</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620948619298.GIF" alt="1620948619298" style="zoom:150%;">
-
-
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201224606664.png" alt="image-20210201224606664"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@State var viewState = CGSize.zero</span><br><span class="line">    </span><br><span class="line">.offset(x: viewState.width, y: viewState.height)</span><br><span class="line"></span><br><span class="line">                .gesture(</span><br><span class="line">                    DragGesture()</span><br><span class="line">                        .onChanged(&#123; (Value) in</span><br><span class="line">                            self.viewState = Value.translation</span><br><span class="line">   </span><br><span class="line">                        &#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="卡片归位"><a href="#卡片归位" class="headerlink" title="卡片归位"></a>卡片归位</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201225305548.png"></p>
-<h3 id="让三张卡片同时拖动"><a href="#让三张卡片同时拖动" class="headerlink" title="让三张卡片同时拖动"></a>让三张卡片同时拖动</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620949756307.GIF" alt="1620949756307" style="zoom:150%;">
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075108968.png" alt="image-20210514075108968" style="zoom:50%;">
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075129554.png" alt="image-20210514075129554" style="zoom: 33%;">
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1354,7 +1239,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":"falses"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.badgeVaule气泡提示,self.navigationController.tabBarItem.badgeValue 2.git终端命令方法&gt; pwd查看全部 &gt;cd&gt;ls &gt;之后桌面找到文件夹内容,以cd xxxx ,ls格式&gt;git status查看&gt;git pull origin master从网上储存库中下下来。 返回上一级地址命令cd ..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录下开发过程遇到的坑与笔记">
+<meta property="og:url" content="http://example.com/2021/01/02/%E8%AE%B0%E5%BD%95%E4%B8%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/index.html">
+<meta property="og:site_name" content="我不是诸葛亮">
+<meta property="og:description" content="1.badgeVaule气泡提示,self.navigationController.tabBarItem.badgeValue 2.git终端命令方法&gt; pwd查看全部 &gt;cd&gt;ls &gt;之后桌面找到文件夹内容,以cd xxxx ,ls格式&gt;git status查看&gt;git pull origin master从网上储存库中下下来。 返回上一级地址命令cd ..">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-02T09:05:29.000Z">
+<meta property="article:modified_time" content="2021-05-27T09:07:55.465Z">
+<meta property="article:author" content="zhuguanliang">
+<meta property="article:tag" content="Swift Object-C">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/01/02/%E8%AE%B0%E5%BD%95%E4%B8%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记录下开发过程遇到的坑与笔记 | 我不是诸葛亮</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="我不是诸葛亮" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我不是诸葛亮</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">宁可碌碌，不可无为</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/02/%E8%AE%B0%E5%BD%95%E4%B8%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记录下开发过程遇到的坑与笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-02 17:05:29" itemprop="dateCreated datePublished" datetime="2021-01-02T17:05:29+08:00">2021-01-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-27 17:07:55" itemprop="dateModified" datetime="2021-05-27T17:07:55+08:00">2021-05-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>1.badgeVaule气泡提示,self.navigationController.tabBarItem.badgeValue</strong></p>
+<p><strong>2.git终端命令方法&gt; pwd查看全部 &gt;cd&gt;ls &gt;之后桌面找到文件夹内容,以cd xxxx ,ls格式&gt;git status查看&gt;git pull origin master从网上储存库中下下来。 返回上一级地址命令cd ..</strong></p>
+<p><strong>3.全球最大开源代码托管平台——SourceForge</strong></p>
+<p><strong>4.sections更改数量可使tableview分量</strong></p>
+<p><strong>5.static cells静态tableview</strong></p>
+<p><strong>6.nothing to commit, working directory clean 表示上传Git成功</strong></p>
+<p><strong>7.git提交步骤</strong></p>
+<ul>
+<li>git add . //此处add后加空格.</li>
+<li>git commit -m “xxx”</li>
+<li>git pull origin master //更新代码</li>
+<li>git push origin master //提交</li>
+</ul>
+<p><strong>8.Identifier是写在navigation上边的</strong></p>
+<p><strong>9.AF的方法中全部属于异步下载。</strong></p>
+<p><strong>10.无论使用collectionView还是tableView的自定义cell，都需要先在viewDidLoad中注册cell</strong></p>
+<p><strong>11.可以使用mac自带的数码测色计来获取颜色的RGB值</strong></p>
+<p><strong>12.例子：</strong><br>indexPath.row==0 &amp;&amp; indexPath.section==1<br>不同的section中的indexpath的row是会归0重置的，从0开始重头计</p>
+<p><strong>13.代理协议写在m文件即可，不用过多的暴露在头文件中</strong></p>
+<p><strong>14.radioButton的图片更改方法，不用代码实现，在button的State 。cc。oo。nn。ff。ll。gg。中选择Default为未点击时状态，可赋予图片，选择selected为选中时状态，可赋予图片，直接使用imageView的方法是不专业的</strong></p>
+<p><strong>15.在button的中选择Default为未点击时状态，，直接使用imageView的方法是不专业的。</strong></p>
+<p><strong>16.textView加边框</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;QuartzCore/QuartzCore.h&gt;    </span><br><span class="line">textview对象.layer.borderColor = UIColor.grayColor.CGColor;</span><br><span class="line">textview对象.layer.borderWidth = 5;</span><br><span class="line">self.textView.layer.masksToBounds = YES;</span><br><span class="line">self.textView.layer.cornerRadius = 5;</span><br></pre></td></tr></table></figure>
+
+<p><strong>17.ruby -e “$(curl -fsSL <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Homebrew/install/master/install">https://raw.githubusercontent…</a>)” //下载安装git插件</strong></p>
+<p><strong>18.scrollView可以专门用来自动处理键盘布局，但需要嵌入代码</strong></p>
+<p><strong>19.有造好的轮子就要用，不要傻乎乎的想要自己去造，理解就可以了，闲暇时间自己研究，工作当中效率进度第一</strong></p>
+<p><strong>20.alloc之后几乎全是init方法</strong></p>
+<p><strong>21. if(indexPath.row==2 &amp;&amp; indexPath.section==0){//row表示在一个section下顺序第几个，section表示第几个section</strong></p>
+<p><strong>22.区别：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewDidLoad//加载后调用</span><br><span class="line">-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil//进入后就调用</span><br></pre></td></tr></table></figure>
+
+<p><strong>23.git比svn要强大</strong></p>
+<p><strong>24.@property (assign,nonatomic) BOOL hONG; //bool型只能用于状态判断，只有yes和no，非黑即白 assign表示弱类型的赋值 nonatomic会有先后顺序 简单变量是assign，指针变量是strong</strong><br><strong>//@property的意思是属性，类似于c++的一个成员变量，在oc中成为一个类的属性</strong><br><strong>@implementation具体方法的实现</strong></p>
+<p><strong>25.来记个方法，这是针对不同类型的初始化方法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//push界面之前的初始化方法，该方法是在push  xib类型界面之前进行初始化的方法</span><br><span class="line">LSIntegralShopViewController * integrelShopViewController =[[LSIntegralShopViewController alloc]initWithNibName:@&quot;LSIntegralShopViewController&quot; bundle:nil];  //这里那个nibName是写的那个controller的对应的那个类</span><br><span class="line"></span><br><span class="line">//针对toryboard的初始化方法</span><br><span class="line">[WPUtil getViewControllerWithIdentifier: storyboardName:]  //此处Identifier是storyboard上的Identifier ID,而UINavigationController * homeNavigationController = [WPUtil getViewControllerWithIdentifier:@&quot;homeNavigation&quot; storyboardName:@&quot;Home&quot;];这里的Identifier则是Navigation上的ID，注意区分</span><br></pre></td></tr></table></figure>
+
+<p><strong>26.上下bar的地方切图使用时，后缀加上@2x，注意是在.png前使用，同时图盘拖到2x那格中</strong></p>
+<p><strong>27.2x图片清晰度更高</strong></p>
+<p><strong>28.已经在界面上都配置好了，代码里面就不需要这些设置了</strong><br><strong>只需处理点击事件，比如选中第一个，第一个button.selected = YES，其他两个button.selected = NO</strong></p>
+<p><strong>29.UIButton的edge可以调整image和title</strong></p>
+<p><strong>30.[self.view endEditing:YES]; //直接撤销键盘的方法</strong></p>
+<p><strong>31.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@”text/html”, nil];//默认为json格式，若为json可省略这行代码</strong></p>
+<p><strong>32.+方法写在头文件中，谁都可以调用，只要引用其头文件名称，如viewController是可以在任何地方初始化任意次的</strong></p>
+<p><strong>33.使用最底部或最上部的UIButton或某个控件来支撑住scrollview，来让scrollview知晓其最大距离</strong></p>
+<p><strong>34.NSUInteger表示无符号整型，即非负数</strong></p>
+<p><strong>35.严格按照流程来，先在外边，比如说美工发给你的图片，把名字改好，<a href="mailto:&#120;&#x78;&#x78;&#x40;&#50;&#x78;&#x2e;&#112;&#x6e;&#x67;">&#120;&#x78;&#x78;&#x40;&#50;&#x78;&#x2e;&#112;&#x6e;&#x67;</a>,然后再拖进去,还有，文件名不要出现空格，这些有空格的通通改掉,把有问题的全部删了，重新加</strong></p>
+<p><strong>36.至于重写set和get方法，简要说明一下</strong>，当我们使用@property这用法之后，系统便会自动给我们定义的变量以一个默认的set和get方法。插一句，_any和self.any的区别，_any就是只指_any本身，是系统会生成的，而如果我们重写了any的set方法后，self.any会调用我们重写的set方法中的内容，而_any不是，比如这句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void)setCount:(NSUInteger)count</span><br><span class="line">&#123;</span><br><span class="line">    _count = count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里表示的是将系统默认给我们生成的count变成我们自定义的count，达到我们想要的目的。<br>_any就是单单指当我们使用@property后系统给我自动生成的一个any，而self.any不同，它会自动调用（set和get方法本身就包含在其中，也可以理解为就是它自身的一个属性一部分）我们重写后的set方法，当我们self.any的时候，其中重写的set方法中的任何内容都会被我们使用，所以即使我们只self.any，也可实现许多只要set方法中写出的效果，大致是这个意思</p>
+<p><strong>37.推荐使用代理传值，通知的观察者模式效率低下</strong></p>
+<p><strong>38.cell控制视图显示，controller负责网络解析</strong></p>
+<p><strong>39.取数据的时候，要看返回的数据是什么样子的，需要两个就两个，需要一个就一个</strong>，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">data =     &#123;</span><br><span class="line">    CurrentPageIndex = 1;</span><br><span class="line">    PageSize = 10;</span><br><span class="line">    TotalItemCount = 1;</span><br><span class="line">    TotalPageCount = 1;</span><br><span class="line">    data =         (</span><br><span class="line">                    &#123;</span><br><span class="line">            ClickNumber = 0;</span><br><span class="line">            ID = 1796;</span><br><span class="line">            Norm = &quot;\U6876&quot;;</span><br><span class="line">            Picture = &quot;/upload/goods/default.jpg&quot;;</span><br><span class="line">            SellerRetailPrice = 10;</span><br><span class="line">            TheSorting = 12500000;</span><br><span class="line">            TypeID = 22;</span><br><span class="line">            goodsName = &quot;\U51b0\U51b0\U4e50&quot;;</span><br><span class="line">            goodsTypeName = &quot;\U7eaf\U51c0\U6c34&quot;;</span><br><span class="line">            sellerId = 125;</span><br><span class="line">            sellerName = &quot;\U51e4\U51f0\U57ce\U6c34\U5e97&quot;;</span><br><span class="line">            sellerState = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br><span class="line">    msg = &quot;&lt;null&gt;&quot;;</span><br><span class="line">    result = ok;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个data取的是里面的一大堆即一个字典，第二个data才是个数组，@”data”这个大体是指前一个data是拿到一个字典的数据，第二个data是那里面的数组咯</p>
+<p><strong>40.不要直接用button或控件push到下一个界面，尤其是在tableView的cell上</strong></p>
+<p><strong>41</strong>.shopTVC.delegate = self;//<strong>上一个界面的代理设为这个界面自身</strong>，在上一个见面中调用代理的时候，因为上一个界面的代理已经被设置为这个界面，所以在上一个见面中调用其自身代理时，实际上是这个界面在执行</p>
+<p><strong>42.没有了summary,但是原来的summary的功能可以在targets的general里面找到</strong></p>
+<p><strong>43.关于尝试新方法</strong>，比如：将字典中的值赋值给一个float，有时候.不行可以换( ) 或 ]试试看有没有其方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float left= [aaa[@&quot;abc&quot;] floatValue];</span><br></pre></td></tr></table></figure>
+
+<p><strong>44</strong>.else if (self.btnOfAddress.selected){ //<strong>点了之后立马又弹回去了</strong>，当执行的时候按钮状态已经弹回去了，如果需要一直是点击状态那么你需要设置selected=YES，这是状态是需要设置的，不然就不会有效果，需要是选中状态，那么你就要在合适的位置设置起，btn.selected = YES</p>
+<p><strong>45.总之，要看他数据需要什么，保存的是哪里</strong></p>
+<p><strong>46.本着，谁分配谁管理的原则</strong></p>
+<p><strong>47.thread:breakpoint 1.2，在该行最左侧的蓝色矩形区域右键，选择delete breakpoint即可。</strong></p>
+<p><strong>48.逻辑步骤关系，所有异步都要先完成数据的请求，成功后，返回数据信息后才开始跳转界面，换句话说，需要将需要提交的数据全部获取到之后，再做统一提交处理</strong></p>
+<p><strong>49.所有网络请求都用异步,上传提交也叫下载，只不过下载的内容可能就是个提示性的东西，提示你提交成功没有</strong></p>
+<p><strong>50.字符串比较用isEqualToString，不用等号， ]是调方法 ( )是优先级</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/16/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo/" rel="prev" title="斗鱼直播Demo(一)">
+      <i class="fa fa-chevron-left"></i> 斗鱼直播Demo(一)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/17/ios%E5%BC%80%E5%8F%91%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="next" title="ios开发的多线程技术">
+      ios开发的多线程技术 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhuguanliang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">zhuguanliang</p>
+  <div class="site-description" itemprop="description"> iOS developer</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuguanliang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '3de4a2b0210f93793c23# GitHub Application Client ID',
+      clientSecret: '2f81c8cabdd5bd94d83f0c6659984f39b5041e93# GitHub Application Client Secret',
+      repo        : 'blog-comments# Repository name to store issues',
+      owner       : 'zhuguanliang',
+      admin       : ['zhuguanliang# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id          : '1fe6b8d80e38dba363611909aabe59b2',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
