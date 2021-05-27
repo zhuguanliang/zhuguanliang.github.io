@@ -286,6 +286,625 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/18/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/18/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo2/" class="post-title-link" itemprop="url">斗鱼直播Demo(二)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-18 13:49:59" itemprop="dateCreated datePublished" datetime="2020-05-18T13:49:59+08:00">2020-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-30 14:49:00" itemprop="dateModified" datetime="2020-12-30T14:49:00+08:00">2020-12-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="封装PageConnetView（滚动内容）"><a href="#封装PageConnetView（滚动内容）" class="headerlink" title="封装PageConnetView（滚动内容）"></a>封装PageConnetView（滚动内容）</h2><p>在view新建PageContentView.swift  （cocoa）</p>
+<h3 id="封装构造函数"><a href="#封装构造函数" class="headerlink" title="封装构造函数"></a>封装构造函数</h3><p>定义属性，封装构造函数</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224230113472.png" alt="image-20201224230113472" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">class PageContentView: UIView &#123;</span><br><span class="line"></span><br><span class="line">    // MARK:- 定义属性</span><br><span class="line">    private var childVcs : [UIViewController]</span><br><span class="line">    private weak var parentViewController : UIViewController?</span><br><span class="line">    </span><br><span class="line">    // MARK:- 自定义构造函数</span><br><span class="line">    init(frame: CGRect, childVcs : [UIViewController], parentViewController : UIViewController?) &#123;</span><br><span class="line">        self.childVcs = childVcs</span><br><span class="line">        self.parentViewController = parentViewController</span><br><span class="line">        </span><br><span class="line">        super.init(frame: frame)</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">    required init?(coder aDecoder: NSCoder) &#123;</span><br><span class="line">        fatalError(&quot;init(coder:) has not been implemented&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Extension扩展处给UIColor扩充一个UIColor-Extension.swift扩展</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">extension UIColor &#123;</span><br><span class="line">    convenience init(r : CGFloat, g : CGFloat, b : CGFloat) &#123;</span><br><span class="line">        self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: 1.0)//遍历构造函数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>转到homeVC懒加载</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224231930544-20210527162223790.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private lazy var pageContentView : PageContentView = &#123;[weak self] in</span><br><span class="line">       </span><br><span class="line">       // 1.确定内容的frame</span><br><span class="line">       let contentH = kScreenH - KStatusBarH - kNavigationBarH - KTitleViewH</span><br><span class="line">       let contentFrame = CGRect(x: 0, y: KStatusBarH + kNavigationBarH + KTitleViewH, width: kScreenW, height: contentH)</span><br><span class="line">       </span><br><span class="line">       // 2.确定所有的子控制器</span><br><span class="line">       var childVcs = [UIViewController]()</span><br><span class="line">       for _ in 0..&lt;4 &#123;</span><br><span class="line">           let vc = UIViewController()</span><br><span class="line">           vc.view.backgroundColor = UIColor(r: CGFloat(arc4random_uniform(255)), g: CGFloat(arc4random_uniform(255)), b: CGFloat(arc4random_uniform(255)))</span><br><span class="line">           childVcs.append(vc)</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后到底部添加ContentView，为了能看到，还给其定义个颜色</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108144813422.png" alt="image-20210108144813422" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 3.添加ContentView</span><br><span class="line">view.addSubview(pageConten      </span><br><span class="line">pageContentView.backgroundColor = UIColor.purple//添加可是颜色tView)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行项目，发现添加上</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224232859850.png" alt="image-20201224232859850"></p>
+<h4 id="给里面添加布局，设置UI界面，回到PageContentView-swift"><a href="#给里面添加布局，设置UI界面，回到PageContentView-swift" class="headerlink" title="给里面添加布局，设置UI界面，回到PageContentView.swift"></a>给里面添加布局，设置UI界面，回到PageContentView.swift</h4><h4 id="将所有的子控制器添加父控制器中，在最后添加"><a href="#将所有的子控制器添加父控制器中，在最后添加" class="headerlink" title="将所有的子控制器添加父控制器中，在最后添加"></a>将所有的子控制器添加父控制器中，在最后添加</h4><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224233818271.png" alt="image-20201224233818271"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// MARK:- 设置UI界面</span><br><span class="line">extension PageContentView &#123;</span><br><span class="line">    fileprivate func setupUI() &#123;</span><br><span class="line">        // 1.将所有的子控制器添加父控制器中</span><br><span class="line">        for childVc in childVcs &#123;</span><br><span class="line">            parentViewController?.addChild(childVc)      </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>添加懒加载属性</strong></p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224234503637.png" alt="image-20201224234503637" style="zoom:50%;"></li>
+<li><p>```</p>
+<pre><code>// MARK:- 懒加载属性
+</code></pre>
+<p>  private lazy var collectionView : UICollectionView = {</p>
+<pre><code>    // 1.创建layout
+    let layout = UICollectionViewFlowLayout()
+    layout.itemSize = self.bounds.size
+    layout.minimumLineSpacing = 0 //行间距
+    layout.minimumInteritemSpacing = 0
+    layout.scrollDirection = .horizontal //滚动方向水平滚动
+    
+    // 2.创建UICollectionView
+    let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+    collectionView.showsHorizontalScrollIndicator = false
+    collectionView.isPagingEnabled = true
+    collectionView.bounces = false
+    return collectionView
+&#125;()
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">转到代码下方**extension**里</span><br><span class="line"></span><br><span class="line">添加UICollectionView,用于在Cell中存放控制器的View</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    // 2.添加UICollectionView,用于在Cell中存放控制器的View
+    addSubview(collectionView)
+    collectionView.frame = bounds
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">同时把设置UI添加</span><br><span class="line"></span><br><span class="line">![image-20201224235251519](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235251519.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行，CollectionView没有内容，但可以显示（黑的）</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235319031.png&quot; alt=&quot;image-20201224235319031&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">给其添加设置数据源</span><br><span class="line"></span><br><span class="line">![image-20201224235533496](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224235533496.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    collectionView.dataSource = self
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 添加数据源要遵守协议，在最下方添加扩展</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  // MARK:- 遵守UICollectionViewDataSource</span><br><span class="line">  extension PageContentView : UICollectionViewDataSource &#123;</span><br><span class="line">      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int &#123;</span><br><span class="line">          return childVcs.count</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -&gt; UICollectionViewCell &#123;</span><br><span class="line">          // 1.创建Cell</span><br><span class="line">          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCellID, for: indexPath)</span><br><span class="line">          </span><br><span class="line">          // 2.给Cell设置内容</span><br><span class="line">          for view in cell.contentView.subviews &#123;</span><br><span class="line">              view.removeFromSuperview()</span><br><span class="line">          &#125;</span><br><span class="line">          let childVc = childVcs[(indexPath as NSIndexPath).item]</span><br><span class="line">          childVc.view.frame = cell.contentView.bounds</span><br><span class="line">          cell.contentView.addSubview(childVc.view)</span><br><span class="line">          </span><br><span class="line">          return cell</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-创建cell必须注册cell-添加"><a href="#1-创建cell必须注册cell-添加" class="headerlink" title="1.创建cell必须注册cell,添加"></a>1.创建cell必须注册cell,添加<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225084422492.png" alt="image-20201225084422492"></h5>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ContentCellID)//注册cell</span><br></pre></td></tr></table></figure>
+
+<p>  注册完在上方添加后面的标识报错消失</p>
+<p>  <img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225084809822.png" alt="image-20201225084809822"></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private let ContentCellID = &quot;ContentCellID&quot;//添加标识</span><br></pre></td></tr></table></figure>
+
+<p>  2.给cell设置内容，如1代码</p>
+<p>  运行，滚动实现</p>
+  <img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-13-24.gif" alt="May-27-2021 16-13-24" style="zoom:50%;">
+
+<h5 id="4-给代码进行优化"><a href="#4-给代码进行优化" class="headerlink" title="4.给代码进行优化"></a>4.给代码进行优化</h5><p>  闭包里面用self会产生循环引用，给用weak</p>
+<ul>
+<li><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225091115247.png" alt="image-20201225091115247"></p>
+</li>
+<li><p>```<br>private lazy var collectionView : UICollectionView = {[weak self] in</p>
+<pre><code>  // 1.创建layout
+  let layout = UICollectionViewFlowLayout()
+  layout.itemSize = (self?.bounds.size)!//可选链返回值是可选值，（）强制解包
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    homeVC,前面以改![image-20201225091330746](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225091330746.png)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">## 封装PageTitleView&amp;PageConnetView的逻辑</span><br><span class="line"></span><br><span class="line">### PageTitleView发生点击</span><br><span class="line"></span><br><span class="line">- ###### 将PageTitleView中逻辑进行处理     </span><br><span class="line"></span><br><span class="line">- ![image-20210108150907265](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108150907265.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>extension PageTitleView {<br>  @objc fileprivate func titleLabelClick(_ tapGes : UITapGestureRecognizer) {</p>
+<pre><code>    // 1.获取当前Label
+    guard let currentLabel = tapGes.view as? UILabel else &#123; return &#125;
+    
+    
+    // 2.获取之前的Label
+    let oldLabel = titleLabels[currentIndex]
+  // 3.切换文字的颜色
+    currentLabel.textColor = UIColor.orange
+  oldLabel.textColor = UIColor.darkGray
+    
+  // 4.保存最新Label的下标值
+    currentIndex = currentLabel.tag
+  // 5.滚动条位置发生改变
+    let scrollLineX = CGFloat(currentIndex) * scrollLine.frame.width
+  UIView.animate(withDuration: 0.15, animations: &#123;
+        self.scrollLine.frame.origin.x = scrollLineX
+    &#125;)
+    
+  // 6.通知代理
+    delegate?.pageTitleView(self, selectedIndex: currentIndex)
+  
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###### 给Label添加手势</span><br><span class="line"></span><br><span class="line">![image-20201225092417833](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225092417833.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>// 5.给Label添加手势
+      label.isUserInteractionEnabled = true
+        let tapGes = UITapGestureRecognizer(target: self, action: #selector(self.titleLabelClick(_:)))
+      label.addGestureRecognizer(tapGes)//添加手势到label
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**extension**给label添加监听</span><br><span class="line"></span><br><span class="line">![image-20201225092349310](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225092349310.png)</span><br><span class="line"></span><br><span class="line">获取当前Label的下标值前，先默认currentIndex</span><br><span class="line"></span><br><span class="line">![image-20201225092839764](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225092839764.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>private var currentIndex : Int = 0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">之前前Label的下标值的处理（添加了）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>let oldLabel = titleLabels[currentIndex]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">保存最新Label的下标值（添加了）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    // 4.保存最新Label的下标值
+    currentIndex = currentLabel.tag
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">切换文字的颜色</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/Dec-25-2020%2012-15-52.gif&quot; alt=&quot;Dec-25-2020 12-15-52&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">文字颜色修改了，但是方的线————滚动条没发生滚动</span><br><span class="line"></span><br><span class="line">设置滚动条位置发生改变</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    // 5.滚动条位置发生改变
+    let scrollLineX = CGFloat(currentIndex) * scrollLine.frame.width
+    UIView.animate(withDuration: 0.15, animations: &#123;
+        self.scrollLine.frame.origin.x = scrollLineX
+    &#125;) 
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">内容滚动，通过代理把PageConnetView发生的事件传递给homeVC</span><br><span class="line"></span><br><span class="line">在PageTitleView.swift头部定义协议</span><br><span class="line"></span><br><span class="line">![image-20201225141758688](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225141758688.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 定义协议<br>protocol PageTitleViewDelegate : class {//class表示协议只能被类取走</p>
+<pre><code>func pageTitleView(_ titleView : PageTitleView, selectedIndex index : Int)
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>weak var delegate : PageTitleViewDelegate?//定义代理属性
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">接着在下方通知代理</span><br><span class="line"></span><br><span class="line">![image-20201225142217505](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142217505.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>        // 6.通知代理
+        delegate?.pageTitleView(self, selectedIndex: currentIndex)
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">回到homeVC  </span><br><span class="line"></span><br><span class="line">![image-20201225142537239](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142537239.png)</span><br><span class="line"></span><br><span class="line">最后加上，避免循环引用</span><br><span class="line"></span><br><span class="line">加上extension遵守PageTitleViewDelegate协议</span><br><span class="line"></span><br><span class="line">![image-20201225142904333](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225142904333.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 遵守PageTitleViewDelegate协议<br>extension HomeViewController : PageTitleViewDelegate {<br>  func pageTitleView(_ titleView: PageTitleView, selectedIndex index: Int) {</p>
+<pre><code>  print(index)
+</code></pre>
+<p>  }<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目 ，发现可以拿到index，控制台输出点击的序号</span><br><span class="line"></span><br><span class="line">把index传给pageContentView，添加</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 遵守PageTitleViewDelegate协议<br>extension HomeViewController : PageTitleViewDelegate {<br>  func pageTitleView(_ titleView: PageTitleView, selectedIndex index: Int) {</p>
+<pre><code>  pageContentView.setCurrentIndex(index)//添加此行
+</code></pre>
+<p>  }<br>}</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">回到PageTitleView VC，在下发添加对外暴露的方法</span><br><span class="line"></span><br><span class="line">![image-20210108152545633](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108152545633.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 对外暴露的方法<br>extension PageTitleView {<br>    func setTitleWithProgress(_ progress : CGFloat, sourceIndex : Int, targetIndex : Int) {<br>        // 1.取出sourceLabel/targetLabel<br>        let sourceLabel = titleLabels[sourceIndex]<br>        let targetLabel = titleLabels[targetIndex]</p>
+<pre><code>    // 2.处理滑块的逻辑
+    let moveTotalX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
+    let moveX = moveTotalX * progress
+    scrollLine.frame.origin.x = sourceLabel.frame.origin.x + moveX
+    
+    
+    
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">PageContentView里</span><br><span class="line"></span><br><span class="line">![image-20210302233328985](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210302233328985.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 对外暴露的方法<br>extension PageContentView {<br>    func setCurrentIndex(_ currentIndex : Int) {</p>
+<pre><code>    let offsetX = CGFloat(currentIndex) * collectionView.frame.width
+    collectionView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目，点标签栏发现页面也滚动，但滑动标签未跟随滚动</span><br><span class="line"></span><br><span class="line">![Dec-25-2020 14-44-12](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/Dec-25-2020%2014-44-12.gif)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PageConnetView的滚动，主要是监听 ，先设置代理</span><br><span class="line"></span><br><span class="line">![image-20201225170005062](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225170005062.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>collectionView.delegate = self</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**遵守UICollectionViewDelegate**</span><br><span class="line"></span><br><span class="line">![image-20201225171438499](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225171438499.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 遵守UICollectionViewDelegate<br>extension PageContentView : UICollectionViewDelegate {</p>
+<pre><code>func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
+    print(&quot;----&quot;)
+&#125; 
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">手指滚动，控制台有输出，可以监测到</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_E239AF31318F-1.jpeg&quot; alt=&quot;IMG_E239AF31318F-1&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">在上方添加个属性</span><br><span class="line"></span><br><span class="line">![image-20201225175535613](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225175535613.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>private var startOffsetX : CGFloat = 0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">继续添加扩展</span><br><span class="line"></span><br><span class="line">![image-20201225175652479](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201225175652479.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>func scrollViewWillBeginDragging(_ scrollView: UIScrollView) &#123;
+    startOffsetX = scrollView.contentOffset.x
+&#125;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义需要获取的数据 ,在**遵守UICollectionViewDataSource**的扩展下方添加扩展</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 遵守UICollectionViewDelegate<br>extension PageContentView : UICollectionViewDelegate {</p>
+<pre><code>func scrollViewWillBeginDragging(_ scrollView: UIScrollView) &#123;
+    startOffsetX = scrollView.contentOffset.x
+&#125;
+
+func scrollViewDidScroll(_ scrollView: UIScrollView) &#123;
+    // 1.定义获取需要的数据
+    var progress : CGFloat = 0
+    var sourceIndex : Int = 0
+    var targetIndex : Int = 0
+    // 2.判断是左滑还是右滑
+    let currentOffsetX = scrollView.contentOffset.x
+    let scrollViewW = scrollView.bounds.width
+    if currentOffsetX &gt; startOffsetX &#123; // 左滑
+        // 1.计算progress
+        progress = currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW)
+        
+        // 2.计算sourceIndex
+        sourceIndex = Int(currentOffsetX / scrollViewW)
+        
+        // 3.计算targetIndex
+        targetIndex = sourceIndex + 1
+        if targetIndex &gt;= childVcs.count &#123;
+            targetIndex = childVcs.count - 1
+        &#125;
+        
+        // 4.如果完全划过去
+        if currentOffsetX - startOffsetX == scrollViewW &#123;
+            progress = 1
+            targetIndex = sourceIndex
+        &#125;
+    &#125; else &#123; // 右滑
+        // 1.计算progress
+        progress = 1 - (currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW))
+        
+        // 2.计算targetIndex
+        targetIndex = Int(currentOffsetX / scrollViewW)
+        
+        // 3.计算sourceIndex
+        sourceIndex = targetIndex + 1
+        if sourceIndex &gt;= childVcs.count &#123;
+            sourceIndex = childVcs.count - 1
+        &#125;
+    &#125;
+    // 3.将progress/sourceIndex/targetIndex传递给titleView
+    delegate?.pageContentView(self, progress: progress, sourceIndex: sourceIndex, targetIndex: targetIndex)
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">到开头定义代理，将progress sourceIndex targetIndex传值给titleView</span><br><span class="line"></span><br><span class="line">![image-20201226005404473](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005404473.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>//  定义代理，将progress sourceIndex targetIndex传值给titleView<br>protocol PageContentViewDelegate : class {<br>    func pageContentView(_ contentView : PageContentView, progress : CGFloat, sourceIndex : Int, targetIndex : Int)<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">定义代理属性，遵守协议</span><br><span class="line"></span><br><span class="line">![image-20201226005634347](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005634347.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>weak var delegate : PageContentViewDelegate?//定义代理属性，遵守协议
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">到homeVC取值</span><br><span class="line"></span><br><span class="line">![image-20201226005821490](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226005821490.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>   contentView.delegate = self//取值progress sourceIndex targetIndex
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最下方**遵守PageContentViewDelegate协议**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 遵守PageContentViewDelegate协议<br>extension HomeViewController : PageContentViewDelegate {<br>    func pageContentView(_ contentView: PageContentView, progress: CGFloat, sourceIndex: Int, targetIndex: Int) {<br>        pageTitleView.setTitleWithProgress(progress, sourceIndex: sourceIndex, targetIndex: targetIndex)<br>    }<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">转到PageTitleVc,在最下方添加**对外暴露的方法**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// MARK:- 对外暴露的方法<br>extension PageTitleView {<br>    func setTitleWithProgress(_ progress : CGFloat, sourceIndex : Int, targetIndex : Int) {<br>        // 1.取出sourceLabel/targetLabel<br>        let sourceLabel = titleLabels[sourceIndex]<br>        let targetLabel = titleLabels[targetIndex]</p>
+<pre><code>    // 2.处理滑块的逻辑
+    let moveTotalX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
+    let moveX = moveTotalX * progress
+    scrollLine.frame.origin.x = sourceLabel.frame.origin.x + moveX     
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行项目，标签和下方一起滚动，但是字体颜色没有变化</span><br><span class="line"></span><br><span class="line">![Dec-26-2020 01-24-33](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/Dec-26-2020%2001-24-33.gif)</span><br><span class="line"></span><br><span class="line">颜色的渐变</span><br><span class="line"></span><br><span class="line">在PageTitleView.swift，定义RGB值常量</span><br><span class="line"></span><br><span class="line">![image-20201226114737491](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226114737491.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>private let kNormalColor : (CGFloat, CGFloat, CGFloat) = (85, 85, 85)<br>private let kSelectColor : (CGFloat, CGFloat, CGFloat) = (255, 128, 0)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> 修改设置的颜色用RGB值设置</span><br><span class="line"></span><br><span class="line">![image-20201226115501235](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115501235.png)</span><br><span class="line"></span><br><span class="line">![image-20201226115628756](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115628756.png)</span><br><span class="line"></span><br><span class="line">![image-20201226115723314](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226115723314.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>   label.textColor = UIColor(r: kNormalColor.0, g: kNormalColor.1, b: kNormalColor.2)//文字颜色
+    
+    firstLabel.textColor = UIColor(r: kSelectColor.0, g: kSelectColor.1, b: kSelectColor.2)
+    
+    currentLabel.textColor = UIColor(r: kSelectColor.0, g: kSelectColor.1, b: kSelectColor.2)
+    oldLabel.textColor = UIColor(r: kNormalColor.0, g: kNormalColor.1, b: kNormalColor.2)
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">颜色的渐变</span><br><span class="line"></span><br><span class="line">![image-20201226165046797](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226165046797.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    // 3.颜色的渐变(复杂)
+    // 3.1.取出变化的范围
+    let colorDelta = (kSelectColor.0 - kNormalColor.0, kSelectColor.1 - kNormalColor.1, kSelectColor.2 - kNormalColor.2)
+    
+    // 3.2.变化sourceLabel
+    sourceLabel.textColor = UIColor(r: kSelectColor.0 - colorDelta.0 * progress, g: kSelectColor.1 - colorDelta.1 * progress, b: kSelectColor.2 - colorDelta.2 * progress)
+    
+    // 3.2.变化targetLabel
+    targetLabel.textColor = UIColor(r: kNormalColor.0 + colorDelta.0 * progress, g: kNormalColor.1 + colorDelta.1 * progress, b: kNormalColor.2 + colorDelta.2 * progress)
+    
+    // 4.记录最新的index
+    currentIndex = targetIndex
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行程序，轻微滑动，有颜色渐变的效果</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-19-07.gif&quot; alt=&quot;May-27-2021 16-19-07&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">对点击事件的优化</span><br><span class="line"></span><br><span class="line">pageContentV去定义属性</span><br><span class="line"></span><br><span class="line">![image-20201226165741879](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226165741879.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>private var isForbidScrollDelegate : Bool = false
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">记录要禁止执行的代理方法</span><br><span class="line"></span><br><span class="line">![image-20201226170139718](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226170139718.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    // 1.记录需要禁止执行代理方法
+    isForbidScrollDelegate = true
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image-20201226170634281](https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201226170634281.png)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>    isForbidScrollDelegate = false
+
+    // 0.判断是否是点击事件
+    if isForbidScrollDelegate &#123; return &#125;
+</code></pre>
+<pre><code>
+主界面导航栏内容滚动与点击的布局完成
+
+&lt;img src=&quot;https://gitee.com/zhu565615430/images/raw/master/CBcityimas/May-27-2021%2016-20-47.gif&quot; alt=&quot;May-27-2021 16-20-47&quot; style=&quot;zoom:50%;&quot; /&gt;
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/16/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="zhuguanliang">
+      <meta itemprop="description" content=" iOS developer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我不是诸葛亮">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/16/%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%ADDemo/" class="post-title-link" itemprop="url">斗鱼直播Demo(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-16 13:49:59" itemprop="dateCreated datePublished" datetime="2020-05-16T13:49:59+08:00">2020-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-30 14:49:00" itemprop="dateModified" datetime="2020-12-30T14:49:00+08:00">2020-12-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527155457748.png" alt="image-20210527155457748"></p>
+<p>项目开始（主框架搭建）</p>
+<h2 id="导入图片，设置启动图片，App图标"><a href="#导入图片，设置启动图片，App图标" class="headerlink" title="导入图片，设置启动图片，App图标"></a><strong>导入图片</strong>，设置启动图片，App图标</h2><h4 id="导入启动图片，项目图标，并给项目做好文档管理"><a href="#导入启动图片，项目图标，并给项目做好文档管理" class="headerlink" title="导入启动图片，项目图标，并给项目做好文档管理"></a>导入启动图片，项目图标，并给项目做好文档管理</h4><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222204617627.png" alt="image-20201222204617627" style="zoom: 25%;">
+
+<h2 id="视图控制器的设置"><a href="#视图控制器的设置" class="headerlink" title="视图控制器的设置"></a>视图控制器的设置</h2><h3 id="在项目里设置，设置默认启动控制器为main，添加别的视图控制器"><a href="#在项目里设置，设置默认启动控制器为main，添加别的视图控制器" class="headerlink" title="在项目里设置，设置默认启动控制器为main，添加别的视图控制器"></a>在项目里设置，设置默认启动控制器为main，添加别的视图控制器</h3><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150712661.png" alt="image-20210527150712661" style="zoom:50%;">
+
+<p>添加UITab Bar Controller视图控制器，然后分别选择两个视图控制器，分别为其添加Navigation Controller（导航控制器）。</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150726189.png" alt="image-20210527150726189" style="zoom: 33%;">
+
+<p>复制两个一样的，一个四个，并连接</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150748148.png" alt="image-20210527150748148" style="zoom: 33%;">
+
+<p>分别修改item名称，首页、关注、直播、我的，然后添加tabbar图片到Assets.在分别设置好每个的图片</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150826067.png" alt="image-20210527150826067" style="zoom: 33%;">
+
+<p>修复黑屏</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150850144.png" alt="image-20210527150850144" style="zoom:33%;">
+
+<h3 id="修改TABbar图标为橙色的代码，在AppDelegate下添加"><a href="#修改TABbar图标为橙色的代码，在AppDelegate下添加" class="headerlink" title="修改TABbar图标为橙色的代码，在AppDelegate下添加"></a>修改TABbar图标为橙色的代码，在AppDelegate下添加</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UITabBar.appearance().tintColor = UIColor.orange</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222205305599.png" alt="image-20201222205305599"></p>
+<p>视图太多，容易混乱。新建home故事版，如下图</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527150927776.png" alt="image-20210527150927776" style="zoom:33%;">
+
+<p>将各个功能模块拆分出来  ，并且放入自己模块中</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222212753838.png" alt="image-20201222212753838" style="zoom:25%;">
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222213411750.png" alt="image-20201222213411750" style="zoom:25%;">
+
+<p>为了适配低版本，删连线，用代码方式连接</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222214157900.png" alt="image-20201222214157900" style="zoom:25%;">
+
+
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210107235033730.png" alt="image-20210107235033730" style="zoom: 33%;">
+
+<p>新建视图控制器MainViewController，继承自UITabBarController，然后到故事版将class修改MainViewController（图略）</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222214430463.png" alt="image-20201222214430463" style="zoom: 25%;">
+
+<p>给MainViewController添加新的方法，全部代码如下，这样就获取得子控制器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">class MainViewController: UITabBarController &#123;</span><br><span class="line"></span><br><span class="line">    override func viewDidLoad() &#123;</span><br><span class="line">        super.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        addChildVc(StoryName: &quot;Home&quot;)</span><br><span class="line">        addChildVc(StoryName: &quot;Live&quot;)</span><br><span class="line">        addChildVc(StoryName: &quot;Follow&quot;)</span><br><span class="line">        addChildVc(StoryName: &quot;Profile&quot;)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private func addChildVc(StoryName: String) &#123;</span><br><span class="line">        //        1.通过Storyboard获取控制器</span><br><span class="line">        let ChildVc = UIStoryboard(name: StoryName, bundle: nil).instantiateInitialViewController()!</span><br><span class="line">       //        2.将childVC作为子控制器</span><br><span class="line">        addChild(ChildVc)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_02F353E7087B-1.jpeg" alt="IMG_02F353E7087B-1" style="zoom: 33%;">
+
+<h2 id="设置布局"><a href="#设置布局" class="headerlink" title="设置布局"></a>设置布局</h2><h3 id="首页搭建"><a href="#首页搭建" class="headerlink" title="首页搭建"></a>首页搭建</h3><p>对模块进行mvc的划分，在fider添加M、V、C文件夹,拉到项目里</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222223657634.png" alt="image-20201222223657634" style="zoom:33%;">
+
+<p>创建单独的控制器来管理它，将class修改HomeViewController（图略）cocoa</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222223940626.png" alt="image-20201222223940626" style="zoom: 33%;">
+
+<p>添加<strong>extension</strong>,抽取方法调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  override func viewDidLoad() &#123;</span><br><span class="line">    super.viewDidLoad()</span><br><span class="line">      SetupUI()</span><br><span class="line"></span><br><span class="line">  &#125;&#125;</span><br><span class="line"></span><br><span class="line">// Mark:-设置UI界面</span><br><span class="line"></span><br><span class="line">extension HomeViewController &#123;</span><br><span class="line"></span><br><span class="line">  private func SetupUI() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="导航栏的设置"><a href="#导航栏的设置" class="headerlink" title="导航栏的设置"></a>导航栏的设置</h3><h4 id="左侧导航栏"><a href="#左侧导航栏" class="headerlink" title="左侧导航栏"></a>左侧导航栏</h4><p>添加左侧导航栏的方法，因为button有点击变灰，我们要自定义customView，不能使用一张图片上去</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222225741531.png" alt="image-20201222225741531" style="zoom: 50%;">
+
+
+
+<p>继续在SetupUI方法下面添加代码，并且在<strong>SetupUI</strong>方法中调用</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222230152058.png" alt="image-20201222230152058" style="zoom:50%;">
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private  func setupNavigationBar()&#123;</span><br><span class="line"></span><br><span class="line">     let btn = UIButton()</span><br><span class="line"> </span><br><span class="line">   btn.setImage(UIImage(named: &quot;logo&quot;), for: .normal)</span><br><span class="line"></span><br><span class="line">   btn.sizeToFit() //根据图片大小自适应</span><br><span class="line"></span><br><span class="line">   navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btn)//customView自定义button</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="右侧导航栏"><a href="#右侧导航栏" class="headerlink" title="右侧导航栏"></a>右侧导航栏</h4><p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222232828554.png"></p>
+<p>1.搜索历史Item点进去有高亮的效果，要设置两个图标，所以用自定义customView，继续在下方添加代码</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222233021498.png" alt="image-20201222233021498" style="zoom:33%;">
+
+<p>出现问题，3个图标太近，需要设置sizeToFit，添加</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br></pre></td></tr></table></figure>
+
+<p>修改代码</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.sizeToFit() <span class="comment">//根据图片大小自适应</span></span><br></pre></td></tr></table></figure>
+
+<p>为</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">historyBtn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size) <span class="comment">//根据图片大小自适应</span></span><br></pre></td></tr></table></figure>
+
+<p>添加的代码如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br><span class="line"><span class="keyword">let</span> historyBtn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">historyBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;image_my_history&quot;</span>), for: .normal)<span class="comment">//正常</span></span><br><span class="line">historyBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;Image_my_history_click&quot;</span>), for: .highlighted)<span class="comment">//高亮</span></span><br><span class="line">historyBtn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size) <span class="comment">//根据图片大小自适应</span></span><br><span class="line"><span class="keyword">let</span> historyItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(customView: historyBtn) <span class="comment">//搜索历史Item</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> searchIBtn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">searchIBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;btn_search&quot;</span>), for: .normal)<span class="comment">//正常</span></span><br><span class="line">searchIBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;btn_search_clicked&quot;</span>), for: .highlighted)<span class="comment">//高亮</span></span><br><span class="line">searchIBtn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size) <span class="comment">//根据图片大小自适应</span></span><br><span class="line"><span class="keyword">let</span> searchItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(customView: searchIBtn)  <span class="comment">//搜索Item</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> qrcodeBtn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">qrcodeBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;Image_scan&quot;</span>), for: .normal)<span class="comment">//正常</span></span><br><span class="line">qrcodeBtn.setImage(<span class="type">UIImage</span>(named: <span class="string">&quot;Image_scan_click&quot;</span>), for: .highlighted)<span class="comment">//高亮</span></span><br><span class="line">qrcodeBtn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size) <span class="comment">//根据图片大小自适应</span></span><br><span class="line"><span class="keyword">let</span> qrcodeItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(customView: qrcodeBtn ) <span class="comment">//二维码Item</span></span><br><span class="line">navigationItem.rightBarButtonItems <span class="operator">=</span> [historyItem, searchItem, qrcodeItem]<span class="comment">//设置数组</span></span><br></pre></td></tr></table></figure>
+
+<p>修改后Item，距离变大了</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201222234406681.png" alt="image-20201222234406681"></p>
+<h4 id="对系统类进行扩展"><a href="#对系统类进行扩展" class="headerlink" title="对系统类进行扩展"></a>对系统类进行扩展</h4><p> 以上发现代码重复太多，需要抽取，扩展，在Tools在Fidder打开新建Extension，拖到项目Tools，创建个UIBarButtonItem-Extension.swift 纯swift文件的扩展</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223000904164.png" alt="image-20201223000904164" style="zoom:33%;">
+
+<p>添加如下代码</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIBarButtonItem</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">createItem</span>(<span class="title">ImageName</span> : <span class="title">String</span>, <span class="title">highImageName</span> : <span class="title">String</span>, <span class="title">size</span> : <span class="title">CGSize</span>) -&gt; <span class="title">UIBarButtonItem</span> </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> btn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">        btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .normal)</span><br><span class="line">        btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .highlighted)</span><br><span class="line">        btn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size)</span><br><span class="line">        <span class="keyword">return</span> <span class="type">UIBarButtonItem</span>(customView: btn)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改HomeVC代码，删掉不需要的，修改后：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        2.设置右侧导航栏</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> size <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br><span class="line">        <span class="keyword">let</span> historyItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>.createItem(ImageName: <span class="string">&quot;image_my_history&quot;</span>, highImageName: <span class="string">&quot;Image_my_history_click&quot;</span>, size:size)<span class="comment">//搜索历史Item</span></span><br><span class="line">        <span class="keyword">let</span> searchItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>.createItem(ImageName: <span class="string">&quot;btn_search&quot;</span>, highImageName: <span class="string">&quot;btn_search_clicked&quot;</span>, size: size)  <span class="comment">//搜索Item</span></span><br><span class="line">        <span class="keyword">let</span> qrcodeItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>.createItem(ImageName: <span class="string">&quot;Image_scan&quot;</span>, highImageName: <span class="string">&quot;Image_scan_click&quot;</span>, size: size)  <span class="comment">//二维码Item </span></span><br><span class="line">        navigationItem.rightBarButtonItems <span class="operator">=</span> [historyItem, searchItem, qrcodeItem]<span class="comment">//设置数组</span></span><br></pre></td></tr></table></figure>
+
+<p>以上是类方法，但不太好，我们</p>
+<h4 id="改用构造函数init-，构造函数不需要写返回值"><a href="#改用构造函数init-，构造函数不需要写返回值" class="headerlink" title="改用构造函数init()，构造函数不需要写返回值"></a>改用构造函数<strong>init</strong>()，构造函数不需要写返回值</h4><p>修改UIBarButtonItem-Extension.swift 代码</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">convenience</span> <span class="function"><span class="keyword">init</span>(<span class="params">ImageName</span> : <span class="type">String</span>, <span class="params">highImageName</span> : <span class="type">String</span>, <span class="params">size</span> : <span class="type">CGSize</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> btn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">    btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .normal)</span><br><span class="line">    btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .highlighted)</span><br><span class="line">    btn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.<span class="keyword">init</span>(customView : btn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223003721088.png" alt="image-20201223003721088" style="zoom:33%;">
+
+<p>修改HomeVC如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br><span class="line"><span class="keyword">let</span> historyItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;image_my_history&quot;</span>, highImageName: <span class="string">&quot;Image_my_history_click&quot;</span>, size: size)<span class="comment">//搜索历史Item</span></span><br><span class="line"><span class="keyword">let</span> searchItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;btn_search&quot;</span>, highImageName: <span class="string">&quot;btn_search_clicked&quot;</span>, size: size)<span class="comment">//搜索Item</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> qrcodeItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;Image_scan&quot;</span>, highImageName: <span class="string">&quot;Image_scan_click&quot;</span>, size: size)<span class="comment">//二维码Item</span></span><br><span class="line"></span><br><span class="line">navigationItem.rightBarButtonItems <span class="operator">=</span> [historyItem, searchItem, qrcodeItem]<span class="comment">//设置数组</span></span><br></pre></td></tr></table></figure>
+
+<p>同时把左侧的也抽取进行</p>
+<p>因为只需要传一个logo,可以使用默认参数</p>
+<p>UIBarButtonItem-Extension.swift 里</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">convenience</span> <span class="function"><span class="keyword">init</span>(<span class="params">ImageName</span> : <span class="type">String</span>, <span class="params">highImageName</span> : <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>, <span class="params">size</span> : <span class="type">CGSize</span> <span class="operator">=</span> <span class="type">CGSize</span>.zero)</span></span><br></pre></td></tr></table></figure>
+
+<p>添加条件语句</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">convenience</span> <span class="function"><span class="keyword">init</span>(<span class="params">ImageName</span> : <span class="type">String</span>, <span class="params">highImageName</span> : <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>, <span class="params">size</span> : <span class="type">CGSize</span> <span class="operator">=</span> <span class="type">CGSize</span>.zero)</span> &#123;</span><br><span class="line">        <span class="comment">//1.创建UIButton</span></span><br><span class="line">        <span class="keyword">let</span> btn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">        btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .normal)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//2.设置btn图片</span></span><br><span class="line">        <span class="keyword">if</span> highImageName <span class="operator">!=</span> <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">            btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .highlighted)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//3.设置btn尺寸</span></span><br><span class="line">        <span class="keyword">if</span> size <span class="operator">==</span> <span class="type">CGSize</span>.zero &#123;</span><br><span class="line">            btn.sizeToFit()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            btn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//4.创建UIbarbuttonItem</span></span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(customView : btn)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同时修改home VC代码后前对比</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223005759321.png" alt="image-20201223005759321" style="zoom:50%;">
+
+<h3 id="导航栏的总结"><a href="#导航栏的总结" class="headerlink" title="导航栏的总结"></a>导航栏的总结</h3><h4 id="在扩展里UIBarButtonItem-Extension使用构造函数init"><a href="#在扩展里UIBarButtonItem-Extension使用构造函数init" class="headerlink" title="在扩展里UIBarButtonItem-Extension使用构造函数init"></a>在扩展里UIBarButtonItem-Extension使用构造函数<strong>init</strong></h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIBarButtonItem</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 便利构造函数: 1&gt; convenience开头 2&gt; 在构造函数中必须明确调用一个设计的构造函数(self)</span></span><br><span class="line">    <span class="keyword">convenience</span> <span class="function"><span class="keyword">init</span>(<span class="params">ImageName</span> : <span class="type">String</span>, <span class="params">highImageName</span> : <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>, <span class="params">size</span> : <span class="type">CGSize</span> <span class="operator">=</span> <span class="type">CGSize</span>.zero)</span> &#123;</span><br><span class="line">        <span class="comment">//1.创建UIButton</span></span><br><span class="line">        <span class="keyword">let</span> btn <span class="operator">=</span> <span class="type">UIButton</span>()</span><br><span class="line">        btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .normal)  </span><br><span class="line">        <span class="comment">//2.设置btn图片</span></span><br><span class="line">        <span class="keyword">if</span> highImageName <span class="operator">!=</span> <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">            btn.setImage(<span class="type">UIImage</span>(named: <span class="type">ImageName</span>), for: .highlighted)</span><br><span class="line">        &#125;    </span><br><span class="line">        <span class="comment">//3.设置btn尺寸</span></span><br><span class="line">        <span class="keyword">if</span> size <span class="operator">==</span> <span class="type">CGSize</span>.zero &#123;</span><br><span class="line">            btn.sizeToFit()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            btn.frame <span class="operator">=</span> <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size)</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">//4.创建UIbarbuttonItem</span></span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(customView : btn)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="在视图控制器处，设置导航栏"><a href="#在视图控制器处，设置导航栏" class="headerlink" title="在视图控制器处，设置导航栏"></a>在视图控制器处，设置导航栏</h4><p>添加<strong>extension</strong>然后分别设置左右导航栏样式,设置数组，给其添加上</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mark:-设置UI界面</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">HomeViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">SetupUI</span>()</span> &#123;</span><br><span class="line"><span class="comment">//        1.设置导航栏</span></span><br><span class="line">        setupNavigationBar()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupNavigationBar</span>()</span>&#123;</span><br><span class="line"><span class="comment">//        1.设置左侧导航栏</span></span><br><span class="line">        navigationItem.leftBarButtonItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName:<span class="string">&quot;logo&quot;</span> )<span class="comment">//customView自定义button</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">//        2.设置右侧导航栏      </span></span><br><span class="line">        <span class="keyword">let</span> size <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br><span class="line">        <span class="keyword">let</span> historyItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;image_my_history&quot;</span>, highImageName: <span class="string">&quot;Image_my_history_click&quot;</span>, size: size)<span class="comment">//搜索历史Item</span></span><br><span class="line">        <span class="keyword">let</span> searchItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;btn_search&quot;</span>, highImageName: <span class="string">&quot;btn_search_clicked&quot;</span>, size: size)<span class="comment">//搜索Item</span></span><br><span class="line">        <span class="keyword">let</span> qrcodeItem <span class="operator">=</span> <span class="type">UIBarButtonItem</span>(ImageName: <span class="string">&quot;Image_scan&quot;</span>, highImageName: <span class="string">&quot;Image_scan_click&quot;</span>, size: size)<span class="comment">//二维码Item</span></span><br><span class="line">        </span><br><span class="line">        navigationItem.rightBarButtonItems <span class="operator">=</span> [historyItem, searchItem, qrcodeItem]<span class="comment">//设置数组</span></span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="首页框架搭建"><a href="#首页框架搭建" class="headerlink" title="首页框架搭建"></a>首页框架搭建</h2><h3 id="对标题栏与下方内容进行封装"><a href="#对标题栏与下方内容进行封装" class="headerlink" title="对标题栏与下方内容进行封装"></a>对标题栏与下方内容进行封装</h3><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_F2A62D563CE9-1.jpeg" alt="IMG_F2A62D563CE9-1" style="zoom:50%;">
+
+<p>标题栏的封装</p>
+<p>标题栏用lable来做，监听手势点击，内容用UIconnetionView进行封装，</p>
+<h4 id="封装PageTitleView（标签栏）"><a href="#封装PageTitleView（标签栏）" class="headerlink" title="封装PageTitleView（标签栏）"></a>封装PageTitleView（标签栏）</h4><ul>
+<li><p>在view新建PageTitleView.swift</p>
+</li>
+<li><p>封装构造函数，让别人在创建对象时，就传入真实需要显示的内容</p>
+<ul>
+<li>frame：创建对象时确定了frame就可以直接设置子控件的位置和尺寸</li>
+<li>titles：显示的所有标题</li>
+</ul>
+</li>
+</ul>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223095739279.png" alt="image-20201223095739279" style="zoom: 33%;">
+
+<h5 id="抽取常量"><a href="#抽取常量" class="headerlink" title="抽取常量"></a>抽取常量</h5><p>在Extension新建Common.swift，并修改为以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line">let KStatusBarH: CGFloat = 20 //状态栏高度</span><br><span class="line">let kNavigationBarH: CGFloat = 44</span><br><span class="line">let kScreenW = UIScreen.main.bounds.width//屏幕的宽度</span><br><span class="line">let kScreenH = UIScreen.main.bounds.height//屏幕的高度</span><br></pre></td></tr></table></figure>
+
+<p>在homevc添加代码，并添加到视图界面</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223104540169.png" alt="image-20201223104540169" style="zoom: 33%;">
+
+<p>主要添加代码如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> <span class="type">KTitleViewH</span> : <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">40</span>  <span class="comment">//屏幕高度40</span></span><br><span class="line"><span class="comment">//  Mark:-懒加载属性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lazy</span> <span class="keyword">var</span> pageTitleView : <span class="type">PageTitleView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> titleFrame <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">0</span>, y:<span class="type">KStatusBarH</span> <span class="operator">+</span> kNavigationBarH , width:kScreenW, height: <span class="type">KTitleViewH</span>)<span class="comment">//导航栏位置的设置</span></span><br><span class="line">        <span class="keyword">let</span> titles <span class="operator">=</span> [<span class="string">&quot;推荐&quot;</span>,<span class="string">&quot;游戏&quot;</span>,<span class="string">&quot;娱乐&quot;</span>,<span class="string">&quot;趣玩&quot;</span>]</span><br><span class="line">        <span class="keyword">let</span> titleView <span class="operator">=</span> <span class="type">PageTitleView</span>(frame: titleFrame, titles: titles)</span><br><span class="line">        titleView.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.purple</span><br><span class="line">        <span class="keyword">return</span> titleView</span><br><span class="line">        </span><br><span class="line">    &#125;()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view.addSubview(pageTitleView)</span><br></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_A737A89F44B3-1.jpeg" alt="IMG_A737A89F44B3-1" style="zoom:50%;">
+
+<h3 id="添加UIscrollView"><a href="#添加UIscrollView" class="headerlink" title="添加UIscrollView"></a>添加UIscrollView</h3><p>在PageTitleView.swift，添加scrollView懒加载，然后添加到视图</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223111112774.png" alt="image-20201223111112774" style="zoom: 33%;">
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARk: - 懒加载属性    </span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">lazy</span> <span class="keyword">var</span> scrollView : <span class="type">UIScrollView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> scrollView <span class="operator">=</span> <span class="type">UIScrollView</span>()</span><br><span class="line">        scrollView.showsHorizontalScrollIndicator <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        scrollView.scrollsToTop <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        scrollView.bounces <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        <span class="keyword">return</span> scrollView</span><br><span class="line">    &#125;()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARk: - 设置UI界面</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">PageTitleView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupUI</span>()</span> &#123;</span><br><span class="line"><span class="comment">//        1.添加UIscrollView</span></span><br><span class="line">        addSubview(scrollView)</span><br><span class="line">        scrollView.frame <span class="operator">=</span> bounds</span><br><span class="line"><span class="comment">//        2.添加title对应的label</span></span><br><span class="line">              setupTitleLabels()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lable的设置，继续添加代码</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223114120598.png" alt="image-20201223114120598"></p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527152906864.png" alt="image-20210527152906864"></p>
+<p>代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> kScrollLineH : <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">2</span> <span class="comment">//滚动条高度</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupTitleLabels</span>()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (index, title) <span class="keyword">in</span> titles.enumerated() &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 0.确定label的一些frame的值</span></span><br><span class="line">        <span class="keyword">let</span> labelW : <span class="type">CGFloat</span> <span class="operator">=</span> frame.width <span class="operator">/</span> <span class="type">CGFloat</span>(titles.count)</span><br><span class="line">        <span class="keyword">let</span> labelH : <span class="type">CGFloat</span> <span class="operator">=</span> frame.height <span class="operator">-</span> kScrollLineH</span><br><span class="line">        <span class="keyword">let</span> labelY : <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1.创建UILabel</span></span><br><span class="line">        <span class="keyword">let</span> label <span class="operator">=</span> <span class="type">UILabel</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2.设置Label的属性</span></span><br><span class="line">        label.text <span class="operator">=</span> title</span><br><span class="line">        label.tag <span class="operator">=</span> index</span><br><span class="line">        label.font <span class="operator">=</span> <span class="type">UIFont</span>.systemFont(ofSize: <span class="number">16.0</span>)<span class="comment">//默认字体大小17</span></span><br><span class="line">        label.textColor <span class="operator">=</span> <span class="type">UIColor</span>.darkGray<span class="comment">//默认文字颜色</span></span><br><span class="line">        label.textAlignment <span class="operator">=</span> .center</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3.设置label的frame</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> labelX : <span class="type">CGFloat</span> <span class="operator">=</span> labelW <span class="operator">*</span> <span class="type">CGFloat</span>(index)</span><br><span class="line">        label.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: labelX, y: labelY, width: labelW, height: labelH)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4.将label添加到scrollView中</span></span><br><span class="line">        scrollView.addSubview(label)</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>回调home VC，不需要调整UIScrollView的内边距</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201223114538296.png" alt="image-20201223114538296" style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">automaticallyAdjustsScrollViewInsets = **false**</span><br></pre></td></tr></table></figure>
+
+<p>PageTitleView.swift里添加  setupUI()到构造函数内</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARk: - 自定义构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">init</span>(<span class="params">frame</span>: <span class="type">CGRect</span>, <span class="params">titles</span> : [<span class="type">String</span>])</span> &#123;</span><br><span class="line">    <span class="keyword">self</span>.titles <span class="operator">=</span> titles</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置UI界面</span></span><br><span class="line">    setupUI() <span class="comment">//----------添加此行</span></span><br></pre></td></tr></table></figure>
+
+<p>运行项目</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527153022489.png" alt="image-20210527153022489"></p>
+<p>在homeVC删掉 ，去掉紫色</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224154532416.png" alt="image-20201224154532416" style="zoom: 33%;">
+
+<h5 id="加滚动条和底部的线"><a href="#加滚动条和底部的线" class="headerlink" title="加滚动条和底部的线"></a>加滚动条和底部的线</h5><p>PageTitleView 懒加载创建滚动条，创建个UIlable的数组</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527153104970.png" alt="image-20210527153104970" style="zoom:50%;">
+
+<p>接着把lable添加到数组里面</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527153137678.png" alt="image-20210527153137678"></p>
+<p>设置底线和滚动滑块</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210108143824450.png" alt="image-20210108143824450" style="zoom:50%;">
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARk: - 设置UI界面</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">PageTitleView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupUI</span>()</span> &#123;</span><br><span class="line"><span class="comment">//        1.添加UIscrollView</span></span><br><span class="line">        addSubview(scrollView)</span><br><span class="line">        scrollView.frame <span class="operator">=</span> bounds</span><br><span class="line"><span class="comment">//        2.添加title对应的label</span></span><br><span class="line">        setupTitleLabels()</span><br><span class="line">        <span class="comment">// 3.设置底线和滚动的滑块</span></span><br><span class="line">        setupBottomLineAndScrollLine()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加UIScrollView ，加scrollLine方法，setupBottomLineAndScrollLine方法<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210527153332769.png" alt="image-20210527153332769"></p>
+<p>  把字体的颜色也和下方一样</p>
+<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20201224215013619.png" alt="image-20201224215013619"></p>
+<p>运行效果</p>
+<img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/IMG_99AF8C6FA944-1.jpeg" alt="IMG_99AF8C6FA944-1" style="zoom:67%;">
+
+<p>用的代码如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">lazy</span> <span class="keyword">var</span> titleLabels : [<span class="type">UILabel</span>] <span class="operator">=</span> [<span class="type">UILabel</span>]()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">lazy</span> <span class="keyword">var</span> scrollLine : <span class="type">UIView</span> <span class="operator">=</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> scrollLine <span class="operator">=</span> <span class="type">UIView</span>()</span><br><span class="line">    scrollLine.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.orange</span><br><span class="line">    <span class="keyword">return</span> scrollLine</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fileprivate</span> <span class="function"><span class="keyword">func</span> <span class="title">setupBottomLineAndScrollLine</span>()</span> &#123;</span><br><span class="line">    <span class="comment">// 1.添加底线</span></span><br><span class="line">    <span class="keyword">let</span> bottomLine <span class="operator">=</span> <span class="type">UIView</span>()</span><br><span class="line">    bottomLine.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.lightGray<span class="comment">//颜色</span></span><br><span class="line">    <span class="keyword">let</span> lineH : <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">0.5</span></span><br><span class="line">    bottomLine.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">0</span>, y: frame.height <span class="operator">-</span> lineH, width: frame.width, height: lineH)</span><br><span class="line">    addSubview(bottomLine)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.添加scrollLine</span></span><br><span class="line">    <span class="comment">// 2.1.获取第一个Label</span></span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> firstLabel <span class="operator">=</span> titleLabels.first <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">    firstLabel.textColor <span class="operator">=</span> <span class="type">UIColor</span>.orange <span class="comment">//  把字体的颜色也和下方一样</span></span><br><span class="line">    <span class="comment">// 2.2.设置scrollLine的属性</span></span><br><span class="line">    scrollView.addSubview(scrollLine)</span><br><span class="line">    scrollLine.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: firstLabel.frame.origin.x, y: frame.height <span class="operator">-</span> kScrollLineH, width: firstLabel.frame.width, height: kScrollLineH)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/22/iOS%E8%B0%83%E7%94%A8%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E6%97%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -911,177 +1530,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/16/swiftui%E5%88%9D%E6%8E%A2%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">swiftui初探（1）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-16 12:49:00" itemprop="dateCreated datePublished" datetime="2020-01-16T12:49:00+08:00">2020-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-18 14:49:00" itemprop="dateModified" datetime="2020-01-18T14:49:00+08:00">2020-01-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>前言：在这系列文章你可以学到swiftUI</strong></p>
-<h1 id="SWIFT——UI"><a href="#SWIFT——UI" class="headerlink" title="SWIFT——UI"></a>SWIFT——UI</h1><h2 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h2><h2 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210131004320381.png" alt="image-20210131004320381"></h2><h2 id="添加启动图片，和色彩背景等"><a href="#添加启动图片，和色彩背景等" class="headerlink" title="添加启动图片，和色彩背景等"></a>添加启动图片，和色彩背景等</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075504407.png" alt="image-20210514075504407"></p>
-<h3 id="设置第一张卡片"><a href="#设置第一张卡片" class="headerlink" title="设置第一张卡片 "></a>设置第一张卡片 <img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075711609.png" alt="image-20210514075711609"></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    var body: some View &#123;</span><br><span class="line">        VStack &#123;</span><br><span class="line">            VStack &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Image(&quot;Background&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        .background(Color.black).cornerRadius(10)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="布局和和堆栈"><a href="#布局和和堆栈" class="headerlink" title="布局和和堆栈"></a>布局和和堆栈</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201001257114.png" style="zoom: 33%;">
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000722734.png" alt="image-20210514000722734"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    HStack &#123;</span><br><span class="line">        VStack(alignment: .leading) &#123;•</span><br><span class="line">            Text(&quot;UI 设计&quot;)</span><br><span class="line">                .font(.title)</span><br><span class="line">                .fontWeight(.bold)</span><br><span class="line">                .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                .padding(.top)</span><br><span class="line">            Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .foregroundColor(Color(.white))</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()//推动到屏幕宽度</span><br><span class="line">        Image(&quot;Logo&quot;)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: 30.0, height: 30.0)</span><br><span class="line">    &#125;</span><br><span class="line">    Image(&quot;Background&quot;)</span><br><span class="line">&#125;.frame(width: 340.0, height: 220.0)</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置第二章卡片"><a href="#设置第二章卡片" class="headerlink" title="设置第二章卡片"></a>设置第二章卡片</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003759295.png" alt="image-20210201003759295"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201003830438.png" alt="image-20210201003830438"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZStack &#123;</span><br><span class="line">    </span><br><span class="line">    VStack &#123;</span><br><span class="line">        Text(&quot;背后的卡&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .padding()</span><br><span class="line">    .frame(width: 300.0, height: 220.0)</span><br><span class="line">    .background(Color.blue)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">    .offset(x: 0, y: -20)</span><br><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            VStack(alignment: .leading) &#123;•</span><br><span class="line">                Text(&quot;UI 设计&quot;)</span><br><span class="line">                    .font(.headline)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                    .foregroundColor(Color(&quot;accent&quot;))</span><br><span class="line">                    .padding(.top)</span><br><span class="line">                Text(/*@START_MENU_TOKEN@*/&quot;合格证书&quot;/*@END_MENU_TOKEN@*/)</span><br><span class="line">                    .foregroundColor(Color(.white))</span><br><span class="line">            &#125;</span><br><span class="line">            Spacer()//推动到屏幕宽度</span><br><span class="line">            Image(&quot;Logo&quot;)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: 30.0, height: 30.0)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(.horizontal)</span><br><span class="line">        Spacer()</span><br><span class="line">        Image(&quot;Background&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    .frame(width: 340.0, height: 220.0)</span><br><span class="line">    .background(Color.black)</span><br><span class="line">    .cornerRadius(10)</span><br><span class="line">    .shadow(radius: 20)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000805186.png" alt="image-20210514000805186"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514000824813.png" alt="image-20210514000824813"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/May-14-2021%2000-38-30.gif" alt="May-14-2021 00-38-30"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514003658268.png" alt="image-20210514003658268"></p>
-<h3 id="添加标题，动画，图片"><a href="#添加标题，动画，图片" class="headerlink" title="添加标题，动画，图片"></a>添加标题，动画，图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    VStack &#123;</span><br><span class="line">        HStack &#123;</span><br><span class="line">            Text(&quot;合格证书&quot;)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .fontWeight(.heavy)</span><br><span class="line">            Spacer()</span><br><span class="line">        &#125;</span><br><span class="line">        Image(&quot;Illustration5&quot;)</span><br><span class="line">        Spacer()</span><br><span class="line">    &#125;.padding()//边距</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -40)</span><br><span class="line">        .scaleEffect(0.85)</span><br><span class="line">        .rotationEffect(Angle(degrees: 15))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 50), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CardView()</span><br><span class="line">        .offset(x: 0, y: -20)</span><br><span class="line">        .scaleEffect(0.9)</span><br><span class="line">        .rotationEffect(Angle(degrees: 10))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 40), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">        .blendMode(.hardLight)</span><br><span class="line">    </span><br><span class="line">    CertificateView()</span><br><span class="line">        .scaleEffect(0.95)</span><br><span class="line">        .rotationEffect(Angle(degrees: 5))</span><br><span class="line">        .rotation3DEffect(Angle(degrees: 30), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加正方形在中间"><a href="#添加正方形在中间" class="headerlink" title="添加正方形在中间"></a>添加正方形在中间</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201181352144.png" alt="image-20210201181352144"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">VStack(spacing: 20.0) &#123;</span><br><span class="line">     Rectangle()//添加正方形在中间</span><br><span class="line">         .frame(width: 60, height: 6)</span><br><span class="line">         .cornerRadius(30)</span><br><span class="line">         .opacity(0.1)//模糊度</span><br><span class="line">     Text(&quot;各个国家有各个国家的国歌，和某地的语言像极了鸟语。方言太多了，所以要统一语言，说出的话大家理解的都是同一份意思，这是小的，对于全球这么多国家，需要的是尊重各个国家的文化和历史，所以语言也是喽。&quot;)</span><br><span class="line">         .lineLimit(10)</span><br><span class="line">     Spacer()</span><br><span class="line"> &#125;</span><br><span class="line"> .padding()</span><br><span class="line"> .background(Color.blue)</span><br><span class="line"> .cornerRadius(30)</span><br></pre></td></tr></table></figure>
-
-<h3 id="底部卡片向下移动"><a href="#底部卡片向下移动" class="headerlink" title="底部卡片向下移动"></a>底部卡片向下移动</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184006996.png" alt="image-20210201184006996"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184108062.png" alt="image-20210201184108062"></p>
-<h3 id="并将新设置的给提到下面"><a href="#并将新设置的给提到下面" class="headerlink" title="并将新设置的给提到下面"></a>并将新设置的给提到下面</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201185543080.png" alt="image-20210201185543080" style="zoom:50%;"><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201184443568.png" alt="image-20210201184443568"></p>
-<h2 id="设置动画效果"><a href="#设置动画效果" class="headerlink" title="设置动画效果"></a>设置动画效果</h2><h2 id="模糊效果"><a href="#模糊效果" class="headerlink" title="模糊效果"></a>模糊效果</h2><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201190055683.png" alt="image-20210201190055683"></p>
-<h3 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620924657941.GIF" alt="1620924657941"></p>
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201220556076.png" alt="image-20210201220556076" style="zoom: 33%;">
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    @State var show = false</span><br><span class="line">    </span><br><span class="line">    var body: some View &#123;</span><br><span class="line">        ZStack &#123;</span><br><span class="line">           TitleView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CarBottomView()</span><br><span class="line">                .blur(radius: show ? 20 : 0)//模糊效果</span><br><span class="line">                .animation(.default)</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -400 : -40)</span><br><span class="line">                .scaleEffect(0.85)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 15 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 50 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.7))</span><br><span class="line">            </span><br><span class="line">            CardView()</span><br><span class="line">                .offset(x: 0, y: show ? -200 : -20)</span><br><span class="line">                .scaleEffect(0.9)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 10 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 40 : 0), axis: (x: 10.0, y: 10.0, z: 10.0))</span><br><span class="line">                .blendMode(.hardLight)</span><br><span class="line">                .animation(Animation.easeInOut(duration: 0.5))</span><br><span class="line">            </span><br><span class="line">            CertificateView()</span><br><span class="line">                .scaleEffect(0.95)</span><br><span class="line">                .rotationEffect(Angle(degrees: show ? 5 : 0))</span><br><span class="line">                .rotation3DEffect(Angle(degrees: show ? 30 : 0), axis: /*@START_MENU_TOKEN@*/(x: 10.0, y: 10.0, z: 10.0)/*@END_MENU_TOKEN@*/)</span><br><span class="line">                .animation(.spring())</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    self.show.toggle()</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改后面卡片颜色"><a href="#修改后面卡片颜色" class="headerlink" title="修改后面卡片颜色"></a>修改后面卡片颜色<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222631717.png" style="zoom:50%;"></h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222547399.png" alt="image-20210201222547399"></p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201222602417.png" alt="image-20210201222602417"></p>
-<h2 id="手势和事件"><a href="#手势和事件" class="headerlink" title="手势和事件"></a>手势和事件</h2><h3 id="自由拖动第一张卡片"><a href="#自由拖动第一张卡片" class="headerlink" title="自由拖动第一张卡片"></a>自由拖动第一张卡片</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620948619298.GIF" alt="1620948619298" style="zoom:150%;">
-
-
-
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201224606664.png" alt="image-20210201224606664"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@State var viewState = CGSize.zero</span><br><span class="line">    </span><br><span class="line">.offset(x: viewState.width, y: viewState.height)</span><br><span class="line"></span><br><span class="line">                .gesture(</span><br><span class="line">                    DragGesture()</span><br><span class="line">                        .onChanged(&#123; (Value) in</span><br><span class="line">                            self.viewState = Value.translation</span><br><span class="line">   </span><br><span class="line">                        &#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="卡片归位"><a href="#卡片归位" class="headerlink" title="卡片归位"></a>卡片归位</h3><p><img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210201225305548.png"></p>
-<h3 id="让三张卡片同时拖动"><a href="#让三张卡片同时拖动" class="headerlink" title="让三张卡片同时拖动"></a>让三张卡片同时拖动</h3><img src="https://gitee.com/zhu565615430/images/raw/master/imas/1620949756307.GIF" alt="1620949756307" style="zoom:150%;">
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075108968.png" alt="image-20210514075108968" style="zoom:50%;">
-
-<img src="https://gitee.com/zhu565615430/images/raw/master/imas/image-20210514075129554.png" alt="image-20210514075129554" style="zoom: 33%;">
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/12/16/UIViewControllee%E7%9A%84%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="zhuguanliang">
-      <meta itemprop="description" content=" iOS developer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我不是诸葛亮">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/16/UIViewControllee%E7%9A%84%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB/" class="post-title-link" itemprop="url">UIViewControllee的继承体系</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-16 13:49:59 / 修改时间：14:49:00" itemprop="dateCreated datePublished" datetime="2019-12-16T13:49:59+08:00">2019-12-16</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>UIViewControIIer作为视图控制器的父类，可以延伸出许多子视图控制器。下图为继承自UIViewControIIer的一些控制器组件，这些组件能够使应用程序的界面切换更加合理。目前，最流行的两种多视图控制器分别是导航控制器和标签页视图控制器。</p>
-<p><img src="https://gitee.com/zhu565615430/images/raw/master/CBcityimas/image-20210518135653795.png" alt="image-20210518135653795"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1153,7 +1601,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
